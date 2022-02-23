@@ -14,7 +14,7 @@ Coin Ark is a cryptocurrency trading simulator platform that allows users to pra
 ## Key Features by Beta Version
 
 - Authentication (User Signup and Signin)
-- Connect to third-party API to track cryptocurrency market data (https://www.coingecko.com/en/api/pricing)
+- Connect to third-party API to track cryptocurrency market data (https://www.coingecko.com/en/api)
 - User wallet balance
   - Keep track of the amount of coins that the user owns and their money
   - Summarize the account's total value
@@ -45,7 +45,7 @@ Coin Ark is a cryptocurrency trading simulator platform that allows users to pra
 - JavaScript
 - MongoDB
 - GraphQL
-- Third-Party Cryptocurrency Market API ([Coin Gecko](https://www.coingecko.com/en/api/pricing))
+- Third-Party Cryptocurrency Market API ([Coin Gecko](https://www.coingecko.com/en/api))
 
 ### Deployment
 
