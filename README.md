@@ -36,7 +36,7 @@ Coin Ark is a cryptocurrency trading simulator platform that allows users to pra
 - React (Next.js)
 - TypeScript
 - SCSS
-- UI Framework (TODO)
+- React UI Components Library ([Mantine](https://mantine.dev/))
 - GraphQL
 
 ### Backend
