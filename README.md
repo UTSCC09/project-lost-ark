@@ -47,6 +47,10 @@ Coin Ark is a cryptocurrency trading simulator platform that allows users to pra
 - GraphQL
 - Third-Party Cryptocurrency Market API ([Coin Gecko](https://www.coingecko.com/en/api/pricing))
 
+### Deployment
+
+- Heroku? (Not sure yet)
+
 ## Top 5 Technical Challenges
 
 1. Learn how to use GraphQL (neither of us have experience with it)
