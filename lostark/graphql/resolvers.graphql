@@ -1,0 +1,9 @@
+import { Users } from '../db/dbconnector.js'
+
+export const resolvers = {
+    Mutation: {
+        signup: (root, { input }) => {
+
+        },
+    },
+};
