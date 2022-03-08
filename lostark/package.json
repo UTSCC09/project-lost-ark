@@ -2,6 +2,8 @@
   "dependencies": {
     "apollo-server-core": "^3.6.3",
     "apollo-server-express": "^3.6.3",
+    "babel": "^6.23.0",
+    "bcrypt": "^5.0.1",
     "coingecko-api": "^1.0.10",
     "express": "^4.17.3",
     "graphql": "^16.3.0",

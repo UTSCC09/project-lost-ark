@@ -1,18 +1,10 @@
-import mongoose from 'mongoose';
-import { environment } from '../config/app-config';
-import { userSchema } from '../schemas/userSchema';
+const mongoose = require('mongoose');
+const { environment } = require('../config/app-config.js');
+const { userSchema } = require('../schemas/userSchema.js');
 
 const env = process.env.NODE_ENV || "development";
 
-mongoose.connect(environment[env].dbString, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }
-});
+mongoose.connect(environment[env].dbString);
 
 let db = mongoose.connection;
 
@@ -22,4 +14,4 @@ db.on('error', () => {
 
 const Users = mongoose.model('Users', userSchema);
 
-export { Users };
+module.exports = { Users };
