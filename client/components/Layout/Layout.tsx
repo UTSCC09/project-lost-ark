@@ -1,10 +1,11 @@
+import styles from "./Layout.module.scss";
 import Navbar from "@/components/Navbar/Navbar";
 
 const Layout: React.FC = ({ children }) => {
   return (
     <>
       <Navbar>Hello</Navbar>
-      {children}
+      <div className={styles.main}>{children}</div>
     </>
   );
 };
