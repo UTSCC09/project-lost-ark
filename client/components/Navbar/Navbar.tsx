@@ -10,7 +10,7 @@ const Navbar: React.FC = () => {
       <div className={styles.wrapper}>
         <Link href="/">
           <a className={styles.logo}>
-            <Image src={logo.src} alt="Coin Ark logo" width={89} height={20} />
+            <Image src={logo.src} alt="Coin Ark logo" width={118} height={25} />
           </a>
         </Link>
         <div className={styles.btnGroup}>
