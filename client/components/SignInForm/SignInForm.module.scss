@@ -1,0 +1,42 @@
+.container {
+  flex: 1;
+  display: grid;
+  place-items: center;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 35rem;
+    max-width: calc(100vw - 4rem);
+    padding: 4rem;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 35px 35px 70px #d9d9d9, -35px -35px 70px #ffffff;
+    margin-top: 2rem;
+    margin-bottom: 10rem;
+
+    & > * + * {
+      margin-top: 1.5rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin: 0;
+    }
+
+    :global(.mantine-TextInput-root) {
+      width: 100%;
+    }
+
+    :global(.mantine-TextInput-required) {
+      display: none;
+    }
+
+    .toggleForm {
+      display: block;
+      font-size: 0.8rem;
+      text-decoration: underline;
+    }
+  }
+}
