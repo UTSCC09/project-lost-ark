@@ -3,6 +3,7 @@ import Layout from "@/components/Layout/Layout";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
+import { NotificationsProvider } from "@mantine/notifications";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -23,9 +24,11 @@ const App = ({ Component, pageProps }: AppProps) => {
         withNormalizeCSS
         theme={{ colorScheme: "light" }}
       >
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <NotificationsProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </NotificationsProvider>
       </MantineProvider>
     </>
   );
