@@ -62,7 +62,6 @@ async function startApolloServer(typeDefs, resolvers) {
         let password = req.body.password;
         return db.userExists(username)
             .then(function (doc) {
-                console.log(doc);
                 if (doc) return res.status(409).end("username " + username + " already exists");
                 // insert new user into the database
                 return db.insertUser(username, password).then(res.json(username))
@@ -103,8 +102,7 @@ async function startApolloServer(typeDefs, resolvers) {
                 }));
                 console.log(username);
                 return res.json(req.session);
-            }
-            ).catch(function (err) { return res.status(500).end(err); })
+            }).catch(function (err) { return res.status(500).end(err); })
     });
 
     // curl -b cookie.txt -c cookie.txt http://localhost:4000/signout/

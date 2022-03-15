@@ -11,6 +11,9 @@ const userSchema = new mongoose.Schema({
     cash: {
         type: Number
     },
+    coins: {
+        type: Array
+    }
 });
 
 module.exports = { userSchema };

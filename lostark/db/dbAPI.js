@@ -19,14 +19,14 @@ class dbAPI {
                 .then(function (doc) {
                     if (doc) return reject("user already exists");
                     return bcrypt.hash(password, 10);
-                }).then(function (hash, err) {
+                }).then(async function (hash, err) {
                     if (err) return reject(err);
-                    //const coins = Currencies.find({}).projection({ _id: 1, symbol: 0, name: 0 });
+                    const coins = await Currencies.find({}, { _id: 1, symbol: 0, name: 0 }).exec();
                     const newUser = new Users({
                         username: username,
                         password: hash,
                         cash: 10000,
-                        //coins: coins.reduce((a, b) => (a[b] = 0, a), {}),
+                        coins: coins.map((x) => { return { [x._id]: 0 }; }),
                     });
                     newUser.save(err => {
                         if (err) return reject(err);
