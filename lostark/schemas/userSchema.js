@@ -1,3 +1,4 @@
+const { Int32 } = require('mongodb');
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -6,6 +7,9 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String
+    },
+    cash: {
+        type: Number
     },
 });
 

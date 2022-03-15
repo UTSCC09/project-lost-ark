@@ -50,6 +50,7 @@ async function startApolloServer(typeDefs, resolvers) {
     const db = new dbAPI();
 
     // curl -X POST -d "username=admin&password=pass4admin" http://localhost:4000/signup/
+    // Sign Up User with REST
     app.post('/signup/', [check('username').isAlphanumeric(),
     check('password').isAlphanumeric()], function (req, res, next) {
         const error = validationResult(req);
@@ -59,13 +60,21 @@ async function startApolloServer(typeDefs, resolvers) {
         if (!('password' in req.body)) return res.status(400).end('password is missing');
         let username = req.body.username;
         let password = req.body.password;
-        // check if user already exists in the database
-        if (db.userExists) return res.status(409).end("username " + username + " already exists");
-        // insert new user into the database
-        return db.insertUser(username, password).then(res.json(username)).catch(res.status(500).end("failed to add user"));
+        return db.userExists(username)
+            .then(function (doc) {
+                if (doc) return res.status(409).end("username " + username + " already exists");
+                // insert new user into the database
+                return db.insertUser(username, password).then(res.json(username))
+                    .catch(res.status(500).end("failed to add user"));
+
+            }).catch(function (err) {
+                return res.status(500).end(err);
+            });
+
     });
 
     // curl -X POST -d "username=admin&password=pass4admin" http://localhost:4000/signin/
+    // Sign In User with REST
     app.post('/signin/', [
         check('username').isAlphanumeric(),
         check('password').isAlphanumeric()
@@ -96,6 +105,7 @@ async function startApolloServer(typeDefs, resolvers) {
     });
 
     // curl -b cookie.txt -c cookie.txt http://localhost:4000/signout/
+    // Signout user with REST
     app.get('/signout/', function (req, res, next) {
         req.session.destroy();
         res.setHeader('Set-Cookie', cookie.serialize('username', '', {

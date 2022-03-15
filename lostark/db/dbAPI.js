@@ -12,35 +12,36 @@ class dbAPI {
         this.context = config.context;
     }
 
-    getCoinIds() {
-        return Currencies.find({}).projection({ _id: 1, symbol: 0, name: 0 });
-    }
-
     // Add user to db if it doesn't exist already
     async insertUser(username, password) {
-        return new Promise((resolve, reject) => {
-            if (Users.exists({ username: username }) == null) return reject("user already exists");
-            bcrypt.hash(password, 10, function (err, hash) {
-                if (err) return reject(err);
-                const coins = getCoinIds();
-                const newUser = new Users({
-                    username: username,
-                    password: hash,
-                    cash: 10000,
-                    coins: coins.reduce((a, b) => (a[b] = 0, a), {}),
+        return new Promise(async (resolve, reject) => {
+            return Users.exists({ username: username })
+                .then(function (doc) {
+                    if (doc) return reject("user already exists");
+                    bcrypt.hash(password, 10, function (err, hash) {
+                        if (err) return reject(err);
+                        //const coins = Currencies.find({}).projection({ _id: 1, symbol: 0, name: 0 });
+                        const newUser = new Users({
+                            username: username,
+                            password: hash,
+                            cash: 10000,
+                            //coins: coins.reduce((a, b) => (a[b] = 0, a), {}),
+                        });
+                        newUser.save(err => {
+                            if (err) return reject(err);
+                            resolve(newUser);
+                        });
+                    });
+                }).catch(function (err) {
+                    return reject(err)
                 });
-                newUser.save(err => {
-                    if (err) return reject(err);
-                    resolve(newUser);
-                });
-            });
         });
 
     }
 
     // Check if user exists in db
     userExists(username) {
-        return Users.exists({ username: username }) != null;
+        return Users.exists({ username: username });
     }
 
     // Return user if one exists
