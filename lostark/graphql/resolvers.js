@@ -1,9 +1,7 @@
 const resolvers = {
     Query: {
-        user: async () => {
-            return new Promise((resolve, reject) => {
+        coins: async() => {
 
-            })
         }
     },
     Mutation: {

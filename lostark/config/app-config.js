@@ -1,3 +1,4 @@
+require('dotenv').config();
 const PORT = 4000;
 const environment = {
     development: {
