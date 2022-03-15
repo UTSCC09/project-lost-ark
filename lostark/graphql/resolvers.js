@@ -1,6 +1,10 @@
 const resolvers = {
     Query: {
-        coins: async() => {
+        coins: async () => {
+
+        },
+
+        user: async () => {
 
         }
     },

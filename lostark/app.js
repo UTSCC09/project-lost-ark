@@ -5,7 +5,6 @@ const http = require('http');
 const { resolvers } = require('./graphql/resolvers.js');
 const { typeDefs } = require('./graphql/schema.graphql');
 const { PORT } = require('./config/app-config.js');
-const { getUser } = require('./validation.js');
 const dbAPI = require('./db/dbAPI.js');
 const cookie = require('cookie');
 const session = require('express-session');

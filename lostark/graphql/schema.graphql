@@ -1,5 +1,6 @@
 const typeDefs = `
   type Query {
+    user: User
     coins: [Coin]
   }
   type User {
@@ -9,8 +10,8 @@ const typeDefs = `
   }
   type Coin {
     id: ID!
-    symbol: String!
-    name: String!
+    symbol: String
+    name: String
     quantity: Float
   }
 
