@@ -1,0 +1,24 @@
+.header {
+  border-bottom: 1px solid hsl(204, 15%, 94%);
+}
+
+.wrapper {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.btnGroup {
+  * + * {
+    margin-left: 0.5rem;
+  }
+}
