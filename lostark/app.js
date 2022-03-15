@@ -62,6 +62,7 @@ async function startApolloServer(typeDefs, resolvers) {
         let password = req.body.password;
         return db.userExists(username)
             .then(function (doc) {
+                console.log(doc);
                 if (doc) return res.status(409).end("username " + username + " already exists");
                 // insert new user into the database
                 return db.insertUser(username, password).then(res.json(username))
@@ -90,18 +91,20 @@ async function startApolloServer(typeDefs, resolvers) {
         return db.findUser(username)
             .then(function (user) {
                 if (!user) return res.status(401).end("access denied");
-                bcrypt.compare(password, user.password, function (err, valid) {
-                    if (err) return res.status(500).end(err);
-                    if (!valid) return res.status(401).end("access denied");
-                    // start a session
-                    req.session.username = username;
-                    res.setHeader('Set-Cookie', cookie.serialize('username', user._id, {
-                        path: '/',
-                        maxAge: 60 * 60 * 24 * 7 // 1 week in number of seconds
-                    }));
-                    return res.json(req.session);
-                });
-            }).catch(function (err) { return res.status(500).end(err); })
+                return bcrypt.compare(password, user.password);
+            }).then(function (valid, err) {
+                if (err) return res.status(500).end(err);
+                if (!valid) return res.status(401).end("access denied");
+                // start a session
+                req.session.username = username;
+                res.setHeader('Set-Cookie', cookie.serialize('username', username, {
+                    path: '/',
+                    maxAge: 60 * 60 * 24 * 7 // 1 week in number of seconds
+                }));
+                console.log(username);
+                return res.json(req.session);
+            }
+            ).catch(function (err) { return res.status(500).end(err); })
     });
 
     // curl -b cookie.txt -c cookie.txt http://localhost:4000/signout/
