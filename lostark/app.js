@@ -122,7 +122,7 @@ async function startApolloServer(typeDefs, resolvers) {
     });
 
     // GraphQL is protected by authentication layer
-    app.use(isAuthenticated)
+    app.use(isAuthenticated);
 
     const server = new ApolloServer({
         typeDefs,

@@ -1,5 +1,6 @@
 const { Users, Currencies } = require('../db/dbconnector.js');
 const bcrypt = require('bcrypt');
+const { allcoins } = require('../api/coinGeckoAPI');
 class dbAPI {
 
     /**
@@ -21,7 +22,7 @@ class dbAPI {
                     return bcrypt.hash(password, 10);
                 }).then(async function (hash, err) {
                     if (err) return reject(err);
-                    const coins = await Currencies.find({}, { _id: 1, symbol: 0, name: 0 }).exec();
+                    const coins = allcoins;
                     const newUser = new Users({
                         username: username,
                         password: hash,
