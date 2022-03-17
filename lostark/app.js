@@ -11,7 +11,6 @@ const session = require('express-session');
 const { check, validationResult } = require('express-validator');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-var memcached = require('memcached');
 require('dotenv').config();
 
 async function startApolloServer(typeDefs, resolvers) {

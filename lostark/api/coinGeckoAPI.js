@@ -16,7 +16,7 @@ const allcoins = [
 
 class coinGeckoAPI {
 
-    // Returns a promise, gets values of all coins in cad
+    /** Returns a promise, gets values of all coins in CAD */
     async getCoinValues() {
         var stringifyIds = allcoins.reduce((prev, cur) => prev + "," + cur._id, "").slice(1);
         return axios.get('https://api.coingecko.com/api/v3/simple/price?ids='
@@ -27,9 +27,22 @@ class coinGeckoAPI {
                 return err;
             });
     }
+
+    /** Returns a promise, gets values of a coin in CAD */
     async getCoinValue(coin) {
         return axios.get('https://api.coingecko.com/api/v3/simple/price?ids='
             + coin + "&vs_currencies=" + currency).then(res => {
+                return res.data;
+            }).catch(err => {
+                console.error(err);
+                return err;
+            });
+    }
+
+    /** Returns a promise, gets values of coins (input as a string of coins separated by a comma) in CAD */
+    async getCoinListValues(coins) {
+        return axios.get('https://api.coingecko.com/api/v3/simple/price?ids='
+            + coins + "&vs_currencies=" + currency).then(res => {
                 return res.data;
             }).catch(err => {
                 console.error(err);
