@@ -64,9 +64,9 @@ class dbAPI {
     * Returns promise where wallet is updated from a transaction
     * price denotes cost of transaction (+ for sell, - for buy)
     * coinName denotes coin_id of coin bought/sold
-    * coinQuant denotes quantity of coinName bought/sold (can be a decimal value)
+    * coinQuant denotes quantity of coinName bought/sold (can be a decimal value, - for sell, + for buy)
     */
-    async walletTransaction(uprice, coinName, coinQuant) {
+    async walletTransaction(price, coinName, coinQuant) {
         return Users.findOne({ username: this.context.user }, { cash: 1, coins: 1 })
             .then(function (data) {
                 if (data.cash + price < 0) {
