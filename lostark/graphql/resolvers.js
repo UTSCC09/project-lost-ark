@@ -2,8 +2,29 @@ const resolvers = {
     Query: {
         coins: async (_, __, context) => {
             const dataSources = context.dataSources;
-            console.log(dataSources.allCoins);
-            return dataSources.allCoins;
+            return dataSources.coinGeckoAPI.getCoinValues().then(function (data) {
+                var coins = context.dataSources.allCoins;
+                return coins.map((x) => {
+                    x.price = data[x._id].cad;
+                    return x;
+                })
+            }).catch(function (err) {
+                console.error(err);
+                return err;
+            });
+        },
+
+        coin: async (_, args, context) => {
+            const dataSources = context.dataSources;
+            return dataSources.coinGeckoAPI.getCoinValue(args._id).then(function (data) {
+                var coins = context.dataSources.allCoins;
+                var coin = coins.find(({ _id }) => _id == args._id);
+                coin.price = data[args._id].cad;
+                return coin;
+            }).catch(function (err) {
+                console.error(err);
+                return err;
+            });
         },
 
         user: async (_, __, context) => {
@@ -17,11 +38,6 @@ const resolvers = {
                     return err;
                 });
         },
-
-        prices: async (_, __, context) => {
-            const dataSources = context.dataSources;
-            dataSources.coinGeckoAPI.getCoinValues().then((data) => console.log(data));
-        }
     },
 
     Mutation: {

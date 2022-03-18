@@ -2,7 +2,7 @@ const typeDefs = `
   type Query {
     user: User
     coins: [Coin]
-    prices: Price
+    coin(_id: String): Coin
   }
   type User {
     username: String!
@@ -13,16 +13,12 @@ const typeDefs = `
     _id: ID
     symbol: String
     name: String
+    price: Float
   }
 
   type Wallet {
     coin: Coin
     quantity: Float
-  }
-
-  type Price {
-    coin: Coin
-    price: Float
   }
 
   type Mutation {
