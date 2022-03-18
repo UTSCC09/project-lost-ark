@@ -11,6 +11,7 @@ const session = require('express-session');
 const { check, validationResult } = require('express-validator');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
+const { coinGeckoAPI, allCoins } = require('./api/coinGeckoAPI.js');
 require('dotenv').config();
 
 async function startApolloServer(typeDefs, resolvers) {
@@ -30,7 +31,7 @@ async function startApolloServer(typeDefs, resolvers) {
     }));
 
     app.use(function (req, res, next) {
-        let username = (req.session.user) ? req.session.user._id : '';
+        let username = (req.session.username) ? req.session.username : '';
         res.setHeader('Set-Cookie', cookie.serialize('username', username, {
             httpOnly: false,
             secure: true,
@@ -99,8 +100,7 @@ async function startApolloServer(typeDefs, resolvers) {
                     path: '/',
                     maxAge: 60 * 60 * 24 * 7 // 1 week in number of seconds
                 }));
-                console.log(username);
-                return res.json(req.session);
+                return res.json(username);
             }).catch(function (err) { return res.status(500).end(err); })
     });
 
@@ -119,6 +119,8 @@ async function startApolloServer(typeDefs, resolvers) {
 
     const dataSources = () => ({
         dbAPI: db,
+        allCoins: allCoins,
+        coinGeckoAPI: new coinGeckoAPI(),
     });
 
     // GraphQL is protected by authentication layer
@@ -128,7 +130,7 @@ async function startApolloServer(typeDefs, resolvers) {
         typeDefs,
         resolvers,
         context: async ({ req, res }) => {
-            let user = req?.cookies["username"]
+            let user = req?.cookies["username"];
             let context = { req, res, user: {} };
             if (user) {
                 context.user = user;

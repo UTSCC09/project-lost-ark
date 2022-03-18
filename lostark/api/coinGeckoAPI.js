@@ -1,6 +1,6 @@
 const axios = require('axios');
 const currency = 'cad';
-const allcoins = [
+const allCoins = [
     { _id: 'bitcoin', name: 'Bitcoin', symbol: 'btc' },
     { _id: 'ethereum', name: 'Ethereum', symbol: 'eth' },
     { _id: 'litecoin', name: 'Litecoin', symbol: 'ltc' },
@@ -18,7 +18,7 @@ class coinGeckoAPI {
 
     /** Returns a promise, gets values of all coins in CAD */
     async getCoinValues() {
-        var stringifyIds = allcoins.reduce((prev, cur) => prev + "," + cur._id, "").slice(1);
+        var stringifyIds = allCoins.reduce((prev, cur) => prev + "," + cur._id, "").slice(1);
         return axios.get('https://api.coingecko.com/api/v3/simple/price?ids='
             + stringifyIds + "&vs_currencies=" + currency).then(res => {
                 return res.data;
@@ -52,4 +52,4 @@ class coinGeckoAPI {
 
 }
 
-module.exports = { coinGeckoAPI, allcoins };
+module.exports = { coinGeckoAPI, allCoins };
