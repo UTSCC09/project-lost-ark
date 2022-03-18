@@ -6,6 +6,7 @@ const typeDefs = `
   }
   type User {
     username: String!
+    balance: Float!
     cash: Float!
     wallet: [Wallet]
   }
@@ -19,6 +20,7 @@ const typeDefs = `
   type Wallet {
     coin: Coin
     quantity: Float
+    price: Float
   }
 
   type Mutation {

@@ -31,8 +31,22 @@ const resolvers = {
             const dataSources = context.dataSources;
             return dataSources.dbAPI.getUserWallet(context.user)
                 .then(function (data) {
-                    var user = { username: data.username, cash: data.cash, wallet: data.coins };
-                    return user;
+                    return dataSources.coinGeckoAPI.getCoinValues()
+                        .then(function (price) {
+                            var coins = data.coins.map((x) => {
+                                x.price = price[x.coin._id].cad * x.quantity;
+                                x.coin.price = price[x.coin._id].cad;
+                                return x;
+                            });
+                            var balance = coins.reduce((prev, cur) => prev + cur.price, 0) + data.cash;
+                            console.log(coins);
+                            var user = { username: data.username, balance: balance, cash: data.cash, wallet: coins };
+                            return user;
+                        }).catch(function (err) {
+                            console.error(err);
+                            return err;
+                        })
+
                 }).catch(function (err) {
                     console.error(err);
                     return err;
