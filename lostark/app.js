@@ -1,6 +1,7 @@
 const { ApolloServer } = require('apollo-server-express');
 const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
 const express = require('express');
+const cors = require('cors');
 const http = require('http');
 const { resolvers } = require('./graphql/resolvers.js');
 const { typeDefs } = require('./graphql/schema.graphql');
@@ -18,6 +19,10 @@ async function startApolloServer(typeDefs, resolvers) {
     const app = express();
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
+
+    app.use(cors(
+        // { origin: "http://localhost:3000" }
+    ));
 
     app.use(session({
         secret: 'please change this secret',
@@ -124,13 +129,16 @@ async function startApolloServer(typeDefs, resolvers) {
     });
 
     // GraphQL is protected by authentication layer
-    app.use(isAuthenticated);
+    // app.use(isAuthenticated);
 
     const server = new ApolloServer({
         typeDefs,
         resolvers,
         context: async ({ req, res }) => {
-            let user = req?.cookies["username"];
+            // let user = req?.cookies["username"];
+            // let user = req?.session.username;
+            // console.log({ user })
+            let user = "admin"
             let context = { req, res, user: {} };
             if (user) {
                 context.user = user;
