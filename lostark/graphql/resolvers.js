@@ -54,16 +54,6 @@ const resolvers = {
     },
 
     Mutation: {
-        signup: async (_, { username, password }, { dataSources }) => {
-            await dataSources.dbAPI.insertUser(username, password)
-                .then(function (data) {
-                    return data;
-                })
-                .catch(function (err) {
-                    console.error(err);
-                });
-
-        },
         buy: async (_, { coinId, quantity }, context) => {
             const dataSources = context.dataSources;
             return dataSources.coinGeckoAPI.getCoinValue(coinId).then(function (data) {
