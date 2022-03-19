@@ -1,17 +1,14 @@
 import styles from "./Navbar.module.scss";
-import Image from "next/image";
-import logo from "@/public/logo.svg";
 import { Button } from "@mantine/core";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import logo from "@/public/logo.svg";
+import TradeModal from "@/components/TradeModal/TradeModal";
 
 const Navbar: React.FC = () => {
   const router = useRouter();
   const isLoggedIn = true;
-
-  const handleTrade = () => {
-    // TODO
-  };
 
   const handleSignout = () => {
     // TODO
@@ -29,7 +26,7 @@ const Navbar: React.FC = () => {
         <div className={styles.btnGroup}>
           {isLoggedIn ? (
             <>
-              <Button color="teal">Trade</Button>
+              <TradeModal />
               <Button color="teal" variant="outline" onClick={handleSignout}>
                 Sign Out
               </Button>
