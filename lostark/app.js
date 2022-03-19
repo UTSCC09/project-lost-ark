@@ -25,16 +25,16 @@ async function startApolloServer(typeDefs, resolvers) {
         saveUninitialized: true,
         cookie: {
             httpOnly: true,
-            secure: true,
+            secure: false,
             sameSite: true
         }
     }));
 
     app.use(function (req, res, next) {
-        let username = (req.session.username) ? req.session.username : '';
+        let username = (req.session.user) ? req.session.user._id : '';
         res.setHeader('Set-Cookie', cookie.serialize('username', username, {
             httpOnly: false,
-            secure: true,
+            secure: false,
             sameSite: true,
             path: '/',
             maxAge: 60 * 60 * 24 * 7 // 1 week in number of seconds
@@ -90,18 +90,22 @@ async function startApolloServer(typeDefs, resolvers) {
         return db.findUser(username)
             .then(function (user) {
                 if (!user) return res.status(401).end("access denied");
-                return bcrypt.compare(password, user.password);
-            }).then(function (valid, err) {
-                if (err) return res.status(500).end(err);
-                if (!valid) return res.status(401).end("access denied");
-                // start a session
-                req.session.username = username;
-                res.setHeader('Set-Cookie', cookie.serialize('username', username, {
-                    path: '/',
-                    maxAge: 60 * 60 * 24 * 7 // 1 week in number of seconds
-                }));
-                return res.json(username);
-            }).catch(function (err) { return res.status(500).end(err); })
+                return bcrypt.compare(password, user.password)
+                    .then(function (valid, err) {
+                        if (err) return res.status(500).end(err);
+                        if (!valid) return res.status(401).end("access denied");
+                        // start a session
+                        req.session.username = username;
+                        res.setHeader('Set-Cookie', cookie.serialize('username', user._id.toString(), {
+                            path: '/',
+                            maxAge: 60 * 60 * 24 * 7 // 1 week in number of seconds
+                        }));
+                        return res.json(username);
+                    }).catch(function (err) {
+                        return res.status(500).end(err);
+                    });
+
+            }).catch(function (err) { return res.status(500).end(err); });
     });
 
     // curl -b cookie.txt -c cookie.txt http://localhost:4000/signout/
@@ -130,7 +134,7 @@ async function startApolloServer(typeDefs, resolvers) {
         typeDefs,
         resolvers,
         context: async ({ req, res }) => {
-            let user = req?.cookies["username"];
+            let user = req?.session.username;
             let context = { req, res, user: {} };
             if (user) {
                 context.user = user;
