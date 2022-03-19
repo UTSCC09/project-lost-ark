@@ -39,7 +39,6 @@ const resolvers = {
                                 return x;
                             });
                             var balance = coins.reduce((prev, cur) => prev + cur.price, 0) + data.cash;
-                            console.log(coins);
                             var user = { username: data.username, balance: balance, cash: data.cash, wallet: coins };
                             return user;
                         }).catch(function (err) {
@@ -65,6 +64,34 @@ const resolvers = {
                 });
 
         },
+        buy: async (_, { coinId, quantity }, context) => {
+            const dataSources = context.dataSources;
+            return dataSources.coinGeckoAPI.getCoinValue(coinId).then(function (data) {
+                return data[coinId].cad * quantity;
+            }).then(function (price) {
+                return dataSources.dbAPI.walletTransaction(context.user, -price, coinId, quantity)
+            }).then(function (wallet) {
+                return wallet;
+            }).catch(function (err) {
+                console.error(err);
+                return err;
+            });
+        },
+
+        sell: async (_, { coinId, quantity }, context) => {
+            const dataSources = context.dataSources;
+            return dataSources.coinGeckoAPI.getCoinValue(coinId).then(function (data) {
+                return data[coinId].cad * quantity;
+            }).then(function (price) {
+                return dataSources.dbAPI.walletTransaction(context.user, price, coinId, -quantity)
+            }).then(function (wallet) {
+                return wallet;
+            }).catch(function (err) {
+                console.error(err);
+                return err;
+            });
+        },
+
 
     },
 };

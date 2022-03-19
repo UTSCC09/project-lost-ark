@@ -66,19 +66,22 @@ class dbAPI {
     * coinName denotes coin_id of coin bought/sold
     * coinQuant denotes quantity of coinName bought/sold (can be a decimal value, - for sell, + for buy)
     */
-    async walletTransaction(price, coinName, coinQuant) {
-        return Users.findOne({ username: username }, { cash: 1, coins: 1 })
+    async walletTransaction(username, price, coinName, coinQuant) {
+        return Users.findOne({ username: username }, { username: 1, cash: 1, coins: 1 })
             .then(function (data) {
                 if (data.cash + price < 0) {
                     throw new Error("Insufficient funds");
                 }
-                if (data.coins[coinName] + coinQuant < 0) {
+                var coinIndex = data.coins.findIndex(({ coin }) => coin._id == coinName);
+                if (data.coins[coinIndex].quantity + coinQuant < 0) {
                     throw new Error("Insufficient coins");
                 }
                 var newWallet = data;
                 newWallet.cash = data.cash + price;
-                newWallet.coins[coinName] = data.coins[coinName] + coinQuant;
-                return Users.findOneAndUpdate({ username: username }, { cash: newWallet.cash, coins: newWallet.coins });
+                data.coins[coinIndex].quantity = data.coins[coinIndex].quantity + coinQuant;
+                newWallet.coins = data.coins;
+                return Users.findOneAndUpdate({ username: username },
+                    { cash: newWallet.cash, coins: newWallet.coins }, { new: true });
             }).then(function (data) {
                 return data
             }
