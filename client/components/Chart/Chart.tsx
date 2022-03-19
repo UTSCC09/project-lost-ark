@@ -127,7 +127,6 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
       const correspondingDate = xScale.invert(d3.pointer(event)[0]);
       //gets insertion point
       const i = bisectDate(data, correspondingDate, 1);
-      console.log(i, data);
       const d0 = data[i - 1];
       const d1 = data[i] || d0;
       const currentPoint =

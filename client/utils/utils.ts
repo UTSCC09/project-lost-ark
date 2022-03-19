@@ -8,6 +8,7 @@ type ErrorOptions = {
 export const isLoggedIn = () => {
   // Credits: cookie parser from https://gist.github.com/rendro/525bbbf85e84fa9042c2
   if (typeof window === "undefined") {
+    console.log("@undefined");
     return false;
   }
   const cookie = Object.fromEntries(
