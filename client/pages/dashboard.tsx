@@ -1,15 +1,8 @@
+import Dashboard from "@/components/Dashboard/Dashboard";
 import { NextPage } from "next";
-import { useState } from "react";
 
-const Dashboard: NextPage = () => {
-  // TODO
-  const [s, setS] = useState(0);
-  console.log("@dashboard");
-  return (
-    <div>
-      <button onClick={() => setS(s + 1)}>{s}</button>
-    </div>
-  );
+const DashboardPage: NextPage = () => {
+  return <Dashboard />;
 };
 
-export default Dashboard;
+export default DashboardPage;
