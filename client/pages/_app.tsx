@@ -9,13 +9,13 @@ import {
   ApolloClient,
   createHttpLink,
   InMemoryCache,
-  NormalizedCacheObject
+  NormalizedCacheObject,
 } from "@apollo/client";
 import CONFIG from "@/config/config";
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   cache: new InMemoryCache(),
-  uri: `${CONFIG.BACKEND_URL}/graphql`
+  uri: `${CONFIG.BACKEND_URL}/graphql`,
 });
 
 // TODO: Example GraphQL query
@@ -48,7 +48,10 @@ const App = ({ Component, pageProps }: AppProps) => {
         withNormalizeCSS
         theme={{ colorScheme: "light" }}
       >
-        <NotificationsProvider>
+        <NotificationsProvider
+          style={{ marginTop: "3rem" }}
+          position="top-center"
+        >
           <ApolloProvider client={client}>
             <Layout>
               <Component {...pageProps} />

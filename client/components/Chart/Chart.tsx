@@ -19,7 +19,7 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
   }, [data]);
 
   const initializeChart = (data: ChartData[]) => {
-    console.log({ data });
+    ref.current!.innerHTML = "";
     const margin = { top: 50, right: 50, bottom: 50, left: 50 };
     const { clientWidth, clientHeight } = ref.current!;
     const width = clientWidth - margin.left - margin.right;
@@ -143,7 +143,7 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
       );
       focus
         .select("line.x")
-        .attr("x1", 0)
+        .attr("x1", -xScale(currentPoint.date))
         .attr("x2", width - xScale(currentPoint.date))
         .attr("y1", 0)
         .attr("y2", 0);
@@ -151,7 +151,7 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
         .select("line.y")
         .attr("x1", 0)
         .attr("x2", 0)
-        .attr("y1", 0)
+        .attr("y1", -yScale(currentPoint.value))
         .attr("y2", height - yScale(currentPoint.value));
       // updateLegends(currentPoint);
     };
