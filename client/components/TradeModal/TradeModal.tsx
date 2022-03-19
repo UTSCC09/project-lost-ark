@@ -1,6 +1,6 @@
-import { gql, useQuery } from "@apollo/client";
-import { Button, Select } from "@mantine/core";
-import { useModals } from "@mantine/modals";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { Button, Modal, NumberInput, Select } from "@mantine/core";
+import { FormEvent, useMemo, useState } from "react";
 import styles from "./TradeModal.module.scss";
 
 type Coin = {
@@ -10,43 +10,108 @@ type Coin = {
   price: number;
 };
 
-const TradeModal: React.FC = () => {
-  const modals = useModals();
-  const { data } = useQuery<{ coins: Coin[] }>(gql`
-    query AllCoinsQuery {
-      coins {
-        _id
-        symbol
-        name
-        price
-      }
+const COINS_QUERY = gql`
+  query AllCoinsQuery {
+    coins {
+      _id
+      symbol
+      name
+      price
     }
-  `);
-  const coins = data?.coins ?? [];
+    user {
+      cash
+    }
+  }
+`;
 
-  const openModal = () => {
-    modals.openModal({
-      title: "Buy",
-      children: (
-        <div className={styles.tradeForm}>
-          <Select
-            label="Cryptocurrency"
-            data={coins.map((coin) => ({
-              label: coin.name,
-              value: coin.symbol,
-            }))}
-          />
-          <Button color="teal" fullWidth>
-            Purchase
-          </Button>
-        </div>
-      ),
-    });
+const BUY_COIN = gql`
+  mutation BuyCoin($coin: String!, $quantity: Float!) {
+    buy(coinId: $coin, quantity: $quantity) {
+      username
+      balance
+      cash
+    }
+  }
+`;
+
+const TradeModal: React.FC = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const query =
+    useQuery<{ coins: Coin[]; user: { cash: number } }>(COINS_QUERY);
+  const { coins = [], user } = query.data ?? {};
+  const [mutate, { data, loading, error }] = useMutation(BUY_COIN);
+  const [selectedCoin, setSelectedCoin] = useState<string>("");
+  const [quantity, setQuantity] = useState<number | undefined>();
+  const selectedPrice = useMemo(() => {
+    const price: number | undefined = coins.filter(
+      (coin) => coin._id === selectedCoin
+    )[0]?.price;
+    return price;
+  }, [coins, selectedCoin]);
+
+  const handleClose = () => {
+    setModalOpen(false);
+    setSelectedCoin("");
+    setQuantity(undefined);
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+
+    // TODO
+    handleClose();
   };
 
   return (
     <>
-      <Button color="teal" onClick={openModal}>
+      <Modal opened={modalOpen} onClose={handleClose} title="Buy">
+        <form className={styles.tradeForm} onSubmit={handleSubmit}>
+          <Select
+            label="Cryptocurrency"
+            value={{ value: selectedCoin } as any}
+            onChange={(val) => setSelectedCoin(val ?? "")}
+            data={coins.map((coin) => ({
+              label: coin.name,
+              value: coin._id,
+            }))}
+            required
+          />
+          <NumberInput
+            label="Unit Price"
+            disabled
+            value={selectedPrice}
+            precision={2}
+            formatter={(value) => `$ ${value}`}
+          />
+          <NumberInput
+            label="Quantity"
+            value={quantity}
+            required
+            onChange={setQuantity}
+            min={0}
+            precision={2}
+            step={0.1}
+          />
+          <NumberInput
+            label="Estimated Total Price"
+            disabled
+            value={quantity! * selectedPrice || 0}
+            precision={2}
+            formatter={(value) => `$ ${value}`}
+          />
+          <NumberInput
+            label="Your Current Cash Balance"
+            disabled
+            value={user?.cash}
+            precision={2}
+            formatter={(value) => `$ ${value}`}
+          />
+          <Button type="submit" color="teal" fullWidth>
+            Purchase
+          </Button>
+        </form>
+      </Modal>
+      <Button color="teal" onClick={() => setModalOpen(true)}>
         Trade
       </Button>
     </>

@@ -140,7 +140,7 @@ async function startApolloServer(typeDefs, resolvers) {
         typeDefs,
         resolvers,
         context: async ({ req, res }) => {
-            let user = req?.session.username || "admin";
+            let user = req?.session.username || "1";
             let context = { req, res, user: {} };
             if (user) {
                 context.user = user;
