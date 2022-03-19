@@ -30,7 +30,7 @@ async function startApolloServer(typeDefs, resolvers) {
         saveUninitialized: true,
         cookie: {
             httpOnly: true,
-            secure: false,
+            secure: process.env.NODE_ENV === "production",
             sameSite: true
         }
     }));
@@ -39,7 +39,7 @@ async function startApolloServer(typeDefs, resolvers) {
         let username = (req.session.user) ? req.session.user._id : '';
         res.setHeader('Set-Cookie', cookie.serialize('username', username, {
             httpOnly: false,
-            secure: false,
+            secure: process.env.NODE_ENV === "production",
             sameSite: true,
             path: '/',
             maxAge: 60 * 60 * 24 * 7 // 1 week in number of seconds
