@@ -2,9 +2,11 @@ const { ApolloServer } = require('apollo-server-express');
 const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
 const express = require('express');
 const http = require('http');
+const https = require('https');
 const { resolvers } = require('./graphql/resolvers.js');
 const { typeDefs } = require('./graphql/schema.graphql');
-const { PORT } = require('./config/app-config.js');
+const { environment } = require('./config/app-config.js');
+const fs = require('fs');
 const dbAPI = require('./db/dbAPI.js');
 const cookie = require('cookie');
 const session = require('express-session');
@@ -18,6 +20,9 @@ async function startApolloServer(typeDefs, resolvers) {
     const app = express();
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
+
+    const envir = process.env.NODE_ENV || 'production';
+    const config = environment[envir];
 
     app.use(session({
         secret: 'please change this secret',
@@ -119,7 +124,15 @@ async function startApolloServer(typeDefs, resolvers) {
         return res.redirect("/");
     });
 
-    const httpServer = http.createServer(app);
+    let httpServer;
+    if (config.ssl) {
+        httpServer = https.createServer({
+            key: fs.readFileSync(),
+            cert: fs.readFileSync()
+        }, app);
+    } else {
+        httpServer = http.createServer(app);
+    }
 
     const dataSources = () => ({
         dbAPI: db,
@@ -150,9 +163,9 @@ async function startApolloServer(typeDefs, resolvers) {
 
     server.applyMiddleware({ app });
 
-    await new Promise(resolve => httpServer.listen({ port: PORT }, resolve));
+    await new Promise(resolve => httpServer.listen({ port: config.port }, resolve));
 
-    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+    console.log(`🚀 Server ready at http${config.ssl ? 's' : ''}://${config.hostname}:${config.port}${server.graphqlPath}`);
 }
 
 
