@@ -65,6 +65,7 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
     // you need to add namespace, i.e., 'click.foo'
     // necessary if you call invoke this function for multiple svgs
     // api docs: https://github.com/mbostock/d3/wiki/Selections#on
+    // TODO: Issue, this is a memory leak currently due to not removing event listeners
     d3.select(window).on("resize." + container.attr("id"), resize);
   };
 

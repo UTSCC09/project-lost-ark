@@ -1,5 +1,4 @@
 import styles from "./SignInForm.module.scss";
-import CONFIG from "@/config/config";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Alert, Button, TextInput } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
@@ -53,9 +52,9 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
     const { username, password } = Object.fromEntries(formData);
 
     axios
-      .post(`${CONFIG.BACKEND_URL}/${type}`, { username, password })
+      .post(`/api/${type}`, { username, password })
       .then((res) => {
-        formElement.reset();
+        // formElement.reset();
         router.push("/dashboard");
       })
       .catch((err) => {

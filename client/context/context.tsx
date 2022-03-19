@@ -7,11 +7,10 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
-import CONFIG from "@/config/config";
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   cache: new InMemoryCache(),
-  uri: `${CONFIG.BACKEND_URL}/graphql`,
+  uri: `/api/graphql`,
 });
 
 // TODO: Example GraphQL query

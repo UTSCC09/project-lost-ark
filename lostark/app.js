@@ -21,7 +21,7 @@ async function startApolloServer(typeDefs, resolvers) {
     app.use(bodyParser.urlencoded({ extended: false }));
 
     app.use(cors(
-        // { origin: "http://localhost:3000" }
+        { origin: "http://localhost:3000", credentials: true }
     ));
 
     app.use(session({
@@ -29,9 +29,9 @@ async function startApolloServer(typeDefs, resolvers) {
         resave: false,
         saveUninitialized: true,
         cookie: {
-            httpOnly: true,
+            httpOnly: false,
             secure: false,
-            sameSite: true
+            sameSite: false
         }
     }));
 
@@ -48,6 +48,7 @@ async function startApolloServer(typeDefs, resolvers) {
     });
 
     const isAuthenticated = function (req, res, next) {
+        console.log(req.session)
         if (!req.session.username) return res.status(401).end("access denied");
         next();
     };
@@ -133,7 +134,7 @@ async function startApolloServer(typeDefs, resolvers) {
     });
 
     // GraphQL is protected by authentication layer
-    // app.use(isAuthenticated);
+    app.use(isAuthenticated);
 
     const server = new ApolloServer({
         typeDefs,

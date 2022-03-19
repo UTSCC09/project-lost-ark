@@ -5,14 +5,21 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import logo from "@/public/logo.svg";
 import TradeModal from "@/components/TradeModal/TradeModal";
+import { handleError, isLoggedIn } from "@/utils/utils";
+import axios from "axios";
+import { useNotifications } from "@mantine/notifications";
 
 const Navbar: React.FC = () => {
   const router = useRouter();
-  const isLoggedIn = true;
+  const notifications = useNotifications();
 
   const handleSignout = () => {
-    // TODO
-    router.push("/signin?signout=true");
+    axios
+      .get("/api/signout")
+      .then((res) => {
+        router.push("/signin?signout=true");
+      })
+      .catch((err) => handleError(err, { notifications }));
   };
 
   return (
@@ -24,7 +31,7 @@ const Navbar: React.FC = () => {
           </a>
         </Link>
         <div className={styles.btnGroup}>
-          {isLoggedIn ? (
+          {isLoggedIn() ? (
             <>
               <TradeModal />
               <Button color="teal" variant="outline" onClick={handleSignout}>
