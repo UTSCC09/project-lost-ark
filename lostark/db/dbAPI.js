@@ -1,4 +1,4 @@
-const { Users, Currencies } = require('../db/dbconnector.js');
+const { Users, Currencies } = require('../db/dbConnector.js');
 const bcrypt = require('bcrypt');
 const { allCoins } = require('../api/coinGeckoAPI');
 class dbAPI {
