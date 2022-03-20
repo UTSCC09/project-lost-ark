@@ -24,7 +24,6 @@ const typeDefs = `
   }
 
   type Mutation {
-    signup(username: String!, password: String!): User
     buy(coinId: String!, quantity: Float!) : User
     sell(coinId: String!, quantity: Float!) : User
   }

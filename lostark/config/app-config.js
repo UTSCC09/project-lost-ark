@@ -1,12 +1,17 @@
 require('dotenv').config();
 const PORT = 4000;
+const SSLPORT = 443;
 const environment = {
     development: {
-        serverURL: `http://localhost:${PORT}/`,
+        ssl: false,
+        port: PORT,
+        hostname: `localhost`,
         dbString: "mongodb+srv://aobuta123:" + process.env.MONGO_PASS + "@lostark.sxt19.mongodb.net/lostark?retryWrites=true&w=majority"
     },
     production: {
-        serverURL: `http://localhost:${PORT}/`,
+        ssl: true,
+        port: SSLPORT,
+        hostname: `localhost`,
         dbString: "mongodb+srv://aobuta123:" + process.env.MONGO_PASS + "@lostark.sxt19.mongodb.net/lostark-prod?retryWrites=true&w=majority"
     }
 }
