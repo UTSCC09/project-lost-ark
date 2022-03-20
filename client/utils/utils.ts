@@ -11,7 +11,7 @@ export const handleError = (error: any, options: ErrorOptions = {}) => {
   if (notifications) {
     notifications.showNotification({
       color: "red",
-      message: errorMsg ?? error?.response?.data,
+      message: errorMsg ?? error?.response?.data ?? error.toString(),
     });
   }
 };
