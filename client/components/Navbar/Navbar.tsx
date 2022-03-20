@@ -1,10 +1,35 @@
 import styles from "./Navbar.module.scss";
-import Image from "next/image";
-import logo from "@/public/logo.svg";
 import { Button } from "@mantine/core";
+import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import logo from "@/public/logo.svg";
+import TradeModal from "@/components/TradeModal/TradeModal";
+import { handleError } from "@/utils/utils";
+import axios from "axios";
+import { useNotifications } from "@mantine/notifications";
+import useIsLoggedIn from "@/hooks/useIsLoggedIn";
+import { useContext } from "react";
+import { AccountContext } from "@/context/AccountContext";
 
 const Navbar: React.FC = () => {
+  const router = useRouter();
+  const notifications = useNotifications();
+  const query = useContext(AccountContext)!;
+  const { loggedIn, ready } = useIsLoggedIn();
+
+  const handleSignout = async () => {
+    try {
+      await axios.get("/api/signout");
+      query
+        .refetch()
+        .catch(() => {})
+        .finally(() => router.push("/signin"));
+    } catch (err) {
+      handleError(err, { notifications });
+    }
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>
@@ -14,14 +39,26 @@ const Navbar: React.FC = () => {
           </a>
         </Link>
         <div className={styles.btnGroup}>
-          <Link href="/signin">
-            <Button color="teal" variant="subtle">
-              Sign In
-            </Button>
-          </Link>
-          <Link href="/signup">
-            <Button color="teal">Create an Account</Button>
-          </Link>
+          {ready &&
+            (loggedIn ? (
+              <>
+                <TradeModal />
+                <Button color="teal" variant="outline" onClick={handleSignout}>
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link href="/signin">
+                  <Button color="teal" variant="outline">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/signup">
+                  <Button color="teal">Create an Account</Button>
+                </Link>
+              </>
+            ))}
         </div>
       </div>
     </header>

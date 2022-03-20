@@ -1,11 +1,15 @@
 import styles from "./SignInForm.module.scss";
-import { FormEvent, useMemo } from "react";
+import { FormEvent, useContext, useEffect, useMemo } from "react";
 import { Button, TextInput } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { handleError } from "@/utils/utils";
+import { AccountContext } from "@/context/AccountContext";
 
 const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
+  const query = useContext(AccountContext)!;
   const router = useRouter();
   const notifications = useNotifications();
   const content = useMemo(() => {
@@ -33,24 +37,49 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
     const formData = new FormData(formElement);
     const { username, password } = Object.fromEntries(formData);
 
-    // TODO: Error handling
-    notifications.showNotification({
-      color: "red",
-      message: "Unable to connect",
-    });
-
-    // TODO: Connect to backend
-    router.push("/dashboard");
-    console.log(username, password);
-    formElement.reset();
+    axios
+      .post(`/api/${type}`, { username, password })
+      .then((res) => {
+        query
+          .refetch()
+          .catch(() => {})
+          .finally(() => {
+            router.push("/dashboard");
+          });
+      })
+      .catch((err) => {
+        let errorMsg;
+        switch (err?.response?.status) {
+          case 401:
+            errorMsg = "Invalid username and/or password";
+            break;
+          case 409:
+            errorMsg = "Username already exists";
+            break;
+        }
+        handleError(err, { notifications, errorMsg });
+      });
   };
 
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={handleSubmit}>
         <h2>{content.title}</h2>
-        <TextInput name="username" label="Username" required size="lg" />
-        <TextInput name="password" label="Password" required size="lg" />
+        <TextInput
+          id="username"
+          name="username"
+          label="Username"
+          required
+          size="lg"
+        />
+        <TextInput
+          id="password"
+          name="password"
+          label="Password"
+          required
+          size="lg"
+          type="password"
+        />
         <Button type="submit" fullWidth color="teal" size="lg">
           {content.btnText}
         </Button>

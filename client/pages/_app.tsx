@@ -1,9 +1,8 @@
-import "@/styles/globals.css";
+import "@/styles/globals.scss";
 import Layout from "@/components/Layout/Layout";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { MantineProvider } from "@mantine/core";
-import { NotificationsProvider } from "@mantine/notifications";
+import GlobalContextProvider from "@/context/context";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -19,17 +18,11 @@ const App = ({ Component, pageProps }: AppProps) => {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
-        theme={{ colorScheme: "light" }}
-      >
-        <NotificationsProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </NotificationsProvider>
-      </MantineProvider>
+      <GlobalContextProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </GlobalContextProvider>
     </>
   );
 };

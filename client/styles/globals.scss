@@ -20,3 +20,20 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.mantine-TextInput-required,
+.mantine-Select-required,
+.mantine-NumberInput-required {
+  display: none;
+}
+
+.space-between {
+  & > * + * {
+    margin-top: 1rem;
+  }
+}
+
+.mantine-Modal-root form input:disabled {
+  color: black;
+  opacity: 1;
+}

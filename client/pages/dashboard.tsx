@@ -1,15 +1,26 @@
+import Dashboard from "@/components/Dashboard/Dashboard";
+import useIsLoggedIn from "@/hooks/useIsLoggedIn";
 import { NextPage } from "next";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 
-const Dashboard: NextPage = () => {
-  // TODO
-  const [s, setS] = useState(0);
-  console.log("@dashboard");
-  return (
-    <div>
-      <button onClick={() => setS(s + 1)}>{s}</button>
-    </div>
-  );
+const DashboardPage: NextPage = () => {
+  const router = useRouter();
+  const { loggedIn, ready } = useIsLoggedIn();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (router.isReady && ready) {
+      if (!loggedIn) {
+        router.push("/signin");
+      } else {
+        setLoading(false);
+      }
+    }
+  }, [router, loggedIn, ready]);
+
+  if (loading) return null;
+  return <Dashboard />;
 };
 
-export default Dashboard;
+export default DashboardPage;
