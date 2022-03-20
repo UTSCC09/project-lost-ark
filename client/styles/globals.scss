@@ -26,3 +26,9 @@ a {
 .mantine-NumberInput-required {
   display: none;
 }
+
+.space-between {
+  & > * + * {
+    margin-top: 1rem;
+  }
+}

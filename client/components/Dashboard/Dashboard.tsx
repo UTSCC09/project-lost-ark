@@ -1,10 +1,10 @@
 import { useContext, useMemo } from "react";
 import Chart from "@/components/Chart/Chart";
 import styles from "./Dashboard.module.scss";
-import { Button, Table } from "@mantine/core";
 import { AccountContext } from "@/context/AccountContext";
+import PortfolioTable from "@/components/PortfolioTable/PortfolioTable";
 
-// ! Temporary placeholder for historical daata
+// ! Temporary placeholder for historical data
 const dataRaw = {
   chart: {
     result: [
@@ -1096,7 +1096,6 @@ const dataRaw = {
 const Dashboard: React.FC = () => {
   const { account, loading } = useContext(AccountContext)!;
   const { balance, cash, wallet = [] } = account?.user ?? {};
-  const ownedCoins = wallet.filter((row) => row.quantity > 0);
   const data = useMemo(() => {
     const chartResultsData = dataRaw.chart.result[0];
     const quoteData = chartResultsData.indicators.quote[0];
@@ -1106,11 +1105,7 @@ const Dashboard: React.FC = () => {
     }));
   }, []);
 
-  if (loading) {
-    // TODO
-    return null;
-  }
-
+  if (loading) return null;
   return (
     <div className={styles.dashboard}>
       <h2>Account Balance</h2>
@@ -1118,45 +1113,7 @@ const Dashboard: React.FC = () => {
       <Chart data={data} />
       <h2>Your Portfolio</h2>
       <div>Cash Balance: ${cash?.toFixed(2)}</div>
-      <Table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Cryptocurrency</th>
-            <th>Current Price</th>
-            <th>Amount Owned</th>
-            <th>Value</th>
-            <th>Portfolio %</th>
-            <th>Trade</th>
-          </tr>
-        </thead>
-        <tbody>
-          {ownedCoins.map((row, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td style={{ fontWeight: "bold" }}>{row.coin.name}</td>
-              <td>${row.coin.price.toFixed(2)}</td>
-              <td>{row.quantity}</td>
-              <td>${row.price.toFixed(2)}</td>
-              <td>{((row.price / balance!) * 100).toFixed(2)}%</td>
-              <td>
-                <Button size="xs" color="teal">
-                  Sell
-                </Button>
-              </td>
-            </tr>
-          ))}
-          {ownedCoins.length === 0 && (
-            <tr>
-              <td colSpan={7}>
-                No cryptocurrency currently owned. Click
-                <span style={{ fontWeight: "bold" }}> Trade</span> above to
-                start buying.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </Table>
+      <PortfolioTable />
     </div>
   );
 };

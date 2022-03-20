@@ -192,7 +192,7 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
     d3.select(".overlay").style("fill", "none");
     d3.select(".overlay").style("pointer-events", "all");
     d3.selectAll(".focus line").style("fill", "none");
-    d3.selectAll(".focus line").style("stroke", "#052e22");
+    d3.selectAll(".focus line").style("stroke", "#9b9e9d");
     d3.selectAll(".focus line").style("stroke-width", "1.5px");
     d3.selectAll(".focus line").style("stroke-dasharray", "3 3");
 

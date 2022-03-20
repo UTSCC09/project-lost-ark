@@ -4,7 +4,6 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { Button, Modal, NumberInput, Select } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import { FormEvent, useContext, useMemo, useState } from "react";
-import styles from "./TradeModal.module.scss";
 
 type Coin = {
   _id: string;
@@ -44,7 +43,7 @@ const TradeModal: React.FC = () => {
   const query =
     useQuery<{ coins: Coin[]; user: { cash: number } }>(COINS_QUERY);
   const { coins = [], user } = query.data ?? {};
-  const [buyCoin, { data, loading, error }] = useMutation(BUY_COIN);
+  const [buyCoin] = useMutation(BUY_COIN);
   const [selectedCoin, setSelectedCoin] = useState<string>("");
   const [quantity, setQuantity] = useState<number | undefined>(0);
   const selectedPrice = useMemo(() => {
@@ -81,7 +80,7 @@ const TradeModal: React.FC = () => {
   return (
     <>
       <Modal opened={modalOpen} onClose={handleClose} title="Buy">
-        <form className={styles.tradeForm} onSubmit={handleSubmit}>
+        <form className="space-between" onSubmit={handleSubmit}>
           <Select
             label="Cryptocurrency"
             value={{ value: selectedCoin } as any}
