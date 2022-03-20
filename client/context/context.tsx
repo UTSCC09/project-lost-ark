@@ -14,17 +14,6 @@ const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   uri: `/api/graphql`,
 });
 
-// TODO: Example GraphQL query
-// client.query({
-//   query: gql`
-//     query UserQuery {
-//       user {
-//         username
-//       }
-//     }
-//   `
-// }).then((res) => console.log(res.data.user.username)).catch((err) => console.error(err))
-
 const GlobalContextProvider: React.FC = ({ children }) => {
   return (
     <MantineProvider

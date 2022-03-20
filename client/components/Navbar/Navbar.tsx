@@ -30,8 +30,6 @@ const Navbar: React.FC = () => {
     }
   };
 
-  console.log({ ready, loggedIn });
-
   return (
     <header className={styles.header}>
       <div className={styles.wrapper}>

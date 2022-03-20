@@ -1095,7 +1095,7 @@ const dataRaw = {
 
 const Dashboard: React.FC = () => {
   const { account, loading } = useContext(AccountContext)!;
-  const { balance, cash, wallet = [] } = account?.user ?? {};
+  const { balance, cash } = account?.user ?? {};
   const data = useMemo(() => {
     const chartResultsData = dataRaw.chart.result[0];
     const quoteData = chartResultsData.indicators.quote[0];

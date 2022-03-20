@@ -54,7 +54,6 @@ const PortfolioTable: React.FC = () => {
     )
       return;
 
-    console.log(selectedCoin);
     sellCoin({
       variables: { coin: selectedCoin.coin._id, quantity: amountToSell },
     })

@@ -7,7 +7,6 @@ type ErrorOptions = {
 
 export const handleError = (error: any, options: ErrorOptions = {}) => {
   console.error(error);
-  console.log(error);
   const { notifications, errorMsg } = options;
   if (notifications) {
     notifications.showNotification({

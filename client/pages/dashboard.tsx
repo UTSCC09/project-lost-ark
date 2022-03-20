@@ -12,7 +12,6 @@ const DashboardPage: NextPage = () => {
   useEffect(() => {
     if (router.isReady && ready) {
       if (!loggedIn) {
-        console.log("@push signin");
         router.push("/signin");
       } else {
         setLoading(false);
