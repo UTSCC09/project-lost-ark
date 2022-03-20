@@ -39,4 +39,4 @@ ENV PORT 3000
 CMD ["node", "server.js"]
 
 # docker build -t coinark-client .
-# docker run -d --rm -p 3000:3000 coinark-client
+# docker run -d --rm -p 80:3000 coinark-client

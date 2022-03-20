@@ -8,8 +8,7 @@ const nextConfig = {
     return [
       { 
         source: "/api/:path*",
-        // TODO: Need to change the proxy destination for deployment version
-        destination: "http://localhost:4000/:path*"
+        destination: "http://coinark-server:4000/:path*"
       }
     ]
   }

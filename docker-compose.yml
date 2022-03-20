@@ -1,0 +1,17 @@
+services:
+  coinark-client:
+    container_name: coinark-client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 80:3000
+  coinark-server:
+    container_name: coinark-server
+    build:
+      context: ./lostark
+      dockerfile: Dockerfile
+    ports:
+      - 4000:4000
+
+# docker-compose up -d --build
