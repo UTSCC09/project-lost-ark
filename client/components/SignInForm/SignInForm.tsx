@@ -40,9 +40,12 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
     axios
       .post(`/api/${type}`, { username, password })
       .then((res) => {
-        query.refetch().finally(() => {
-          router.push("/dashboard");
-        });
+        query
+          .refetch()
+          .catch(() => {})
+          .finally(() => {
+            router.push("/dashboard");
+          });
       })
       .catch((err) => {
         let errorMsg;

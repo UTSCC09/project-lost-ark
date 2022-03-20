@@ -85,8 +85,21 @@ async function startApolloServer(typeDefs, resolvers) {
           // insert new user into the database
           return db
             .insertUser(username, password)
-            .then(res.json(username))
-            .catch(res.status(500).end("failed to add user"));
+            .then(function (user) {
+              req.session.username = username;
+              res.setHeader(
+                "Set-Cookie",
+                cookie.serialize("username", user._id.toString(), {
+                  path: "/",
+                  maxAge: 60 * 60 * 24 * 7, // 1 week in number of seconds
+                })
+              );
+
+              return res.json(username);
+            })
+            .catch(function (err) {
+              return res.status(500).end("failed to add user");
+            });
         })
         .catch(function (err) {
           return res.status(500).end(err);
