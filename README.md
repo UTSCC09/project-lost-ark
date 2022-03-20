@@ -1,17 +1,16 @@
-# CSCC09 Final Project
-## Coin Ark
+# CSCC09 Final Project - Beta Version
 
-The title for our CSCC09 final project is <b>Coin Ark</b>.
+## Proposal
 
-## Team Members
+The proposal README can be found [here](https://github.com/UTSCC09/project-lost-ark/blob/main/README-PROPOSAL.md).
 
-- [Gary Xie](https://github.com/GaryJX)
-- [Andy Huang](https://github.com/ele7087)
+## Beta Version
 
-## Description
+Our final project beta version is deployed at http://c09-xiegary.utsc-labs.utoronto.ca/ using Docker.
 
-Coin Ark is a cryptocurrency trading simulator platform that allows users to practice trading with cryptocurrencies without using real money.
-## Key Features by Beta Version
+### Features
+
+We have finished the following features:
 
 - Authentication (User Signup and Signin)
 - Connect to third-party API to track cryptocurrency market data (https://www.coingecko.com/en/api)
@@ -20,41 +19,7 @@ Coin Ark is a cryptocurrency trading simulator platform that allows users to pra
   - Summarize the account's total value
 - Add ability for each user to buy and sell coins
 
-## Additional Features by Final Version
+WIP Features (started but not finished):
 
-- Show graphical representation of each coin's historical value
-  - Allow filtering by past year, month, day
-- Show graphical representation of each user's historical daily account balance
-  - Allow filtering by past year, month, day
-- Add ability to convert between coins directly
-- Add OAuth providers for authentication (e.g. Google, Github, etc.)
-
-## Technology Stack
-
-### Frontend
-
-- React (Next.js)
-- TypeScript
-- SCSS
-- React UI Components Library ([Mantine](https://mantine.dev/))
-- GraphQL
-
-### Backend
-
-- Node.js + Express.js
-- JavaScript
-- MongoDB
-- GraphQL
-- Third-Party Cryptocurrency Market API ([Coin Gecko](https://www.coingecko.com/en/api))
-
-### Deployment
-
-- Heroku? (Not sure yet)
-
-## Top 5 Technical Challenges
-
-1. Learn how to use GraphQL (neither of us have experience with it)
-2. Graphing the historical data and filtering by year, month, day 
-3. Designing the MongoDB database schema for user's historical account balance
-4. Adding OAuth providers for authenticating users
-5. Designing an intuitive and clean UI
+- Graph of historical user account balance
+  - The current UI is showing dummy data in the graph, it is not connected to the backend
