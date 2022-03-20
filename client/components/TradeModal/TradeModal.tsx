@@ -41,7 +41,7 @@ const TradeModal: React.FC = () => {
   const { coins = [], user } = query.data ?? {};
   const [mutate, { data, loading, error }] = useMutation(BUY_COIN);
   const [selectedCoin, setSelectedCoin] = useState<string>("");
-  const [quantity, setQuantity] = useState<number | undefined>();
+  const [quantity, setQuantity] = useState<number | undefined>(0);
   const selectedPrice = useMemo(() => {
     const price: number | undefined = coins.filter(
       (coin) => coin._id === selectedCoin
@@ -74,6 +74,7 @@ const TradeModal: React.FC = () => {
               label: coin.name,
               value: coin._id,
             }))}
+            searchable
             required
           />
           <NumberInput

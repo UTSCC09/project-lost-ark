@@ -109,8 +109,8 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
       .data([data])
       .style("fill", "none")
       .attr("id", "priceChart")
-      .attr("stroke", "steelblue")
-      .attr("stroke-width", "1.5")
+      .attr("stroke", "#12b886")
+      .attr("stroke-width", "2")
       .attr("d", line);
   };
 
@@ -153,6 +153,23 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
         .attr("x2", 0)
         .attr("y1", -yScale(currentPoint.value))
         .attr("y2", height - yScale(currentPoint.value));
+      focus
+        .select("text.legend")
+        .text(
+          `$ ${currentPoint.value.toFixed(
+            2
+          )} - ${currentPoint.date.toLocaleString("default", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          })}`
+        )
+        .style("fill", "black")
+        .style("font-size", "0.75rem")
+        .style(
+          "transform",
+          `translate(-60px, ${-yScale(currentPoint.value) - 5}px)`
+        );
       // updateLegends(currentPoint);
     };
 
@@ -163,6 +180,7 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
     focus.append("circle").attr("r", 4.5);
     focus.append("line").classed("x", true);
     focus.append("line").classed("y", true);
+    focus.append("text").classed("legend", true);
     svg
       .append("rect")
       .attr("class", "overlay")
@@ -174,7 +192,7 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
     d3.select(".overlay").style("fill", "none");
     d3.select(".overlay").style("pointer-events", "all");
     d3.selectAll(".focus line").style("fill", "none");
-    d3.selectAll(".focus line").style("stroke", "#67809f");
+    d3.selectAll(".focus line").style("stroke", "#052e22");
     d3.selectAll(".focus line").style("stroke-width", "1.5px");
     d3.selectAll(".focus line").style("stroke-dasharray", "3 3");
 

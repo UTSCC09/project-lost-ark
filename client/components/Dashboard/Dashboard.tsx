@@ -2,7 +2,10 @@ import { useMemo } from "react";
 import * as d3 from "d3";
 import Chart from "@/components/Chart/Chart";
 import styles from "./Dashboard.module.scss";
+import { Button, Table } from "@mantine/core";
+import { gql, useQuery } from "@apollo/client";
 
+// ! Temporary placeholder for historical daata
 const dataRaw = {
   chart: {
     result: [
@@ -1091,7 +1094,42 @@ const dataRaw = {
   },
 };
 
+type AccountQuery = {
+  user: {
+    balance: number;
+    cash: number;
+    wallet: {
+      coin: {
+        name: string;
+        price: number;
+      };
+      quantity: number;
+      price: number;
+    }[];
+  };
+};
+
+const ACCOUNT_QUERY = gql`
+  query AccountQuery {
+    user {
+      balance
+      cash
+      wallet {
+        coin {
+          name
+          price
+        }
+        quantity
+        price
+      }
+    }
+  }
+`;
+
 const Dashboard: React.FC = () => {
+  const query = useQuery<AccountQuery>(ACCOUNT_QUERY);
+  const { balance, cash, wallet = [] } = query.data?.user ?? {};
+  const ownedCoins = wallet.filter((row) => row.quantity > 0);
   const data = useMemo(() => {
     const chartResultsData = dataRaw.chart.result[0];
     const quoteData = chartResultsData.indicators.quote[0];
@@ -1101,12 +1139,57 @@ const Dashboard: React.FC = () => {
     }));
   }, []);
 
+  if (query.loading) {
+    // TODO
+    return null;
+  }
+
   return (
     <div className={styles.dashboard}>
-      <h2>Total Account Balance</h2>
-      <div>$45615</div>
+      <h2>Account Balance</h2>
+      <div>${balance}</div>
       <Chart data={data} />
       <h2>Your Portfolio</h2>
+      <div>Cash Balance: ${cash}</div>
+      <Table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Cryptocurrency</th>
+            <th>Current Price</th>
+            <th>Amount Owned</th>
+            <th>Value</th>
+            <th>Portfolio %</th>
+            <th>Trade</th>
+          </tr>
+        </thead>
+        <tbody>
+          {ownedCoins.map((row, index) => (
+            <tr>
+              <td>{index + 1}</td>
+              <td style={{ fontWeight: "bold" }}>{row.coin.name}</td>
+              <td>${row.coin.price.toFixed(2)}</td>
+              <td>{row.quantity}</td>
+              <td>{row.price}</td>
+              <td>{((row.price / balance!) * 100).toFixed(2)}%</td>
+              <td>
+                <Button size="xs" color="teal">
+                  Sell
+                </Button>
+              </td>
+            </tr>
+          ))}
+          {ownedCoins.length === 0 && (
+            <tr>
+              <td colSpan={7}>
+                No cryptocurrency currently owned. Click
+                <span style={{ fontWeight: "bold" }}> Trade</span> above to
+                start buying.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
     </div>
   );
 };
