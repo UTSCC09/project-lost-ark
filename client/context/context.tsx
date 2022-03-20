@@ -7,6 +7,7 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
+import { AccountProvider } from "@/context/AccountContext";
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   cache: new InMemoryCache(),
@@ -36,7 +37,9 @@ const GlobalContextProvider: React.FC = ({ children }) => {
         position="top-center"
       >
         <ModalsProvider>
-          <ApolloProvider client={client}>{children}</ApolloProvider>
+          <ApolloProvider client={client}>
+            <AccountProvider>{children}</AccountProvider>
+          </ApolloProvider>
         </ModalsProvider>
       </NotificationsProvider>
     </MantineProvider>

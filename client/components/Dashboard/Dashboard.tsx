@@ -1,9 +1,8 @@
-import { useMemo } from "react";
-import * as d3 from "d3";
+import { useContext, useMemo } from "react";
 import Chart from "@/components/Chart/Chart";
 import styles from "./Dashboard.module.scss";
 import { Button, Table } from "@mantine/core";
-import { gql, useQuery } from "@apollo/client";
+import { AccountContext } from "@/context/AccountContext";
 
 // ! Temporary placeholder for historical daata
 const dataRaw = {
@@ -1094,41 +1093,9 @@ const dataRaw = {
   },
 };
 
-type AccountQuery = {
-  user: {
-    balance: number;
-    cash: number;
-    wallet: {
-      coin: {
-        name: string;
-        price: number;
-      };
-      quantity: number;
-      price: number;
-    }[];
-  };
-};
-
-const ACCOUNT_QUERY = gql`
-  query AccountQuery {
-    user {
-      balance
-      cash
-      wallet {
-        coin {
-          name
-          price
-        }
-        quantity
-        price
-      }
-    }
-  }
-`;
-
 const Dashboard: React.FC = () => {
-  const query = useQuery<AccountQuery>(ACCOUNT_QUERY);
-  const { balance, cash, wallet = [] } = query.data?.user ?? {};
+  const { account, loading } = useContext(AccountContext)!;
+  const { balance, cash, wallet = [] } = account?.user ?? {};
   const ownedCoins = wallet.filter((row) => row.quantity > 0);
   const data = useMemo(() => {
     const chartResultsData = dataRaw.chart.result[0];
@@ -1139,7 +1106,7 @@ const Dashboard: React.FC = () => {
     }));
   }, []);
 
-  if (query.loading) {
+  if (loading) {
     // TODO
     return null;
   }
@@ -1147,10 +1114,10 @@ const Dashboard: React.FC = () => {
   return (
     <div className={styles.dashboard}>
       <h2>Account Balance</h2>
-      <div>${balance}</div>
+      <div>${balance?.toFixed(2)}</div>
       <Chart data={data} />
       <h2>Your Portfolio</h2>
-      <div>Cash Balance: ${cash}</div>
+      <div>Cash Balance: ${cash?.toFixed(2)}</div>
       <Table>
         <thead>
           <tr>
@@ -1165,12 +1132,12 @@ const Dashboard: React.FC = () => {
         </thead>
         <tbody>
           {ownedCoins.map((row, index) => (
-            <tr>
+            <tr key={index}>
               <td>{index + 1}</td>
               <td style={{ fontWeight: "bold" }}>{row.coin.name}</td>
               <td>${row.coin.price.toFixed(2)}</td>
               <td>{row.quantity}</td>
-              <td>{row.price}</td>
+              <td>${row.price.toFixed(2)}</td>
               <td>{((row.price / balance!) * 100).toFixed(2)}%</td>
               <td>
                 <Button size="xs" color="teal">

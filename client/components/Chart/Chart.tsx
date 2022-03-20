@@ -77,7 +77,7 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
     const xScale = d3.scaleTime().domain([xMin, xMax]).range([0, width]);
     const yScale = d3
       .scaleLinear()
-      .domain([yMin - 5, yMax])
+      .domain([yMin - 5, yMax + 5])
       .range([height, 0]);
 
     svg
@@ -156,7 +156,7 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
       focus
         .select("text.legend")
         .text(
-          `$ ${currentPoint.value.toFixed(
+          `$${currentPoint.value.toFixed(
             2
           )} - ${currentPoint.date.toLocaleString("default", {
             month: "short",

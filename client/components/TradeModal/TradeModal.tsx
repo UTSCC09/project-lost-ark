@@ -1,6 +1,9 @@
+import { AccountContext } from "@/context/AccountContext";
+import { handleError } from "@/utils/utils";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Button, Modal, NumberInput, Select } from "@mantine/core";
-import { FormEvent, useMemo, useState } from "react";
+import { useNotifications } from "@mantine/notifications";
+import { FormEvent, useContext, useMemo, useState } from "react";
 import styles from "./TradeModal.module.scss";
 
 type Coin = {
@@ -35,11 +38,13 @@ const BUY_COIN = gql`
 `;
 
 const TradeModal: React.FC = () => {
+  const accountQuery = useContext(AccountContext);
   const [modalOpen, setModalOpen] = useState(false);
+  const notifications = useNotifications();
   const query =
     useQuery<{ coins: Coin[]; user: { cash: number } }>(COINS_QUERY);
   const { coins = [], user } = query.data ?? {};
-  const [mutate, { data, loading, error }] = useMutation(BUY_COIN);
+  const [buyCoin, { data, loading, error }] = useMutation(BUY_COIN);
   const [selectedCoin, setSelectedCoin] = useState<string>("");
   const [quantity, setQuantity] = useState<number | undefined>(0);
   const selectedPrice = useMemo(() => {
@@ -57,9 +62,20 @@ const TradeModal: React.FC = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    if (!selectedCoin || !quantity || quantity <= 0) return;
 
-    // TODO
-    handleClose();
+    buyCoin({ variables: { coin: selectedCoin, quantity: quantity } })
+      .then((data) => {
+        accountQuery?.refetch();
+        const coinName = coins.filter((coin) => coin._id === selectedCoin)[0]
+          ?.name;
+        notifications.showNotification({
+          message: `Successfully bought ${quantity} ${coinName}`,
+          color: "teal",
+        });
+        handleClose();
+      })
+      .catch((err) => handleError(err, { notifications }));
   };
 
   return (
@@ -89,7 +105,7 @@ const TradeModal: React.FC = () => {
             value={quantity}
             required
             onChange={setQuantity}
-            min={0}
+            min={0.01}
             precision={2}
             step={0.1}
           />

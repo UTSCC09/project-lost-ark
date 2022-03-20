@@ -1,15 +1,15 @@
 import styles from "./SignInForm.module.scss";
-import { FormEvent, useEffect, useMemo, useState } from "react";
-import { Alert, Button, TextInput } from "@mantine/core";
+import { FormEvent, useContext, useEffect, useMemo } from "react";
+import { Button, TextInput } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { useApolloClient, gql } from "@apollo/client";
 import { handleError } from "@/utils/utils";
+import { AccountContext } from "@/context/AccountContext";
 
 const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
-  const client = useApolloClient();
+  const query = useContext(AccountContext)!;
   const router = useRouter();
   const notifications = useNotifications();
   const content = useMemo(() => {
@@ -54,8 +54,9 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
     axios
       .post(`/api/${type}`, { username, password })
       .then((res) => {
-        // formElement.reset();
-        router.push("/dashboard");
+        query.refetch().finally(() => {
+          router.push("/dashboard");
+        });
       })
       .catch((err) => {
         let errorMsg;
