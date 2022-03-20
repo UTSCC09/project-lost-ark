@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
       query
         .refetch()
         .catch(() => {})
-        .finally(() => router.push("/signin?signout=true"));
+        .finally(() => router.push("/signin"));
     } catch (err) {
       handleError(err, { notifications });
     }

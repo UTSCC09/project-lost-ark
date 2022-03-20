@@ -20,7 +20,7 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
 
   const initializeChart = (data: ChartData[]) => {
     ref.current!.innerHTML = "";
-    const margin = { top: 50, right: 50, bottom: 50, left: 50 };
+    const margin = { top: 20, right: 60, bottom: 20, left: 36 };
     const { clientWidth, clientHeight } = ref.current!;
     const width = clientWidth - margin.left - margin.right;
     const height = clientHeight - margin.top - margin.bottom;

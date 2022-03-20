@@ -31,20 +31,6 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
     }
   }, [type]);
 
-  useEffect(() => {
-    if (router.isReady) {
-      if (router.query.signout) {
-        router.replace({ pathname: router.pathname }, undefined, {
-          shallow: true,
-        });
-        notifications.showNotification({
-          message: "Successfully signed out!",
-          color: "teal",
-        });
-      }
-    }
-  }, [router]);
-
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const formElement = e.target as HTMLFormElement;

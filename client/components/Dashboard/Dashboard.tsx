@@ -1108,12 +1108,18 @@ const Dashboard: React.FC = () => {
   if (loading) return null;
   return (
     <div className={styles.dashboard}>
-      <h2>Account Balance</h2>
-      <div>${balance?.toFixed(2)}</div>
-      <Chart data={data} />
-      <h2>Your Portfolio</h2>
-      <div>Cash Balance: ${cash?.toFixed(2)}</div>
-      <PortfolioTable />
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Total Account Balance</h2>
+        <div className={styles.balance}>${balance?.toFixed(2)}</div>
+        <Chart data={data} />
+      </div>
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Your Portfolio</h2>
+        <div className={styles.cashBalance}>
+          Cash Balance: ${cash?.toFixed(2)}
+        </div>
+        <PortfolioTable />
+      </div>
     </div>
   );
 };
