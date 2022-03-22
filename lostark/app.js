@@ -25,7 +25,7 @@ async function startApolloServer(typeDefs, resolvers) {
     const config = environment[envir];
 
     app.use(session({
-        secret: 'please change this secret',
+        secret: process.env.SECRET,
         resave: false,
         saveUninitialized: true,
         cookie: {
