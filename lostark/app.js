@@ -70,20 +70,20 @@ async function startApolloServer(typeDefs, resolvers) {
                 if (doc) return res.status(409).end("username " + username + " already exists");
                 // insert new user into the database
                 return db.insertUser(username, password)
-                  .then(function (user) {
-                    req.session.username = username;
-                    res.setHeader(
-                      "Set-Cookie",
-                      cookie.serialize("username", user._id.toString(), {
-                        path: "/",
-                        maxAge: 60 * 60 * 24 * 7, // 1 week in number of seconds
-                      })
-                    );
-                    return res.json(username)
-                  })
-                  .catch(function (err) {
-                    return res.status(500).end("failed to add user")
-                  });
+                    .then(function (user) {
+                        req.session.username = username;
+                        res.setHeader(
+                            "Set-Cookie",
+                            cookie.serialize("username", user._id.toString(), {
+                                path: "/",
+                                maxAge: 60 * 60 * 24 * 7, // 1 week in number of seconds
+                            })
+                        );
+                        return res.json(username)
+                    })
+                    .catch(function (err) {
+                        return res.status(500).end("failed to add user")
+                    });
 
             }).catch(function (err) {
                 return res.status(500).end(err);
@@ -140,8 +140,8 @@ async function startApolloServer(typeDefs, resolvers) {
     let httpServer;
     if (config.ssl) {
         httpServer = https.createServer({
-            key: fs.readFileSync(),
-            cert: fs.readFileSync()
+            key: fs.readFileSync(process.env.KEY_PATH),
+            cert: fs.readFileSync(process.env.CERT_PATH)
         }, app);
     } else {
         httpServer = http.createServer(app);
