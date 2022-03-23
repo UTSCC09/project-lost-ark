@@ -7,7 +7,7 @@ The proposal README can be found [here](https://github.com/UTSCC09/project-lost-
 ## Beta Version
 
 Our final project beta version is deployed at http://c09-xiegary.utsc-labs.utoronto.ca/ using Docker.
-We will migrate our deployment to DigitalOcean and setup HTTPS for the final version.
+We will migrate our deployment to DigitalOcean and set up HTTPS for the final version.
 
 ### Features
 
