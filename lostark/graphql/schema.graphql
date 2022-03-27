@@ -3,6 +3,8 @@ const typeDefs = `
     user: User
     coins: [Coin]
     coin(_id: String): Coin
+    coinHistory(_id: String, days: Int): History
+    coinsHistory(days: Int): [History]
   }
   type User {
     username: String!
@@ -21,6 +23,11 @@ const typeDefs = `
     coin: Coin
     quantity: Float
     price: Float
+  }
+
+  type History {
+    _id: ID
+    prices: [[Float]]
   }
 
   type Mutation {

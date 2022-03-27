@@ -51,6 +51,24 @@ const resolvers = {
                     return err;
                 });
         },
+        coinHistory: async (_, args, context) => {
+            const dataSources = context.dataSources;
+            return dataSources.coinGeckoAPI.getCoinHistory(args._id, args.days).then(function (data) {
+                return data;
+            }).catch(function (err) {
+                console.error(err);
+                return err;
+            });
+        },
+        coinsHistory: async (_, args, context) => {
+            const dataSources = context.dataSources;
+            return dataSources.coinGeckoAPI.getCoinsHistory(args.days).then(function (data) {
+                return data;
+            }).catch(function (err) {
+                console.error(err);
+                return err;
+            });
+        },
     },
 
     Mutation: {

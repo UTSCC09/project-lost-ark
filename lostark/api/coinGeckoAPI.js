@@ -50,6 +50,43 @@ class coinGeckoAPI {
             });
     }
 
+    /** Returns all coins' historical value for a number of days */
+    async getCoinsHistory(days) {
+        const callAPI = allCoins.map((coin) => {
+            return axios.get('https://api.coingecko.com/api/v3/coins/' + coin._id + '/market_chart?'
+                + "vs_currency=" + currency + "&days=" + days).then(res => {
+                    return res.data;
+                }).catch(err => {
+                    console.error(err);
+                    return err;
+                })
+        })
+        return await Promise.all(callAPI).then(res => {
+            var coinDict = [];
+            for (var i = 0; i < res.length; i++) {
+                coinDict.push({
+                    '_id': allCoins[i]._id, 'prices': res[i].prices
+                });
+            }
+            return coinDict;
+        }).catch(err => {
+            console.error(err);
+            return err;
+        });
+    }
+
+    /** Returns a coins' historical value for a number of days */
+    async getCoinHistory(coin, days) {
+        return axios.get('https://api.coingecko.com/api/v3/coins/' + coin + '/market_chart?'
+            + "vs_currency=" + currency + "&days=" + days).then(res => {
+                console.log(res);
+                var coinDict = { '_id': coin, 'prices': res.data.prices };
+                return coinDict;
+            }).catch(err => {
+                console.error(err);
+                return err;
+            })
+    }
 }
 
 module.exports = { coinGeckoAPI, allCoins };
