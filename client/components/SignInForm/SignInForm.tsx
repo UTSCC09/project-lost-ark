@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { handleError } from "@/utils/utils";
 import { AccountContext } from "@/context/AccountContext";
+import { motion } from "framer-motion";
 
 const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
   const query = useContext(AccountContext)!;
@@ -62,8 +63,20 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
   };
 
   return (
-    <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleSubmit}>
+    <motion.div className={styles.container}>
+      <motion.form
+        initial={{ opacity: 0, translateY: 20 }}
+        animate={{
+          opacity: 1,
+          translateY: 0,
+        }}
+        exit={{
+          opacity: 0,
+          translateY: 20,
+        }}
+        className={styles.form}
+        onSubmit={handleSubmit}
+      >
         <h2>{content.title}</h2>
         <TextInput
           id="username"
@@ -86,8 +99,8 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
         <Link href={content.redirect}>
           <a className={styles.toggleForm}>{content.toggleText}</a>
         </Link>
-      </form>
-    </div>
+      </motion.form>
+    </motion.div>
   );
 };
 

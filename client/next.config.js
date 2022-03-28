@@ -8,7 +8,8 @@ const nextConfig = {
     return [
       { 
         source: "/api/:path*",
-        destination: "http://coinark-server:4000/:path*"
+        // destination: "http://coinark-server:4000/:path*"
+        destination: "http://localhost:4000/:path*"
       }
     ]
   }

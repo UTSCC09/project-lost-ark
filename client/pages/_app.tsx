@@ -3,6 +3,7 @@ import Layout from "@/components/Layout/Layout";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import GlobalContextProvider from "@/context/context";
+import { AnimatePresence } from "framer-motion";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -20,7 +21,9 @@ const App = ({ Component, pageProps }: AppProps) => {
       </Head>
       <GlobalContextProvider>
         <Layout>
-          <Component {...pageProps} />
+          <AnimatePresence exitBeforeEnter>
+            <Component key={Component} {...pageProps} />
+          </AnimatePresence>
         </Layout>
       </GlobalContextProvider>
     </>

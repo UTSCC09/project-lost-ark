@@ -3,6 +3,9 @@ import Chart from "@/components/Chart/Chart";
 import styles from "./Dashboard.module.scss";
 import { AccountContext } from "@/context/AccountContext";
 import PortfolioTable from "@/components/PortfolioTable/PortfolioTable";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { useRouter } from "next/router";
 
 // ! Temporary placeholder for historical data
 const dataRaw = {
@@ -1093,7 +1096,22 @@ const dataRaw = {
   },
 };
 
+const toCoinAnimation = {
+  opacity: 0,
+  translateX: "-100%",
+};
+
+const toSigninAnimation = {
+  opacity: 0,
+  translateY: 20,
+  transition: {
+    duration: 0.5,
+  },
+};
+
 const Dashboard: React.FC = () => {
+  const router = useRouter();
+  const [animateToCoin, setAnimateToCoin] = useState(false);
   const { account, loading } = useContext(AccountContext)!;
   const { balance, cash } = account?.user ?? {};
   const data = useMemo(() => {
@@ -1107,7 +1125,24 @@ const Dashboard: React.FC = () => {
 
   if (loading) return null;
   return (
-    <div className={styles.dashboard}>
+    <motion.div
+      exit={animateToCoin ? toCoinAnimation : toSigninAnimation}
+      initial={{ opacity: 0, translateY: 20 }}
+      animate={{
+        opacity: 1,
+        translateY: 0,
+        transition: { duration: 0.5 },
+      }}
+      className={styles.dashboard}
+    >
+      {/* <button
+        onClick={() => {
+          setAnimateToCoin(true);
+          router.push("/signin");
+        }}
+      >
+        Click Me
+      </button> */}
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Total Account Balance</h2>
         <div className={styles.balance}>${balance?.toFixed(2)}</div>
@@ -1120,7 +1155,7 @@ const Dashboard: React.FC = () => {
         </div>
         <PortfolioTable />
       </div>
-    </div>
+    </motion.div>
   );
 };
 
