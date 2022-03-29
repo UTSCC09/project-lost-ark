@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const { environment } = require('../config/app-config.js');
 const { userSchema } = require('../schemas/userSchema.js');
-const { currencySchema } = require('../schemas/currencySchema.js');
 require('dotenv').config();
 
 const env = process.env.NODE_ENV || "development";
@@ -15,6 +14,5 @@ db.on('error', () => {
 });
 
 const Users = mongoose.model('Users', userSchema);
-const Currencies = mongoose.model('Currencies', currencySchema);
 
-module.exports = { Users, Currencies };
+module.exports = { Users };

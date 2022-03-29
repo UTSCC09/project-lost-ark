@@ -69,6 +69,47 @@ const resolvers = {
                 return err;
             });
         },
+        accountHistoryBalance: async (_, args, context) => {
+            const dataSources = context.dataSources;
+            return dataSources.dbAPI.getUserTransactions(context.user).then(function (userTrans) {
+                // Ensure argument days does not go beyond user creation date
+                const oneDay = 1000 * 60 * 60 * 24;
+                const currDay = Date.now();
+                const timeDiff = currDay - userTrans.createdAt;
+                const daysAgo = Math.round(timeDiff / oneDay);
+                const days = args.days > daysAgo ? daysAgo : args.days;
+                return dataSources.coinGeckoAPI.getDailyCoinsHistory(days).then(function (data) {
+                    var transIter = 0;
+                    var balanceHistory = [];
+                    for (var i = 0; i < data.length - 1; i++) {
+                        var accountTrans = {};
+                        // Transaction made so update user wallet
+                        if (data[i].timestamp >= userTrans.transactions[transIter].date) {
+                            transIter += 1;
+                            // Take the last transaction made that day
+                            while (userTrans.transactions[transIter + 1] != null &&
+                                data[i].timestamp == userTrans.transactions[transIter + 1].date)
+                                transIter += 1;
+                        }
+                        var coins = userTrans.transactions[transIter].coins.map((x) => {
+                            x.price = data[i][x.coin._id] * x.quantity;
+                            return x;
+                        });
+                        var balance = coins.reduce((prev, cur) => prev + cur.price, 0) + userTrans.transactions[transIter].cash;
+                        accountTrans = { balance: balance, timestamp: data[i].timestamp };
+                        balanceHistory.push(accountTrans);
+                    }
+                    return { balanceHistory: balanceHistory };
+                }).catch(function (err) {
+                    console.error(err);
+                    return err;
+                });
+            }).catch(function (err) {
+                console.error(err);
+                return err;
+            });
+
+        }
     },
 
     Mutation: {

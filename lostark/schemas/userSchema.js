@@ -13,7 +13,13 @@ const userSchema = new mongoose.Schema({
     coins: {
         type: Array
     },
+    transactions: {
+        type: Array
+    },
+    createdAt: {
+        type: Number
+    },
 
-}, { timestamps: true });
+});
 
 module.exports = { userSchema };

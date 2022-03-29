@@ -79,13 +79,41 @@ class coinGeckoAPI {
     async getCoinHistory(coin, days) {
         return axios.get('https://api.coingecko.com/api/v3/coins/' + coin + '/market_chart?'
             + "vs_currency=" + currency + "&days=" + days).then(res => {
-                console.log(res);
                 var coinDict = { '_id': coin, 'prices': res.data.prices };
                 return coinDict;
             }).catch(err => {
                 console.error(err);
                 return err;
             })
+    }
+
+    /** Returns all coins' daily historical value for a number of days */
+    async getDailyCoinsHistory(days) {
+        const callAPI = allCoins.map((coin) => {
+            return axios.get('https://api.coingecko.com/api/v3/coins/' + coin._id + '/market_chart?'
+                + "vs_currency=" + currency + "&days=" + days + "&interval=daily").then(res => {
+                    return res.data;
+                }).catch(err => {
+                    console.error(err);
+                    return err;
+                })
+        })
+        return await Promise.all(callAPI).then(res => {
+            var coinList = [];
+            var coinDict = {};
+            for (var i = 0; i < days; i++) {
+                for (var j = 0; j < res.length; j++) {
+                    coinDict[allCoins[j]._id] = res[j].prices[i][1];
+                }
+                coinDict.timestamp = res[0].prices[i][0];
+                coinList.push(coinDict);
+                coinDict = {};
+            }
+            return coinList;
+        }).catch(err => {
+            console.error(err);
+            return err;
+        });
     }
 }
 
