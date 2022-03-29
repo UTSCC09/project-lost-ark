@@ -81,10 +81,12 @@ const resolvers = {
                 return dataSources.coinGeckoAPI.getDailyCoinsHistory(days).then(function (data) {
                     var transIter = 0;
                     var balanceHistory = [];
-                    for (var i = 0; i < data.length - 1; i++) {
+                    for (var i = 0; i < data.length; i++) {
                         var accountTrans = {};
                         // Transaction made so update user wallet
-                        if (data[i].timestamp >= userTrans.transactions[transIter].date) {
+
+                        if (data[i].timestamp >= userTrans.transactions[transIter].date
+                            && transIter < userTrans.transactions.length - 1) {
                             transIter += 1;
                             // Take the last transaction made that day
                             while (userTrans.transactions[transIter + 1] != null &&
