@@ -1,6 +1,6 @@
 import styles from "./SignInForm.module.scss";
-import { FormEvent, useContext, useEffect, useMemo } from "react";
-import { Button, TextInput } from "@mantine/core";
+import { FormEvent, useContext, useEffect, useMemo, useState } from "react";
+import { Button, Loader, TextInput } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -13,6 +13,7 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
   const query = useContext(AccountContext)!;
   const router = useRouter();
   const notifications = useNotifications();
+  const [submitting, setSubmitting] = useState(false);
   const content = useMemo(() => {
     if (type === "signin") {
       return {
@@ -38,6 +39,7 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
     const formData = new FormData(formElement);
     const { username, password } = Object.fromEntries(formData);
 
+    setSubmitting(true);
     axios
       .post(`/api/${type}`, { username, password })
       .then((res) => {
@@ -59,6 +61,7 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
             break;
         }
         handleError(err, { notifications, errorMsg });
+        setSubmitting(false);
       });
   };
 
@@ -93,8 +96,21 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
           size="lg"
           type="password"
         />
-        <Button type="submit" fullWidth color="teal" size="lg">
+        <Button
+          type="submit"
+          fullWidth
+          color="teal"
+          size="lg"
+          disabled={submitting}
+        >
           {content.btnText}
+          {submitting && (
+            <Loader
+              style={{ position: "absolute", right: "1rem" }}
+              size="xs"
+              color="teal"
+            />
+          )}
         </Button>
         <Link href={content.redirect}>
           <a className={styles.toggleForm}>{content.toggleText}</a>

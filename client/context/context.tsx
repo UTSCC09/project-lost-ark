@@ -21,10 +21,7 @@ const GlobalContextProvider: React.FC = ({ children }) => {
       withNormalizeCSS
       theme={{ colorScheme: "light" }}
     >
-      <NotificationsProvider
-        style={{ marginTop: "3rem" }}
-        position="top-center"
-      >
+      <NotificationsProvider position="bottom-left">
         <ModalsProvider>
           <ApolloProvider client={client}>
             <AccountProvider>{children}</AccountProvider>
