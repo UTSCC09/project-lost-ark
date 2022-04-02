@@ -11,7 +11,6 @@ on:
 
 env:
   IMAGE_NAME: coinark-frontend
-  BACKEND_HOST: api.coinark.garyxie.me
 
 jobs:
   # Push image to GitHub Packages.
@@ -27,7 +26,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME --build-arg BACKEND_HOST=$BACKEND_HOST
+        run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
       - name: Log into GitHub Container Registry
         # TODO: Create a Personal Access Tokens (PAT) with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
@@ -51,7 +50,7 @@ jobs:
   deploy:
     needs: push
     name: Deploy Frontend to Production
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: "Build and Deploy to Production Server"
         uses: appleboy/ssh-action@v0.1.4
