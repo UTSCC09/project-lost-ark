@@ -20,12 +20,7 @@ const SignUp: NextPage = () => {
     }
   }, [router, loggedIn, ready]);
 
-  if (loading) return null;
-  return (
-    <Layout>
-      <SignInForm type="signup" />
-    </Layout>
-  );
+  return <Layout>{!loading && <SignInForm type="signup" />}</Layout>;
 };
 
 export default SignUp;

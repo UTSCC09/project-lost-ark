@@ -1,5 +1,6 @@
 import Dashboard from "@/components/Dashboard/Dashboard";
 import Layout from "@/components/Layout/Layout";
+import Navbar from "@/components/Navbar/Navbar";
 import useIsLoggedIn from "@/hooks/useIsLoggedIn";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -20,9 +21,12 @@ const DashboardPage: NextPage = () => {
     }
   }, [router, loggedIn, ready]);
 
-  if (loading) return null;
+  if (loading) {
+    return <Layout />;
+  }
+
   return (
-    <Layout>
+    <Layout Navbar={<Navbar />}>
       <Dashboard />
     </Layout>
   );

@@ -1,4 +1,3 @@
-import { MantineProvider } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
 import {
@@ -8,6 +7,7 @@ import {
   NormalizedCacheObject,
 } from "@apollo/client";
 import { AccountProvider } from "@/context/AccountContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   cache: new InMemoryCache(),
@@ -16,11 +16,7 @@ const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
 
 const GlobalContextProvider: React.FC = ({ children }) => {
   return (
-    <MantineProvider
-      withGlobalStyles
-      withNormalizeCSS
-      theme={{ colorScheme: "light" }}
-    >
+    <ThemeProvider>
       <NotificationsProvider position="bottom-left">
         <ModalsProvider>
           <ApolloProvider client={client}>
@@ -28,7 +24,7 @@ const GlobalContextProvider: React.FC = ({ children }) => {
           </ApolloProvider>
         </ModalsProvider>
       </NotificationsProvider>
-    </MantineProvider>
+    </ThemeProvider>
   );
 };
 

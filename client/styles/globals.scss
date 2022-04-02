@@ -24,6 +24,11 @@ a {
   flex: 1;
 }
 
+.mantine-AppShell-main {
+  height: calc(100vh - 110px);
+  overflow-y: auto;
+}
+
 .mantine-TextInput-required,
 .mantine-Select-required,
 .mantine-NumberInput-required {

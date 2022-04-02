@@ -1137,14 +1137,6 @@ const Dashboard: React.FC = () => {
       }}
       className={styles.dashboard}
     >
-      <Tabs color="teal">
-        <Tabs.Tab label="Your Portfolio" icon={<User size={14} />}>
-          TODO
-        </Tabs.Tab>
-        <Tabs.Tab label="All Coins" icon={<Coin size={14} />}>
-          TODO
-        </Tabs.Tab>
-      </Tabs>
       {/* <button
         onClick={() => {
           setAnimateToCoin(true);
