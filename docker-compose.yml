@@ -65,3 +65,4 @@ services:
       - NODE_ENV
       - MONGO_PASS
       - SECRET
+      - CORS_ORIGIN
