@@ -12,7 +12,6 @@ const Home: NextPage = () => {
     }
   }, [router]);
 
-  // TODO: Create a landing page
   return <Layout />;
 };
 

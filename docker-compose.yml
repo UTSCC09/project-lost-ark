@@ -1,25 +1,6 @@
-# services:
-#   coinark-client:
-#     container_name: coinark-client
-#     build:
-#       context: ./client
-#       dockerfile: Dockerfile
-#     ports:
-#       - 80:3000
-#   coinark-server:
-#     container_name: coinark-server
-#     build:
-#       context: ./lostark
-#       dockerfile: Dockerfile
-#     ports:
-#       - 4000:4000
-
-# docker-compose up -d --build
-
-version: '3.7'
+version: "3.7"
 
 services:
-
   nginx-proxy:
     image: jwilder/nginx-proxy
     container_name: nginx-proxy
@@ -28,10 +9,10 @@ services:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./certs:/etc/nginx/certs 
-      - ./vhost:/etc/nginx/vhost.d 
-      - ./html:/usr/share/nginx/html 
-      
+      - ./certs:/etc/nginx/certs
+      - ./vhost:/etc/nginx/vhost.d
+      - ./html:/usr/share/nginx/html
+
   nginx-proxy-acme:
     image: nginxproxy/acme-companion
     container_name: nginx-proxy-acme
@@ -41,7 +22,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./acme:/etc/acme.sh
     environment:
-        - DEFAULT_EMAIL=garyie13@live.com
+      - DEFAULT_EMAIL=garyie13@live.com
 
   mongodb:
     image: mongo
@@ -52,7 +33,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME
       - MONGO_INITDB_ROOT_PASSWORD
-        
+
   coinark-frontend:
     image: ghcr.io/utscc09/coinark-frontend:main
     container_name: coinark-frontend
@@ -62,7 +43,7 @@ services:
     environment:
       - VIRTUAL_HOST=coinark.garyxie.me
       - LETSENCRYPT_HOST=coinark.garyxie.me
-      
+
   coinark-backend:
     image: ghcr.io/utscc09/coinark-backend:main
     container_name: coinark-backend
