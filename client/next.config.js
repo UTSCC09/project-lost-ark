@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-console.log({ env: process.env })
+console.log({ env: process.env }) 
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
