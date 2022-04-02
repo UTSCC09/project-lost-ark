@@ -1,8 +1,9 @@
+import Layout from "@/components/Layout/Layout";
 import { NextPage } from "next";
 import React from "react";
 
 const CreditsPage: NextPage = () => {
-  return <div>TODO</div>;
+  return <Layout>TODO</Layout>;
 };
 
 export default CreditsPage;

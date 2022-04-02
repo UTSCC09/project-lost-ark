@@ -1,4 +1,5 @@
 import Dashboard from "@/components/Dashboard/Dashboard";
+import Layout from "@/components/Layout/Layout";
 import useIsLoggedIn from "@/hooks/useIsLoggedIn";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -20,7 +21,11 @@ const DashboardPage: NextPage = () => {
   }, [router, loggedIn, ready]);
 
   if (loading) return null;
-  return <Dashboard />;
+  return (
+    <Layout>
+      <Dashboard />
+    </Layout>
+  );
 };
 
 export default DashboardPage;

@@ -20,15 +20,14 @@ const App = ({ Component, pageProps }: AppProps) => {
         />
       </Head>
       <GlobalContextProvider>
-        <Layout>
-          <AnimatePresence exitBeforeEnter>
-            <Component key={Component} {...pageProps} />
-          </AnimatePresence>
-        </Layout>
+        {/* <Layout> */}
+        <AnimatePresence exitBeforeEnter>
+          <Component key={Component} {...pageProps} />
+        </AnimatePresence>
+        {/* </Layout> */}
       </GlobalContextProvider>
     </>
   );
 };
 
 export default App;
-

@@ -20,6 +20,10 @@ a {
   box-sizing: border-box;
 }
 
+.mantine-AppShell-root {
+  flex: 1;
+}
+
 .mantine-TextInput-required,
 .mantine-Select-required,
 .mantine-NumberInput-required {

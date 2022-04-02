@@ -1,3 +1,4 @@
+import Layout from "@/components/Layout/Layout";
 import SignInForm from "@/components/SignInForm/SignInForm";
 import useIsLoggedIn from "@/hooks/useIsLoggedIn";
 import { NextPage } from "next";
@@ -20,7 +21,11 @@ const SignIn: NextPage = () => {
   }, [router, loggedIn, ready]);
 
   if (loading) return null;
-  return <SignInForm type="signin" />;
+  return (
+    <Layout>
+      <SignInForm type="signin" />
+    </Layout>
+  );
 };
 
 export default SignIn;
