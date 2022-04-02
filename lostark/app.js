@@ -23,7 +23,7 @@ async function startApolloServer(typeDefs, resolvers) {
 
     const envir = process.env.NODE_ENV || 'production';
     const config = environment[envir];
-    console.log({ config })
+    console.log({ config, env: process.env })
 
     app.use(session({
         secret: process.env.SECRET,
