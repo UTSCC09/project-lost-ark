@@ -9,6 +9,7 @@ const { environment } = require('./config/app-config.js');
 const fs = require('fs');
 const dbAPI = require('./db/dbAPI.js');
 const cookie = require('cookie');
+const cors = require('cors');
 const session = require('express-session');
 const { check, validationResult } = require('express-validator');
 const bodyParser = require('body-parser');
@@ -23,6 +24,9 @@ async function startApolloServer(typeDefs, resolvers) {
 
     const envir = process.env.NODE_ENV || 'production';
     const config = environment[envir];
+    console.log({ config, env: process.env })
+
+    app.use(cors({ origin: process.env.CORS_ORIGIN }));
 
     app.use(session({
         secret: process.env.SECRET,

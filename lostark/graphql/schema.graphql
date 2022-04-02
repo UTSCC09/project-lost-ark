@@ -5,6 +5,7 @@ const typeDefs = `
     coin(_id: String): Coin
     coinHistory(_id: String, days: Int): History
     coinsHistory(days: Int): [History]
+    accountHistoryBalance(days: Int) : BalanceHistory
   }
   type User {
     username: String!
@@ -12,6 +13,7 @@ const typeDefs = `
     cash: Float
     wallet: [Wallet]
   }
+
   type Coin {
     _id: ID
     symbol: String
@@ -28,6 +30,15 @@ const typeDefs = `
   type History {
     _id: ID
     prices: [[Float]]
+  }
+
+  type BalanceHistory {
+    balanceHistory: [AccountHistory]
+  }
+
+  type AccountHistory {
+    balance: Float
+    timestamp: Float
   }
 
   type Mutation {

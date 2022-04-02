@@ -1,4 +1,4 @@
-const { Users, Currencies } = require('../db/dbConnector.js');
+const { Users } = require('../db/dbConnector.js');
 const bcrypt = require('bcrypt');
 const { allCoins } = require('../api/coinGeckoAPI');
 class dbAPI {
@@ -28,6 +28,12 @@ class dbAPI {
                         password: hash,
                         cash: 10000,
                         coins: coins.map((x) => { return { coin: x, quantity: 0 }; }),
+                        transactions: [{
+                            coins: coins.map((x) => { return { coin: x, quantity: 0 }; }),
+                            cash: 10000,
+                            date: new Date().setHours(0, 0, 0, 0)
+                        }],
+                        createdAt: new Date().setHours(0, 0, 0, 0)
                     });
                     newUser.save(err => {
                         if (err) return reject(err);
@@ -50,14 +56,14 @@ class dbAPI {
         return Users.findOne({ username: username });
     }
 
-    /** Return a promise of all supported coins */
-    async getCoins() {
-        return Currencies.find({});
-    }
-
     /** Return balance and coins for user */
     async getUserWallet(username) {
         return Users.findOne({ username: username }, { username: 1, cash: 1, coins: 1 });
+    }
+
+    /** Return user transactions */
+    async getUserTransactions(username) {
+        return Users.findOne({ username: username }, { transactions: 1, createdAt: 1 });
     }
 
     /**
@@ -67,7 +73,7 @@ class dbAPI {
     * coinQuant denotes quantity of coinName bought/sold (can be a decimal value, - for sell, + for buy)
     */
     async walletTransaction(username, price, coinName, coinQuant) {
-        return Users.findOne({ username: username }, { username: 1, cash: 1, coins: 1 })
+        return Users.findOne({ username: username }, { username: 1, cash: 1, coins: 1, transactions: 1 })
             .then(function (data) {
                 if (data.cash + price < 0) {
                     throw new Error("Insufficient funds");
@@ -80,8 +86,13 @@ class dbAPI {
                 newWallet.cash = data.cash + price;
                 data.coins[coinIndex].quantity = data.coins[coinIndex].quantity + coinQuant;
                 newWallet.coins = data.coins;
+                var transactions = {};
+                transactions.coins = newWallet.coins;
+                transactions.cash = newWallet.cash;
+                transactions.date = new Date().setHours(0, 0, 0, 0);
+                data.transactions.push(transactions);
                 return Users.findOneAndUpdate({ username: username },
-                    { cash: newWallet.cash, coins: newWallet.coins }, { new: true });
+                    { cash: newWallet.cash, coins: newWallet.coins, transactions: data.transactions }, { new: true });
             }).then(function (data) {
                 return data
             }
