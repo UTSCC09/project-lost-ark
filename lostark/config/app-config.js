@@ -7,14 +7,14 @@ const environment = {
         port: PORT,
         hostname: `localhost`,
         // dbString: "mongodb+srv://aobuta123:" + process.env.MONGO_PASS + "@lostark.sxt19.mongodb.net/lostark?retryWrites=true&w=majority"
-        dbString: `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@${process.env.MONGO_ADDR}:27017`
+        dbString: `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_ADDR}:27017`
     },
     production: {
         ssl: true,
         port: SSLPORT,
         hostname: `localhost`,
         // dbString: "mongodb+srv://aobuta123:" + process.env.MONGO_PASS + "@lostark.sxt19.mongodb.net/lostark-prod?retryWrites=true&w=majority"
-        dbString: `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@${process.env.MONGO_ADDR}:27017`
+        dbString: `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_ADDR}:27017`
     }
 }
 

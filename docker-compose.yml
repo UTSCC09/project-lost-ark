@@ -47,9 +47,11 @@ services:
     image: mongo
     container_name: coinark-mongodb
     restart: always
+    expose:
+      - 27017
     environment:
-      - MONGO_INITDB_ROOT_USERNAME
-      - MONGO_INITDB_ROOT_PASSWORD
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
         
   coinark-frontend:
     image: ghcr.io/utscc09/coinark-frontend:main
@@ -72,10 +74,10 @@ services:
     environment:
       - VIRTUAL_HOST=api.coinark.garyxie.me
       - LETSENCRYPT_HOST=api.coinark.garyxie.me
+      - MONGO_ADDR=mongodb
+      - MONGO_USER
+      - MONGO_PASSWORD
       - NODE_ENV
       - MONGO_PASS
       - SECRET
       - CORS_ORIGIN
-      - MONGO_INITDB_ROOT_USERNAME
-      - MONGO_INITDB_ROOT_PASSWORD
-      - MONGO_ADDR=mongodb
