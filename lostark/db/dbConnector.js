@@ -4,7 +4,7 @@ const { userSchema } = require('../schemas/userSchema.js');
 require('dotenv').config();
 
 const env = process.env.NODE_ENV || "development";
-console.log({ dbString: environment[env].dbString })
+
 mongoose.connect(environment[env].dbString);
 
 let db = mongoose.connection;

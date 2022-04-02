@@ -24,7 +24,6 @@ async function startApolloServer(typeDefs, resolvers) {
 
     const envir = process.env.NODE_ENV || 'production';
     const config = environment[envir];
-    console.log({ config, env: process.env })
 
     app.use(cors({ origin: process.env.CORS_ORIGIN }));
 
