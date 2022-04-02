@@ -63,4 +63,9 @@ jobs:
           #   docker pull ghcr.io/utscc09/backend-garyjx
           #   docker rm -f $(docker ps -q -a --filter ancestor=ghcr.io/utscc09/backend-garyjx)
           #   docker run -d --rm -p 3000:3000 -v $(pwd)/db:/usr/src/app/db ghcr.io/utscc09/backend-garyjx
-          script: docker-compose pull && docker-compose up -d # Note: First time, must scp the docker-compose.yml file to the server
+          
+          # Note: First time, must scp the docker-compose.yml file to the server
+          script: |
+            cd cscc09-coinark
+            docker-compose pull && docker-compose up -d
+            
