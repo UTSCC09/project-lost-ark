@@ -52,7 +52,6 @@ services:
     environment:
       - VIRTUAL_HOST=coinark.garyxie.me
       - LETSENCRYPT_HOST=coinark.garyxie.me
-      - BACKEND_HOST=api.coinark.garyxie.me
       
   coinark-backend:
     image: ghcr.io/utscc09/coinark-backend:main
