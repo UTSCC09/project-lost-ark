@@ -6,6 +6,8 @@ import PortfolioTable from "@/components/PortfolioTable/PortfolioTable";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { Tabs } from "@mantine/core";
+import { Coin, User } from "tabler-icons-react";
 
 // ! Temporary placeholder for historical data
 const dataRaw = {
@@ -1135,6 +1137,14 @@ const Dashboard: React.FC = () => {
       }}
       className={styles.dashboard}
     >
+      <Tabs color="teal">
+        <Tabs.Tab label="Your Portfolio" icon={<User size={14} />}>
+          TODO
+        </Tabs.Tab>
+        <Tabs.Tab label="All Coins" icon={<Coin size={14} />}>
+          TODO
+        </Tabs.Tab>
+      </Tabs>
       {/* <button
         onClick={() => {
           setAnimateToCoin(true);
