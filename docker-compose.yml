@@ -62,3 +62,6 @@ services:
     environment:
       - VIRTUAL_HOST=api.coinark.garyxie.me
       - LETSENCRYPT_HOST=api.coinark.garyxie.me
+      - NODE_ENV
+      - MONGO_PASS
+      - SECRET

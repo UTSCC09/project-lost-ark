@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+console.log({ env: process.env })
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
@@ -8,7 +9,7 @@ const nextConfig = {
     return [
       { 
         source: "/api/:path*",
-        destination: "http://coinark-server:4000/:path*"
+        destination: `${process.env.BACKEND_HOST}/:path*`
       }
     ]
   }
