@@ -2,9 +2,9 @@
 console.log({ env: process.env })
 const nextConfig = {
   reactStrictMode: true,
-  // experimental: {
-  //   outputStandalone: true,
-  // },
+  experimental: {
+    outputStandalone: true,
+  },
   async rewrites() {
     return [
       { 
