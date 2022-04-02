@@ -11,7 +11,6 @@ on:
 
 env:
   IMAGE_NAME: coinark-frontend
-  BACKEND_HOST: api.coinark.garyxie.me
 
 jobs:
   # Push image to GitHub Packages.
