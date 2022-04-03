@@ -45,3 +45,10 @@ a {
   color: black;
   opacity: 1;
 }
+
+.credits-section {
+  margin-top: 1rem;
+  & > * + * {
+    margin-top: 0.5rem;
+  }
+}

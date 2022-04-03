@@ -1,26 +1,22 @@
 import {
-  ActionIcon,
-  Button,
   Group,
   Navbar as MantineNavbar,
   Text,
   ThemeIcon,
   UnstyledButton,
-  useMantineColorScheme,
 } from "@mantine/core";
-import { Coin, Icon, MoonStars, Sun, User } from "tabler-icons-react";
+import Link from "next/link";
+import { Coin, Icon, User } from "tabler-icons-react";
 
 type NavButtonProps = {
   Icon: Icon;
   label: string;
-  onClick: () => void;
 };
 
-const NavButton: React.FC<NavButtonProps> = ({ Icon, label, onClick }) => {
+const NavButton: React.FC<NavButtonProps> = ({ Icon, label }) => {
   return (
     // Button style credits: https://github.com/mantinedev/mantine/blob/master/src/mantine-demos/src/demos/core/AppShell/_mainLinks.tsx
     <UnstyledButton
-      onClick={onClick}
       sx={(theme) => ({
         display: "block",
         width: "100%",
@@ -49,32 +45,16 @@ const NavButton: React.FC<NavButtonProps> = ({ Icon, label, onClick }) => {
 };
 
 const Navbar: React.FC = () => {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-
   return (
     <MantineNavbar width={{ xs: 250 }} p="md">
       <MantineNavbar.Section grow mt="xs">
-        <NavButton
-          Icon={User}
-          label="Account Balance"
-          onClick={() => {
-            /** TODO */
-          }}
-        />
-        <NavButton
-          Icon={Coin}
-          label="All Coins"
-          onClick={() => {
-            /** TODO */
-          }}
-        />
-      </MantineNavbar.Section>
-      <MantineNavbar.Section mb="xs">
-        <NavButton
-          Icon={colorScheme === "dark" ? Sun : MoonStars}
-          label={`Toggle ${colorScheme === "dark" ? "Light" : "Dark"} Mode`}
-          onClick={() => toggleColorScheme()}
-        />
+        {/* TODO: Set up links properly */}
+        <Link href="/dashboard">
+          <NavButton Icon={User} label="Account Balance" />
+        </Link>
+        <Link href="/dashboard">
+          <NavButton Icon={Coin} label="All Coins" />
+        </Link>
       </MantineNavbar.Section>
     </MantineNavbar>
   );

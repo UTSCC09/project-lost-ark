@@ -1,3 +1,12 @@
 .header {
   padding: 0 1rem;
 }
+
+.btnGroup {
+  display: flex;
+  align-items: center;
+
+  & > * + * {
+    margin-left: 1rem;
+  }
+}
