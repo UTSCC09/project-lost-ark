@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout/Layout";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -12,7 +11,6 @@ const Home: NextPage = () => {
     }
   }, [router]);
 
-  // return <Layout />;
   return null;
 };
 

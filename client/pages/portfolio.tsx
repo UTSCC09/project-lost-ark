@@ -1,6 +1,4 @@
 import Dashboard from "@/components/Dashboard/Dashboard";
-import Layout from "@/components/Layout/Layout";
-import Navbar from "@/components/Navbar/Navbar";
 import useIsLoggedIn from "@/hooks/useIsLoggedIn";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -21,16 +19,8 @@ const PortfolioPage: NextPage = () => {
     }
   }, [router, loggedIn, ready]);
 
-  if (loading) {
-    return null;
-    // return <Layout />;
-  }
-
-  return (
-    // <Layout Navbar={<Navbar />}>
-    <Dashboard />
-    // </Layout>
-  );
+  if (loading) return null;
+  return <Dashboard />;
 };
 
 export default PortfolioPage;

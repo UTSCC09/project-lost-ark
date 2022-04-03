@@ -1,11 +1,9 @@
-import Layout from "@/components/Layout/Layout";
 import { Container, Title } from "@mantine/core";
 import { motion } from "framer-motion";
 import { NextPage } from "next";
 
 const Custom404Page: NextPage = () => {
   return (
-    // <Layout>
     <Container
       style={{ height: "100%", display: "grid", placeItems: "center" }}
     >
@@ -21,7 +19,6 @@ const Custom404Page: NextPage = () => {
         <Title>404 Page Not Found</Title>
       </motion.div>
     </Container>
-    // </Layout>
   );
 };
 
