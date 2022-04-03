@@ -5,6 +5,7 @@ import {
   ThemeIcon,
   UnstyledButton,
 } from "@mantine/core";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { Coin, Icon, User } from "tabler-icons-react";
 
@@ -46,17 +47,27 @@ const NavButton: React.FC<NavButtonProps> = ({ Icon, label }) => {
 
 const Navbar: React.FC = () => {
   return (
-    <MantineNavbar width={{ xs: 250 }} p="md">
-      <MantineNavbar.Section grow mt="xs">
-        {/* TODO: Set up links properly */}
-        <Link href="/dashboard">
-          <NavButton Icon={User} label="Account Balance" />
-        </Link>
-        <Link href="/dashboard">
-          <NavButton Icon={Coin} label="All Coins" />
-        </Link>
-      </MantineNavbar.Section>
-    </MantineNavbar>
+    <motion.div
+      exit={{ opacity: 0, translateY: 20, transition: { duration: 0.5 } }}
+      initial={{ opacity: 0, translateY: 20 }}
+      animate={{
+        opacity: 1,
+        translateY: 0,
+        transition: { duration: 0.5 },
+      }}
+    >
+      <MantineNavbar width={{ xs: 250 }} p="md">
+        <MantineNavbar.Section grow mt="xs">
+          {/* TODO: Set up links properly */}
+          <Link href="/dashboard">
+            <NavButton Icon={User} label="Your Portfolio" />
+          </Link>
+          <Link href="/dashboard">
+            <NavButton Icon={Coin} label="Trade Crypto" />
+          </Link>
+        </MantineNavbar.Section>
+      </MantineNavbar>
+    </motion.div>
   );
 };
 

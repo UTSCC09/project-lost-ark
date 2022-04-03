@@ -1,6 +1,6 @@
 import styles from "./SignInForm.module.scss";
 import { FormEvent, useContext, useEffect, useMemo, useState } from "react";
-import { Button, Loader, TextInput } from "@mantine/core";
+import { Button, Loader, Paper, TextInput } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -66,8 +66,8 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
   };
 
   return (
-    <motion.div className={styles.container}>
-      <motion.form
+    <div className={styles.container}>
+      <motion.div
         initial={{ opacity: 0, translateY: 20 }}
         animate={{
           opacity: 1,
@@ -77,46 +77,48 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
           opacity: 0,
           translateY: 20,
         }}
-        className={styles.form}
-        onSubmit={handleSubmit}
       >
-        <h2>{content.title}</h2>
-        <TextInput
-          id="username"
-          name="username"
-          label="Username"
-          required
-          size="lg"
-        />
-        <TextInput
-          id="password"
-          name="password"
-          label="Password"
-          required
-          size="lg"
-          type="password"
-        />
-        <Button
-          type="submit"
-          fullWidth
-          color="teal"
-          size="lg"
-          disabled={submitting}
-        >
-          {content.btnText}
-          {submitting && (
-            <Loader
-              style={{ position: "absolute", right: "1rem" }}
-              size="xs"
-              color="teal"
+        <Paper shadow="xs" radius="md" className={styles.paper}>
+          <form className={styles.form} onSubmit={handleSubmit}>
+            <h2>{content.title}</h2>
+            <TextInput
+              id="username"
+              name="username"
+              label="Username"
+              required
+              size="lg"
             />
-          )}
-        </Button>
-        <Link href={content.redirect}>
-          <a className={styles.toggleForm}>{content.toggleText}</a>
-        </Link>
-      </motion.form>
-    </motion.div>
+            <TextInput
+              id="password"
+              name="password"
+              label="Password"
+              required
+              size="lg"
+              type="password"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              color="teal"
+              size="lg"
+              disabled={submitting}
+            >
+              {content.btnText}
+              {submitting && (
+                <Loader
+                  style={{ position: "absolute", right: "1rem" }}
+                  size="xs"
+                  color="teal"
+                />
+              )}
+            </Button>
+            <Link href={content.redirect}>
+              <a className={styles.toggleForm}>{content.toggleText}</a>
+            </Link>
+          </form>
+        </Paper>
+      </motion.div>
+    </div>
   );
 };
 

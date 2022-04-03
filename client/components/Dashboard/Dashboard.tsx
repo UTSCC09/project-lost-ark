@@ -6,7 +6,7 @@ import PortfolioTable from "@/components/PortfolioTable/PortfolioTable";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { Tabs } from "@mantine/core";
+import { Paper, Tabs } from "@mantine/core";
 import { Coin, User } from "tabler-icons-react";
 
 // ! Temporary placeholder for historical data
@@ -1145,18 +1145,18 @@ const Dashboard: React.FC = () => {
       >
         Click Me
       </button> */}
-      <div className={styles.section}>
+      <Paper shadow="xs" radius="sm" p="md">
         <h2 className={styles.sectionTitle}>Total Account Balance</h2>
         <div className={styles.balance}>${balance?.toFixed(2)}</div>
         <Chart data={data} />
-      </div>
-      <div className={styles.section}>
+      </Paper>
+      <Paper shadow="xs" radius="sm" p="md" style={{ marginTop: "1rem" }}>
         <h2 className={styles.sectionTitle}>Your Portfolio</h2>
         <div className={styles.cashBalance}>
           Cash Balance: ${cash?.toFixed(2)}
         </div>
         <PortfolioTable />
-      </div>
+      </Paper>
     </motion.div>
   );
 };
