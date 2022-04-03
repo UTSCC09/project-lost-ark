@@ -1,6 +1,9 @@
 .container {
   position: absolute;
-  inset: 0;
+  top: var(--mantine-header-height);
+  bottom: var(--mantine-footer-height);
+  left: 0;
+  right: 0;
   flex: 1;
   display: grid;
   place-items: center;

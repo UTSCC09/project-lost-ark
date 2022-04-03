@@ -1,13 +1,10 @@
 import { useContext, useMemo } from "react";
 import Chart from "@/components/Chart/Chart";
-import styles from "./Dashboard.module.scss";
+import styles from "./Portfolio.module.scss";
 import { AccountContext } from "@/context/AccountContext";
 import PortfolioTable from "@/components/PortfolioTable/PortfolioTable";
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { useRouter } from "next/router";
-import { Paper, Tabs } from "@mantine/core";
-import { Coin, User } from "tabler-icons-react";
+import { Paper, Title } from "@mantine/core";
 
 // ! Temporary placeholder for historical data
 const dataRaw = {
@@ -1098,22 +1095,7 @@ const dataRaw = {
   },
 };
 
-const toCoinAnimation = {
-  opacity: 0,
-  translateX: "-100%",
-};
-
-const toSigninAnimation = {
-  opacity: 0,
-  translateY: 20,
-  transition: {
-    duration: 0.5,
-  },
-};
-
-const Dashboard: React.FC = () => {
-  const router = useRouter();
-  const [animateToCoin, setAnimateToCoin] = useState(false);
+const Portfolio: React.FC = () => {
   const { account, loading } = useContext(AccountContext)!;
   const { balance, cash } = account?.user ?? {};
   const data = useMemo(() => {
@@ -1128,30 +1110,21 @@ const Dashboard: React.FC = () => {
   if (loading) return null;
   return (
     <motion.div
-      exit={animateToCoin ? toCoinAnimation : toSigninAnimation}
+      exit={{ opacity: 0, translateY: 20 }}
       initial={{ opacity: 0, translateY: 20 }}
-      animate={{
-        opacity: 1,
-        translateY: 0,
-        transition: { duration: 0.5 },
-      }}
-      className={styles.dashboard}
+      animate={{ opacity: 1, translateY: 0 }}
+      className={styles.portfolio}
     >
-      {/* <button
-        onClick={() => {
-          setAnimateToCoin(true);
-          router.push("/signin");
-        }}
-      >
-        Click Me
-      </button> */}
       <Paper shadow="xs" radius="sm" p="md">
+        <Title order={3} style={{ marginBottom: "0.5rem" }}>
+          Your Portfolio
+        </Title>
         <h2 className={styles.sectionTitle}>Total Account Balance</h2>
         <div className={styles.balance}>${balance?.toFixed(2)}</div>
         <Chart data={data} />
       </Paper>
       <Paper shadow="xs" radius="sm" p="md" style={{ marginTop: "1rem" }}>
-        <h2 className={styles.sectionTitle}>Your Portfolio</h2>
+        <h2 className={styles.sectionTitle}>Assets</h2>
         <div className={styles.cashBalance}>
           Cash Balance: ${cash?.toFixed(2)}
         </div>
@@ -1161,4 +1134,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default Portfolio;

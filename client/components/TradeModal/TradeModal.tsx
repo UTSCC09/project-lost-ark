@@ -1,16 +1,10 @@
 import { AccountContext } from "@/context/AccountContext";
+import { CoinData } from "@/types/types";
 import { handleError } from "@/utils/utils";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Button, Modal, NumberInput, Select } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import { FormEvent, useContext, useMemo, useState } from "react";
-
-type Coin = {
-  _id: string;
-  symbol: string;
-  name: string;
-  price: number;
-};
 
 const COINS_QUERY = gql`
   query AllCoinsQuery {
@@ -40,8 +34,9 @@ const TradeModal: React.FC = () => {
   const accountQuery = useContext(AccountContext);
   const [modalOpen, setModalOpen] = useState(false);
   const notifications = useNotifications();
-  const query =
-    useQuery<{ coins: Coin[]; user: { cash: number } }>(COINS_QUERY);
+  const query = useQuery<{ coins: CoinData[]; user: { cash: number } }>(
+    COINS_QUERY
+  );
   const { coins = [], user } = query.data ?? {};
   const [buyCoin] = useMutation(BUY_COIN);
   const [selectedCoin, setSelectedCoin] = useState<string>("");

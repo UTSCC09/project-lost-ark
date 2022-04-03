@@ -15,3 +15,8 @@ export const handleError = (error: any, options: ErrorOptions = {}) => {
     });
   }
 };
+
+export const roundToDecimals = (value: number, decimals: number) => {
+  const multiplier = Math.pow(10, decimals);
+  return Math.round(value * multiplier) / multiplier;
+};

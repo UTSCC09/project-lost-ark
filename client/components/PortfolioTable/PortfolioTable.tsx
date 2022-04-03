@@ -1,9 +1,17 @@
 import { AccountContext } from "@/context/AccountContext";
 import { handleError } from "@/utils/utils";
 import { gql, useMutation } from "@apollo/client";
-import { Table, Button, Modal, NumberInput, TextInput } from "@mantine/core";
+import {
+  Table,
+  Button,
+  Modal,
+  NumberInput,
+  TextInput,
+  Anchor,
+} from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import { FormEvent, useContext, useMemo, useState } from "react";
+import Link from "next/link";
 
 const SELL_COIN = gql`
   mutation SellCoin($coin: String!, $quantity: Float!) {
@@ -113,12 +121,12 @@ const PortfolioTable: React.FC = () => {
         <thead>
           <tr>
             <th>#</th>
-            <th>Cryptocurrency</th>
+            <th>Name</th>
             <th>Current Price</th>
             <th>Amount Owned</th>
             <th>Value</th>
             <th>Portfolio %</th>
-            <th>Trade</th>
+            <th style={{ width: "1px" }} />
           </tr>
         </thead>
         <tbody>
@@ -144,9 +152,11 @@ const PortfolioTable: React.FC = () => {
           {ownedCoins.length === 0 && (
             <tr>
               <td colSpan={7}>
-                No cryptocurrency currently owned. Click
-                <span style={{ fontWeight: "bold" }}> Trade</span> above to
-                start buying.
+                No cryptocurrency currently owned. Go to{" "}
+                <Link href="/crypto">
+                  <Anchor style={{ fontSize: 14 }}>Trade Crypto</Anchor>
+                </Link>{" "}
+                to start trading.
               </td>
             </tr>
           )}

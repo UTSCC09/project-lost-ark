@@ -69,14 +69,8 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
     <div className={styles.container}>
       <motion.div
         initial={{ opacity: 0, translateY: 20 }}
-        animate={{
-          opacity: 1,
-          translateY: 0,
-        }}
-        exit={{
-          opacity: 0,
-          translateY: 20,
-        }}
+        animate={{ opacity: 1, translateY: 0 }}
+        exit={{ opacity: 0, translateY: 20 }}
       >
         <Paper shadow="xs" radius="md" className={styles.paper}>
           <form className={styles.form} onSubmit={handleSubmit}>

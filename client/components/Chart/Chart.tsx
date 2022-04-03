@@ -12,7 +12,10 @@ type XScale = d3.ScaleTime<number, number, never>;
 type YScale = d3.ScaleLinear<number, number, never>;
 
 // Credits: D3 chart initialization code from https://www.freecodecamp.org/news/how-to-build-historical-price-charts-with-d3-js-72214aaf6ba3/
-const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
+const Chart: React.FC<{ data: ChartData[]; aspectRatio?: string }> = ({
+  data,
+  aspectRatio = "4 / 1",
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     initializeChart(data);
@@ -229,7 +232,7 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
     // };
   };
 
-  return <div className={styles.chart} ref={ref} />;
+  return <div className={styles.chart} style={{ aspectRatio }} ref={ref} />;
 };
 
 export default Chart;
