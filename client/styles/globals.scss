@@ -10,6 +10,12 @@ body {
   min-height: 100vh;
 }
 
+.error-404 {
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -24,7 +30,9 @@ a {
 }
 
 .mantine-AppShell-main {
-  height: calc(100vh - 110px);
+  height: calc(
+    100vh - var(--mantine-header-height) - var(--mantine-footer-height)
+  );
   overflow-y: auto;
 }
 

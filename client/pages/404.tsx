@@ -4,9 +4,7 @@ import { NextPage } from "next";
 
 const Custom404Page: NextPage = () => {
   return (
-    <Container
-      style={{ height: "100%", display: "grid", placeItems: "center" }}
-    >
+    <Container className="error-404">
       <motion.div
         exit={{ opacity: 0, translateY: 20, transition: { duration: 0.5 } }}
         initial={{ opacity: 0, translateY: 20 }}
