@@ -12,9 +12,14 @@ import { Coin, Icon, User } from "tabler-icons-react";
 type NavButtonProps = {
   Icon: Icon;
   label: string;
+  active?: boolean;
 };
 
-const NavButton: React.FC<NavButtonProps> = ({ Icon, label }) => {
+const NavButton: React.FC<NavButtonProps> = ({
+  Icon,
+  label,
+  active = false,
+}) => {
   return (
     // Button style credits: https://github.com/mantinedev/mantine/blob/master/src/mantine-demos/src/demos/core/AppShell/_mainLinks.tsx
     <UnstyledButton
@@ -23,6 +28,7 @@ const NavButton: React.FC<NavButtonProps> = ({ Icon, label }) => {
         width: "100%",
         padding: theme.spacing.xs,
         borderRadius: theme.radius.sm,
+        backgroundColor: active ? theme.colors.teal[0] : undefined,
         color:
           theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
 
@@ -58,12 +64,15 @@ const Navbar: React.FC = () => {
     >
       <MantineNavbar width={{ xs: 250 }} p="md">
         <MantineNavbar.Section grow mt="xs">
-          {/* TODO: Set up links properly */}
-          <Link href="/dashboard">
-            <NavButton Icon={User} label="Your Portfolio" />
+          <Link href="/portfolio">
+            <a>
+              <NavButton Icon={User} label="Your Portfolio" active />
+            </a>
           </Link>
-          <Link href="/dashboard">
-            <NavButton Icon={Coin} label="Trade Crypto" />
+          <Link href="/crypto">
+            <a>
+              <NavButton Icon={Coin} label="Trade Crypto" />
+            </a>
           </Link>
         </MantineNavbar.Section>
       </MantineNavbar>

@@ -13,7 +13,7 @@ const SignUp: NextPage = () => {
   useEffect(() => {
     if (router.isReady && ready) {
       if (loggedIn) {
-        router.push("/dashboard");
+        router.push("/portfolio");
       } else {
         setLoading(false);
       }

@@ -17,7 +17,10 @@ const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
 const GlobalContextProvider: React.FC = ({ children }) => {
   return (
     <ThemeProvider>
-      <NotificationsProvider position="bottom-left">
+      <NotificationsProvider
+        position="bottom-left"
+        style={{ marginBottom: 50 }}
+      >
         <ModalsProvider>
           <ApolloProvider client={client}>
             <AccountProvider>{children}</AccountProvider>

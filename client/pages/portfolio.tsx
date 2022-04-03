@@ -6,7 +6,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
-const DashboardPage: NextPage = () => {
+const PortfolioPage: NextPage = () => {
   const router = useRouter();
   const { loggedIn, ready } = useIsLoggedIn();
   const [loading, setLoading] = useState(true);
@@ -32,4 +32,4 @@ const DashboardPage: NextPage = () => {
   );
 };
 
-export default DashboardPage;
+export default PortfolioPage;

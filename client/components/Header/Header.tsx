@@ -40,7 +40,7 @@ const Header: React.FC = () => {
   return (
     <MantineHeader height={60} className={styles.header}>
       <Group sx={{ height: "100%" }} position="apart">
-        <Link href={loggedIn ? "/dashboard" : "/"}>
+        <Link href={loggedIn ? "/portfolio" : "/"}>
           <a className={styles.logo}>
             <Image src={logo.src} alt="Coin Ark logo" width={118} height={25} />
           </a>

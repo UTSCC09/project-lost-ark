@@ -47,7 +47,7 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
           .refetch()
           .catch(() => {})
           .finally(() => {
-            router.push("/dashboard");
+            router.push("/portfolio");
           });
       })
       .catch((err) => {
