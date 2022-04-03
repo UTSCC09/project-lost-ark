@@ -22,13 +22,14 @@ const PortfolioPage: NextPage = () => {
   }, [router, loggedIn, ready]);
 
   if (loading) {
-    return <Layout />;
+    return null;
+    // return <Layout />;
   }
 
   return (
-    <Layout Navbar={<Navbar />}>
-      <Dashboard />
-    </Layout>
+    // <Layout Navbar={<Navbar />}>
+    <Dashboard />
+    // </Layout>
   );
 };
 

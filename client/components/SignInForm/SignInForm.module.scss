@@ -1,5 +1,6 @@
 .container {
-  height: 100%;
+  position: absolute;
+  inset: 0;
   flex: 1;
   display: grid;
   place-items: center;

@@ -59,7 +59,7 @@ const Navbar: React.FC = () => {
       animate={{
         opacity: 1,
         translateY: 0,
-        transition: { duration: 0.5 },
+        transition: { duration: 0.5, delay: 0 }, // TODO: Figure out delay
       }}
     >
       <MantineNavbar width={{ xs: 250 }} p="md">
@@ -72,6 +72,11 @@ const Navbar: React.FC = () => {
           <Link href="/crypto">
             <a>
               <NavButton Icon={Coin} label="Trade Crypto" />
+            </a>
+          </Link>
+          <Link href="/crypto/bit">
+            <a>
+              <NavButton Icon={Coin} label="Trade Crypto Bit" />
             </a>
           </Link>
         </MantineNavbar.Section>

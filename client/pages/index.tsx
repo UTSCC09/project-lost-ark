@@ -12,7 +12,8 @@ const Home: NextPage = () => {
     }
   }, [router]);
 
-  return <Layout />;
+  // return <Layout />;
+  return null;
 };
 
 export default Home;

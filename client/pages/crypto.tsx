@@ -3,7 +3,8 @@ import Navbar from "@/components/Navbar/Navbar";
 import { NextPage } from "next";
 
 const CryptoPage: NextPage = () => {
-  return <Layout Navbar={<Navbar />}>TODO</Layout>;
+  return <div>TODO</div>;
+  // return <Layout Navbar={<Navbar />}></Layout>;
 };
 
 export default CryptoPage;
