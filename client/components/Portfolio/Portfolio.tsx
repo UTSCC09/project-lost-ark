@@ -42,7 +42,7 @@ const Portfolio: React.FC = () => {
     ];
     if (accountHistory.length === 0) {
       const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
-      accountHistory.push({ balance: 0, timestamp: yesterday.getTime() });
+      accountHistory.push({ balance: balance!, timestamp: yesterday.getTime() });
     }
     accountHistory.push({ balance: balance!, timestamp: Date.now() });
     return accountHistory.map((row) => ({
