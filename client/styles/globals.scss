@@ -1,7 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 #__next {
@@ -20,13 +29,21 @@ body {
   place-items: center;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.credits-section {
+  margin-top: 1rem;
+  & > * + * {
+    margin-top: 0.5rem;
+  }
 }
 
-* {
-  box-sizing: border-box;
+.modal-form {
+  & > * + * {
+    margin-top: 1rem;
+  }
+
+  &.dark input:disabled {
+    color: hsl(225, 3%, 76%);
+  }
 }
 
 .mantine-AppShell-root {
@@ -44,24 +61,11 @@ a {
   display: none;
 }
 
-.modal-form {
-  & > * + * {
-    margin-top: 1rem;
-  }
-
-  &.dark input:disabled {
-    color: hsl(225, 3%, 76%);
-  }
+.mantine-Modal-inner {
+  align-items: center;
 }
 
 .mantine-Modal-root form input:disabled {
   color: black;
   opacity: 1;
-}
-
-.credits-section {
-  margin-top: 1rem;
-  & > * + * {
-    margin-top: 0.5rem;
-  }
 }

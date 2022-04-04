@@ -30,10 +30,11 @@ const ACCOUNT_HISTORY_QUERY = gql`
 
 const Portfolio: React.FC = () => {
   const { account, loading, refetch } = useContext(AccountContext)!;
-  const [loadingHistory, setLoadingHistory] = useState(true);
   const { balance, cash } = account?.user ?? {};
+  const [loadingHistory, setLoadingHistory] = useState(true);
+  const [days, setDays] = useState(365);
   const historyQuery = useQuery<AccountHistory>(ACCOUNT_HISTORY_QUERY, {
-    variables: { days: 365 },
+    variables: { days },
   });
   const accountHistory = useMemo(() => {
     const accountHistory = [
@@ -76,7 +77,7 @@ const Portfolio: React.FC = () => {
         </Title>
         <h2 className={styles.sectionTitle}>Total Account Balance</h2>
         <div className={styles.balance}>${balance?.toFixed(2)}</div>
-        <Chart data={accountHistory} />
+        <Chart data={accountHistory} days={days} setDays={setDays} />
       </Paper>
       <Paper shadow="xs" radius="sm" p="md" style={{ marginTop: "1rem" }}>
         <h2 className={styles.sectionTitle}>Assets</h2>

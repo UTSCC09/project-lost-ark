@@ -22,7 +22,6 @@ const SELL_COIN = gql`
   }
 `;
 
-// TODO
 const SellModal: React.FC<{ coin: CoinData; ownedCoins: number }> = ({
   coin,
   ownedCoins,

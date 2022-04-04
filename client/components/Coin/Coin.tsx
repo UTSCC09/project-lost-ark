@@ -11,10 +11,12 @@ import { CoinData, CoinHistoryData } from "@/types/types";
 import BuyModal from "@/components/BuyModal/BuyModal";
 import SellModal from "@/components/SellModal/SellModal";
 
-const Coin: React.FC<{ coin: CoinData; coinHistory: CoinHistoryData }> = ({
-  coin,
-  coinHistory,
-}) => {
+const Coin: React.FC<{
+  coin: CoinData;
+  coinHistory: CoinHistoryData;
+  days: number;
+  setDays: (days: number) => void;
+}> = ({ coin, coinHistory, days, setDays }) => {
   const router = useRouter();
   const query = useContext(AccountContext);
   const ownedCoins = useMemo(() => {
@@ -69,7 +71,12 @@ const Coin: React.FC<{ coin: CoinData; coinHistory: CoinHistoryData }> = ({
           </Group>
         </Group>
 
-        <Chart data={chartData} aspectRatio="5 / 2" />
+        <Chart
+          data={chartData}
+          aspectRatio="5 / 2"
+          days={days}
+          setDays={setDays}
+        />
       </Paper>
     </motion.div>
   );
