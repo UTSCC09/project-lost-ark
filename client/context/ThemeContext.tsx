@@ -1,7 +1,6 @@
-import { gql, QueryResult, useQuery } from "@apollo/client";
 import { ColorSchemeProvider, MantineProvider } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
-import { createContext, useEffect, useState } from "react";
+import { createContext } from "react";
 
 const ThemeContext = createContext(null);
 

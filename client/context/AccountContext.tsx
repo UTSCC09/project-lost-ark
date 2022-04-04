@@ -1,4 +1,4 @@
-import { gql, QueryResult, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { createContext, useEffect, useState } from "react";
 
 type AccountQuery = {

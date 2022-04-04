@@ -1,4 +1,4 @@
-import { FormEvent, useContext, useEffect, useMemo, useState } from "react";
+import { FormEvent, useContext, useMemo, useState } from "react";
 import { Button, Loader, Paper, TextInput } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import Link from "next/link";
