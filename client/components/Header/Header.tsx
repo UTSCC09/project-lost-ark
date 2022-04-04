@@ -58,12 +58,12 @@ const Header: React.FC = () => {
               </>
             ) : (
               <>
-                <Link href="/signin">
+                <Link href="/signin" passHref>
                   <Button color="teal" variant="outline">
                     Sign In
                   </Button>
                 </Link>
-                <Link href="/signup">
+                <Link href="/signup" passHref>
                   <Button color="teal">Create an Account</Button>
                 </Link>
               </>

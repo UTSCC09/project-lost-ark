@@ -61,7 +61,7 @@ const PortfolioTable: React.FC = () => {
           <tr>
             <td colSpan={7}>
               No cryptocurrency currently owned. Go to{" "}
-              <Link href="/crypto">
+              <Link href="/crypto" passHref>
                 <Anchor style={{ fontSize: 14 }}>Trade Crypto</Anchor>
               </Link>{" "}
               to start trading.

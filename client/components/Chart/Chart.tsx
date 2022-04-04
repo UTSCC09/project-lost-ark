@@ -225,9 +225,8 @@ const Chart: React.FC<{
     <Group spacing={0} direction="column">
       <Group className={styles.filterGroup} mb="1rem" spacing="xs">
         {DAYS.map((data) => (
-          <Tooltip label={`1 ${data.duration}`} withArrow>
+          <Tooltip key={data.label} label={`1 ${data.duration}`} withArrow>
             <Button
-              key={data.label}
               color="teal"
               size="xs"
               variant="subtle"
