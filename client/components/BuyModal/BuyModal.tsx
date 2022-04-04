@@ -5,14 +5,12 @@ import { gql, useMutation } from "@apollo/client";
 import {
   Button,
   Modal,
-  NumberInput,
-  Select,
   TextInput,
   Title,
   useMantineTheme,
 } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
-import { FormEvent, useContext, useMemo, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 
 const BUY_COIN = gql`
   mutation BuyCoin($coin: String!, $quantity: Float!) {
@@ -26,11 +24,11 @@ const BUY_COIN = gql`
 
 const BuyModal: React.FC<{ coin: CoinData }> = ({ coin }) => {
   const theme = useMantineTheme();
-  const [buyCoin] = useMutation(BUY_COIN);
   const notifications = useNotifications();
   const accountQuery = useContext(AccountContext);
+  const [buyCoin] = useMutation(BUY_COIN);
   const [modalOpen, setModalOpen] = useState(false);
-  const [quantity, setQuantity] = useState<string>("");
+  const [quantity, setQuantity] = useState("");
 
   const handleClose = () => {
     setModalOpen(false);
@@ -103,7 +101,7 @@ const BuyModal: React.FC<{ coin: CoinData }> = ({ coin }) => {
             value={`$ ${(accountQuery?.account?.user.cash || 0).toFixed(2)}`}
           />
           <Button type="submit" color="teal" fullWidth>
-            Purchase
+            Purchase {coin.symbol.toUpperCase()}
           </Button>
         </form>
       </Modal>

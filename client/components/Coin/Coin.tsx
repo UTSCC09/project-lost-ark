@@ -1,6 +1,6 @@
 import styles from "./Coin.module.scss";
 import { useContext, useMemo } from "react";
-import { ActionIcon, Button, Group, Paper, Title } from "@mantine/core";
+import { ActionIcon, Group, Paper, Title } from "@mantine/core";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { ArrowLeft } from "tabler-icons-react";
@@ -9,6 +9,7 @@ import Chart from "@/components/Chart/Chart";
 import { AccountContext } from "@/context/AccountContext";
 import { CoinData, CoinHistoryData } from "@/types/types";
 import BuyModal from "@/components/BuyModal/BuyModal";
+import SellModal from "@/components/SellModal/SellModal";
 
 const Coin: React.FC<{ coin: CoinData; coinHistory: CoinHistoryData }> = ({
   coin,
@@ -18,9 +19,8 @@ const Coin: React.FC<{ coin: CoinData; coinHistory: CoinHistoryData }> = ({
   const query = useContext(AccountContext);
   const ownedCoins = useMemo(() => {
     return roundToDecimals(
-      query?.account?.user.wallet.filter(
-        (data) => data.coin._id === coin._id
-      )[0]?.quantity ?? 0,
+      query?.account?.user.wallet.find((data) => data.coin._id === coin._id)
+        ?.quantity ?? 0,
       5
     );
   }, [query]);
@@ -52,14 +52,8 @@ const Coin: React.FC<{ coin: CoinData; coinHistory: CoinHistoryData }> = ({
             </Title>
           </Group>
           <Group>
-            {/* TODO: Handle Buy/Sell */}
-            {/* <Button color="teal" variant="light">
-              Buy
-            </Button> */}
             <BuyModal coin={coin} />
-            <Button color="teal" variant="light">
-              Sell
-            </Button>
+            <SellModal coin={coin} ownedCoins={ownedCoins} />
           </Group>
         </Group>
         <Group position="apart">

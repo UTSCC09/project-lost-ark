@@ -1,7 +1,14 @@
 import { AccountContext } from "@/context/AccountContext";
+import { CoinData } from "@/types/types";
 import { handleError } from "@/utils/utils";
 import { gql, useMutation } from "@apollo/client";
-import { Modal, TextInput, NumberInput, Button } from "@mantine/core";
+import {
+  Modal,
+  TextInput,
+  Button,
+  Title,
+  useMantineTheme,
+} from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import { useContext, useState, FormEvent } from "react";
 
@@ -15,46 +22,50 @@ const SELL_COIN = gql`
   }
 `;
 
-const SellModal: React.FC = () => {
-  const { account, refetch } = useContext(AccountContext)!;
-  const { balance, wallet = [] } = account?.user ?? {};
-
+// TODO
+const SellModal: React.FC<{ coin: CoinData; ownedCoins: number }> = ({
+  coin,
+  ownedCoins,
+}) => {
+  const theme = useMantineTheme();
   const notifications = useNotifications();
+  const accountQuery = useContext(AccountContext)!;
   const [sellCoin] = useMutation(SELL_COIN);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedCoin, setSelectedCoin] = useState<typeof wallet[0] | null>(
-    null
-  );
-  const [amountToSell, setAmountToSell] = useState(0.01);
-
-  const handleOpen = (coin: typeof wallet[0]) => {
-    setModalOpen(true);
-    setSelectedCoin(coin);
-  };
+  const [quantity, setQuantity] = useState("");
 
   const handleClose = () => {
     setModalOpen(false);
-    setSelectedCoin(null);
-    setAmountToSell(0.01);
+    setQuantity("");
   };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (
-      !selectedCoin ||
-      !amountToSell ||
-      amountToSell <= 0 ||
-      amountToSell > selectedCoin.quantity
-    )
+    const quantityNum = Number(quantity);
+
+    if (quantityNum <= 0) {
+      notifications.showNotification({
+        message: "Quantity must be greater than 0",
+        color: "red",
+      });
       return;
+    }
+
+    if (quantityNum > ownedCoins) {
+      notifications.showNotification({
+        message: "Quantity cannot be greater than your quantity owned",
+        color: "red",
+      });
+      return;
+    }
 
     sellCoin({
-      variables: { coin: selectedCoin.coin._id, quantity: amountToSell },
+      variables: { coin: coin._id, quantity: quantityNum },
     })
       .then((data) => {
-        refetch();
+        accountQuery?.refetch();
         notifications.showNotification({
-          message: `Successfully sold ${amountToSell} ${selectedCoin.coin.name}`,
+          message: `Successfully sold ${quantity} ${coin.symbol.toUpperCase()}`,
           color: "teal",
         });
         handleClose();
@@ -67,47 +78,45 @@ const SellModal: React.FC = () => {
       <Modal
         opened={modalOpen}
         onClose={handleClose}
-        title={`Sell ${selectedCoin?.coin.name ?? ""}`}
+        title={
+          <Title order={3}>
+            Sell {coin.name} ({coin.symbol.toUpperCase()})
+          </Title>
+        }
       >
-        <form onSubmit={handleSubmit} className="modal-form">
+        <form
+          className={`
+          modal-form 
+          ${theme.colorScheme === "dark" ? "dark" : "light"}
+          `}
+          onSubmit={handleSubmit}
+        >
           <TextInput
-            label="Amount Owned"
             disabled
-            value={selectedCoin?.quantity}
-          />
-          <NumberInput
-            label="Amount to Sell"
-            value={amountToSell}
-            onChange={(val) => setAmountToSell(val ?? 0)}
-            min={0.01}
-            max={selectedCoin?.quantity}
-            precision={2}
-            step={0.1}
-          />
-          <NumberInput
             label="Unit Price"
-            disabled
-            value={selectedCoin?.coin.price}
-            precision={2}
-            formatter={(value) => `$ ${value}`}
+            value={`$ ${coin.price.toFixed(2)}`}
           />
-          <NumberInput
-            label="Estimated Sale Price"
+          <TextInput disabled label="Quantity Owned" value={ownedCoins} />
+          <TextInput
+            label="Quantity to Sell"
+            value={quantity}
+            onChange={(e) => {
+              if (!isNaN(Number(e.target.value))) {
+                setQuantity(e.target.value);
+              }
+            }}
+          />
+          <TextInput
             disabled
-            value={amountToSell * selectedCoin?.coin.price!}
-            precision={2}
-            formatter={(value) => `$ ${value}`}
+            label="Estimated Total Sale"
+            value={`$ ${(Number(quantity) * coin.price).toFixed(2)}`}
           />
           <Button type="submit" color="teal" fullWidth>
-            Sell {selectedCoin?.coin.name}
+            Sell {coin.symbol.toUpperCase()}
           </Button>
         </form>
       </Modal>
-      <Button
-        size="xs"
-        color="teal"
-        // onClick={() => handleOpen(ownedCoins[index])}
-      >
+      <Button color="teal" variant="light" onClick={() => setModalOpen(true)}>
         Sell
       </Button>
     </>
