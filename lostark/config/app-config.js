@@ -6,8 +6,7 @@ const environment = {
         ssl: false,
         port: PORT,
         hostname: `localhost`,
-        // dbString: `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@${process.env.MONGO_ADDR}:27017/lostarkDev?&authSource=admin`
-        dbString: "mongodb://localhost:27017/lostarkDev"
+        dbString: `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@${process.env.MONGO_ADDR}:27017/lostarkDev?&authSource=admin`
     },
     production: {
         ssl: true,

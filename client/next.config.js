@@ -6,13 +6,12 @@ const nextConfig = {
   },
   async rewrites() {
     return [
-      { 
+      {
         source: "/api/:path*",
-        // destination: `https://${process.env.BACKEND_HOST}/:path*`
-        destination: `http://localhost:4000/:path*`
-      }
-    ]
-  }
-}
+        destination: `https://${process.env.BACKEND_HOST}/:path*`,
+      },
+    ];
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
