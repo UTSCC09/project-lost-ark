@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { handleError } from "@/utils/utils";
 import { AccountContext } from "@/context/AccountContext";
-import { motion } from "framer-motion";
+import TransitionWrapper from "@/components/TransitionWrapper/TransitionWrapper";
 
 const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
   const query = useContext(AccountContext)!;
@@ -66,11 +66,7 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
 
   return (
     <div className="signin-form-container">
-      <motion.div
-        initial={{ opacity: 0, translateY: 20 }}
-        animate={{ opacity: 1, translateY: 0 }}
-        exit={{ opacity: 0, translateY: 20 }}
-      >
+      <TransitionWrapper>
         <Paper shadow="xs" radius="md" className="paper">
           <form onSubmit={handleSubmit}>
             <h2>{content.title}</h2>
@@ -110,7 +106,7 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
             </Link>
           </form>
         </Paper>
-      </motion.div>
+      </TransitionWrapper>
     </div>
   );
 };

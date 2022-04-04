@@ -1,14 +1,14 @@
 import { useContext, useMemo } from "react";
 import { ActionIcon, Group, Paper, Title } from "@mantine/core";
-import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { ArrowLeft } from "tabler-icons-react";
-import { roundToDecimals } from "@/utils/utils";
-import Chart from "@/components/Chart/Chart";
 import { AccountContext } from "@/context/AccountContext";
 import { CoinData, CoinHistoryData } from "@/types/types";
+import { roundToDecimals } from "@/utils/utils";
 import BuyModal from "@/components/BuyModal/BuyModal";
+import Chart from "@/components/Chart/Chart";
 import SellModal from "@/components/SellModal/SellModal";
+import TransitionWrapper from "@/components/TransitionWrapper/TransitionWrapper";
 
 const Coin: React.FC<{
   coin: CoinData;
@@ -33,11 +33,7 @@ const Coin: React.FC<{
   }, [coinHistory]);
 
   return (
-    <motion.div
-      exit={{ opacity: 0, translateY: 20 }}
-      initial={{ opacity: 0, translateY: 20 }}
-      animate={{ opacity: 1, translateY: 0 }}
-    >
+    <TransitionWrapper>
       <Paper shadow="xs" radius="sm" p="md">
         <Group style={{ marginBottom: "0.5rem" }} position="apart">
           <Group>
@@ -77,7 +73,7 @@ const Coin: React.FC<{
           setDays={setDays}
         />
       </Paper>
-    </motion.div>
+    </TransitionWrapper>
   );
 };
 

@@ -1,18 +1,14 @@
 import { Button, Paper, Table, Title, useMantineTheme } from "@mantine/core";
-import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { CoinData } from "@/types/types";
+import TransitionWrapper from "@/components/TransitionWrapper/TransitionWrapper";
 
 const Crypto: React.FC<{ coins: CoinData[] }> = ({ coins }) => {
   const router = useRouter();
   const theme = useMantineTheme();
 
   return (
-    <motion.div
-      exit={{ opacity: 0, translateY: 20 }}
-      initial={{ opacity: 0, translateY: 20 }}
-      animate={{ opacity: 1, translateY: 0 }}
-    >
+    <TransitionWrapper>
       <Paper shadow="xs" radius="sm" p="md">
         <Title order={3} style={{ marginBottom: "0.5rem" }}>
           Trade Crypto
@@ -50,7 +46,7 @@ const Crypto: React.FC<{ coins: CoinData[] }> = ({ coins }) => {
           </tbody>
         </Table>
       </Paper>
-    </motion.div>
+    </TransitionWrapper>
   );
 };
 

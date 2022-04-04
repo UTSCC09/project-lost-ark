@@ -13,7 +13,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-ENV BACKEND_HOST api.coinark.garyxie.me 
+ENV BACKEND_HOST https://api.coinark.garyxie.me 
 RUN npm run build
 
 FROM node:16-alpine AS runner

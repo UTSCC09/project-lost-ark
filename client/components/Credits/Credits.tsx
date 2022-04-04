@@ -1,17 +1,9 @@
 import { Title, List, Anchor } from "@mantine/core";
-import { motion } from "framer-motion";
+import TransitionWrapper from "@/components/TransitionWrapper/TransitionWrapper";
 
 const Credits = () => {
   return (
-    <motion.div
-      className="credits"
-      exit={{ opacity: 0, translateY: 20 }}
-      initial={{ opacity: 0, translateY: 20 }}
-      animate={{
-        opacity: 1,
-        translateY: 0,
-      }}
-    >
+    <TransitionWrapper className="credits">
       <Title order={1}>Credits</Title>
       <div className="credits-section">
         <Title order={3}>UI Frameworks and Libraries</Title>
@@ -94,7 +86,7 @@ const Credits = () => {
           </List.Item>
         </List>
       </div>
-    </motion.div>
+    </TransitionWrapper>
   );
 };
 

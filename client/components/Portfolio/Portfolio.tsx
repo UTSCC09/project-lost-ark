@@ -1,11 +1,11 @@
 import { useContext, useEffect, useMemo, useState } from "react";
-import Chart from "@/components/Chart/Chart";
-import { AccountContext } from "@/context/AccountContext";
-import PortfolioTable from "@/components/PortfolioTable/PortfolioTable";
-import { motion } from "framer-motion";
-import { Loader, Paper, Title } from "@mantine/core";
 import { gql, useQuery } from "@apollo/client";
+import { Loader, Paper, Title } from "@mantine/core";
+import { AccountContext } from "@/context/AccountContext";
 import { roundToDecimals } from "@/utils/utils";
+import Chart from "@/components/Chart/Chart";
+import PortfolioTable from "@/components/PortfolioTable/PortfolioTable";
+import TransitionWrapper from "@/components/TransitionWrapper/TransitionWrapper";
 
 type AccountHistory = {
   accountHistoryBalance: {
@@ -67,12 +67,7 @@ const Portfolio: React.FC = () => {
     );
   }
   return (
-    <motion.div
-      exit={{ opacity: 0, translateY: 20 }}
-      initial={{ opacity: 0, translateY: 20 }}
-      animate={{ opacity: 1, translateY: 0 }}
-      className="portfolio"
-    >
+    <TransitionWrapper className="portfolio">
       <Paper shadow="xs" radius="sm" p="md">
         <Title order={3} style={{ marginBottom: "0.5rem" }}>
           Your Portfolio
@@ -89,7 +84,7 @@ const Portfolio: React.FC = () => {
         </div>
         <PortfolioTable />
       </Paper>
-    </motion.div>
+    </TransitionWrapper>
   );
 };
 

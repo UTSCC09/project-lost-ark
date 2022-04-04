@@ -6,11 +6,11 @@ import {
   ThemeIcon,
   UnstyledButton,
 } from "@mantine/core";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { Coin, Icon, User } from "tabler-icons-react";
+import TransitionWrapper from "@/components/TransitionWrapper/TransitionWrapper";
 
 type NavButtonProps = {
   Icon: Icon;
@@ -74,11 +74,7 @@ const Navbar: React.FC = () => {
   const router = useRouter();
 
   return (
-    <motion.div
-      exit={{ opacity: 0, translateY: 20 }}
-      initial={{ opacity: 0, translateY: 20 }}
-      animate={{ opacity: 1, translateY: 0, transition: { delay: 0.35 } }}
-    >
+    <TransitionWrapper transition={{ delay: 0.35 }}>
       <MantineNavbar width={{ xs: 250 }} p="md">
         <MantineNavbar.Section grow>
           {tabs.map((tab) => (
@@ -97,7 +93,7 @@ const Navbar: React.FC = () => {
           ))}
         </MantineNavbar.Section>
       </MantineNavbar>
-    </motion.div>
+    </TransitionWrapper>
   );
 };
 
