@@ -10,18 +10,20 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
-    "@mantine/core": "^3.6.14",
-    "@mantine/hooks": "^3.6.14",
-    "@mantine/modals": "^3.6.14",
-    "@mantine/next": "^4.0.4",
-    "@mantine/notifications": "^3.6.14",
+    "@mantine/core": "^4.1.1",
+    "@mantine/hooks": "^4.1.1",
+    "@mantine/modals": "^4.1.1",
+    "@mantine/next": "^4.1.1",
+    "@mantine/notifications": "^4.1.1",
     "axios": "^0.26.1",
     "d3": "^7.3.0",
+    "framer-motion": "^6.2.8",
     "graphql": "^16.3.0",
     "next": "12.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "sass": "^1.49.9"
+    "sass": "^1.49.9",
+    "tabler-icons-react": "^1.43.0"
   },
   "devDependencies": {
     "@types/d3": "^7.1.0",

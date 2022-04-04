@@ -1,6 +1,8 @@
 import * as d3 from "d3";
-import { useEffect, useRef } from "react";
+import { Button, Group, Text, Tooltip, useMantineTheme } from "@mantine/core";
+import { useEffect, useMemo, useRef } from "react";
 import styles from "./Chart.module.scss";
+import { roundToDecimals } from "@/utils/utils";
 
 type ChartData = {
   value: number;
@@ -11,14 +13,37 @@ type ChartSVG = d3.Selection<SVGGElement, unknown, null, undefined>;
 type XScale = d3.ScaleTime<number, number, never>;
 type YScale = d3.ScaleLinear<number, number, never>;
 
+const DAYS = [
+  { label: "1D", duration: "Day", days: 1 },
+  { label: "1W", duration: "Week", days: 7 },
+  { label: "1M", duration: "Month", days: 31 },
+  { label: "1Y", duration: "Year", days: 365 },
+];
+
 // Credits: D3 chart initialization code from https://www.freecodecamp.org/news/how-to-build-historical-price-charts-with-d3-js-72214aaf6ba3/
-const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
+const Chart: React.FC<{
+  data: ChartData[];
+  days: number;
+  setDays: (days: number) => void;
+  aspectRatio?: string;
+}> = ({ data, days, setDays, aspectRatio = "4 / 1" }) => {
+  const theme = useMantineTheme();
   const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    initializeChart(data);
+  const { netChange, duration } = useMemo(() => {
+    const startPrice = data[0].value;
+    const endPrice = data[data.length - 1].value;
+    const netChange = roundToDecimals((endPrice / startPrice - 1) * 100, 2);
+    const duration = DAYS.find(
+      (day) => day.days === days
+    )?.duration.toLowerCase();
+    return { netChange, duration };
   }, [data]);
 
-  const initializeChart = (data: ChartData[]) => {
+  useEffect(() => {
+    initializeChart();
+  }, [data, theme]);
+
+  const initializeChart = () => {
     ref.current!.innerHTML = "";
     const margin = { top: 20, right: 60, bottom: 20, left: 36 };
     const { clientWidth, clientHeight } = ref.current!;
@@ -61,11 +86,6 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
       .attr("perserveAspectRatio", "xMinYMid")
       .call(resize);
 
-    // to register multiple listeners for same event type,
-    // you need to add namespace, i.e., 'click.foo'
-    // necessary if you call invoke this function for multiple svgs
-    // api docs: https://github.com/mbostock/d3/wiki/Selections#on
-    // TODO: Issue, this is a memory leak currently due to not removing event listeners
     d3.select(window).on("resize." + container.attr("id"), resize);
   };
 
@@ -109,7 +129,7 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
       .data([data])
       .style("fill", "none")
       .attr("id", "priceChart")
-      .attr("stroke", "#12b886")
+      .attr("stroke", netChange >= 0 ? "#12b886" : "#ff6b6b")
       .attr("stroke-width", "2")
       .attr("d", line);
   };
@@ -164,13 +184,17 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
             year: "numeric",
           })}`
         )
-        .style("fill", "black")
+        .style(
+          "fill",
+          `${theme.colorScheme === "dark" ? theme.colors.dark[0] : "#000"}`
+        )
         .style("font-size", "0.75rem")
         .style(
           "transform",
-          `translate(-60px, ${-yScale(currentPoint.value) - 5}px)`
+          `translate(-${Math.min(90, xScale(currentPoint.date))}px, ${
+            -yScale(currentPoint.value) - 10
+          }px)`
         );
-      // updateLegends(currentPoint);
     };
 
     const focus = svg
@@ -195,41 +219,40 @@ const Chart: React.FC<{ data: ChartData[] }> = ({ data }) => {
     d3.selectAll(".focus line").style("stroke", "#9b9e9d");
     d3.selectAll(".focus line").style("stroke-width", "1.5px");
     d3.selectAll(".focus line").style("stroke-dasharray", "3 3");
-
-    // const updateLegends = (currentData) => {
-    //   d3.selectAll(".lineLegend").remove();
-    //   const legendKeys = Object.keys(data[0]);
-    //   const lineLegend = svg
-    //     .selectAll(".lineLegend")
-    //     .data(legendKeys)
-    //     .enter()
-    //     .append("g")
-    //     .attr("class", "lineLegend")
-    //     .attr("transform", (d, i) => {
-    //       return `translate(0, ${i * 20})`;
-    //     });
-    //   lineLegend
-    //     .append("text")
-    //     .text((d) => {
-    //       if (d === "date") {
-    //         return `${d}: ${currentData[d].toLocaleDateString()}`;
-    //       } else if (
-    //         d === "high" ||
-    //         d === "low" ||
-    //         d === "open" ||
-    //         d === "close"
-    //       ) {
-    //         return `${d}: ${currentData[d].toFixed(2)}`;
-    //       } else {
-    //         return `${d}: ${currentData[d]}`;
-    //       }
-    //     })
-    //     .style("fill", "white")
-    //     .attr("transform", "translate(15,9)");
-    // };
   };
 
-  return <div className={styles.chart} ref={ref} />;
+  return (
+    <Group spacing={0} direction="column">
+      <Group className={styles.filterGroup} mb="1rem" spacing="xs">
+        {DAYS.map((data) => (
+          <Tooltip label={`1 ${data.duration}`} withArrow>
+            <Button
+              key={data.label}
+              color="teal"
+              size="xs"
+              variant="subtle"
+              sx={(theme) => ({
+                backgroundColor:
+                  days === data.days
+                    ? theme.colorScheme === "dark"
+                      ? "rgba(9, 146, 104, 0.35)"
+                      : theme.colors.teal[0]
+                    : undefined,
+              })}
+              onClick={() => setDays(data.days)}
+            >
+              {data.label}
+            </Button>
+          </Tooltip>
+        ))}
+        <Text color={netChange >= 0 ? "teal" : "red"}>
+          ({netChange > 0 && "+"}
+          {netChange}% in past {duration})
+        </Text>
+      </Group>
+      <div className={styles.chart} style={{ aspectRatio }} ref={ref} />
+    </Group>
+  );
 };
 
 export default Chart;

@@ -16,7 +16,7 @@ jobs:
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
   push:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     if: github.event_name == 'push'
     defaults:
       run:
@@ -29,7 +29,6 @@ jobs:
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
       - name: Log into GitHub Container Registry
-        # TODO: Create a Personal Access Tokens (PAT) with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
         run: echo "${{ secrets.CR_PAT }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Push image to GitHub Container Registry
@@ -50,22 +49,14 @@ jobs:
   deploy:
     needs: push
     name: Deploy Backend to Production
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: "Build and Deploy to Production Server"
         uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.SSH_HOST }} # IP address of VM
-          username: ${{ secrets.SSH_USERNAME }} # Username to sign into VM as (e.g. root)
-          # This is the private key generated in the server via ssh-keygen (remember to add the public key to the server's ~/.ssh/authorized_keys file too)
+          username: ${{ secrets.SSH_USERNAME }} # Username to sign into VM
           key: ${{ secrets.SSH_KEY }}
-          # script: |
-          #   docker pull ghcr.io/utscc09/backend-garyjx
-          #   docker rm -f $(docker ps -q -a --filter ancestor=ghcr.io/utscc09/backend-garyjx)
-          #   docker run -d --rm -p 3000:3000 -v $(pwd)/db:/usr/src/app/db ghcr.io/utscc09/backend-garyjx
-          
-          # Note: First time, must scp the docker-compose.yml file to the server
           script: |
             cd cscc09-coinark
             docker-compose pull && docker-compose up -d
-            

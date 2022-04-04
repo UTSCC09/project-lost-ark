@@ -1,9 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, */
-  /* Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 #__next {
@@ -12,25 +19,50 @@ body {
   min-height: 100vh;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.error-404 {
+  position: absolute;
+  top: var(--mantine-header-height);
+  bottom: var(--mantine-footer-height);
+  left: 0;
+  right: 0;
+  display: grid;
+  place-items: center;
 }
 
-* {
-  box-sizing: border-box;
+.credits-section {
+  margin-top: 1rem;
+  & > * + * {
+    margin-top: 0.5rem;
+  }
 }
 
-.mantine-TextInput-required,
-.mantine-Select-required,
-.mantine-NumberInput-required {
-  display: none;
-}
-
-.space-between {
+.modal-form {
   & > * + * {
     margin-top: 1rem;
   }
+
+  &.dark input:disabled {
+    color: hsl(225, 3%, 76%);
+  }
+}
+
+.mantine-AppShell-root {
+  flex: 1;
+}
+
+.mantine-AppShell-main {
+  height: calc(
+    100vh - var(--mantine-header-height) - var(--mantine-footer-height)
+  );
+  overflow-y: auto;
+}
+
+.mantine-TextInput-required {
+  display: none;
+}
+
+.mantine-Modal-inner {
+  align-items: center;
 }
 
 .mantine-Modal-root form input:disabled {

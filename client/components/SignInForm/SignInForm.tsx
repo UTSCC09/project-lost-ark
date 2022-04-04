@@ -1,17 +1,19 @@
 import styles from "./SignInForm.module.scss";
-import { FormEvent, useContext, useEffect, useMemo } from "react";
-import { Button, TextInput } from "@mantine/core";
+import { FormEvent, useContext, useEffect, useMemo, useState } from "react";
+import { Button, Loader, Paper, TextInput } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { handleError } from "@/utils/utils";
 import { AccountContext } from "@/context/AccountContext";
+import { motion } from "framer-motion";
 
 const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
   const query = useContext(AccountContext)!;
   const router = useRouter();
   const notifications = useNotifications();
+  const [submitting, setSubmitting] = useState(false);
   const content = useMemo(() => {
     if (type === "signin") {
       return {
@@ -37,6 +39,7 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
     const formData = new FormData(formElement);
     const { username, password } = Object.fromEntries(formData);
 
+    setSubmitting(true);
     axios
       .post(`/api/${type}`, { username, password })
       .then((res) => {
@@ -44,7 +47,7 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
           .refetch()
           .catch(() => {})
           .finally(() => {
-            router.push("/dashboard");
+            router.push("/portfolio");
           });
       })
       .catch((err) => {
@@ -58,35 +61,57 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
             break;
         }
         handleError(err, { notifications, errorMsg });
+        setSubmitting(false);
       });
   };
 
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <h2>{content.title}</h2>
-        <TextInput
-          id="username"
-          name="username"
-          label="Username"
-          required
-          size="lg"
-        />
-        <TextInput
-          id="password"
-          name="password"
-          label="Password"
-          required
-          size="lg"
-          type="password"
-        />
-        <Button type="submit" fullWidth color="teal" size="lg">
-          {content.btnText}
-        </Button>
-        <Link href={content.redirect}>
-          <a className={styles.toggleForm}>{content.toggleText}</a>
-        </Link>
-      </form>
+      <motion.div
+        initial={{ opacity: 0, translateY: 20 }}
+        animate={{ opacity: 1, translateY: 0 }}
+        exit={{ opacity: 0, translateY: 20 }}
+      >
+        <Paper shadow="xs" radius="md" className={styles.paper}>
+          <form className={styles.form} onSubmit={handleSubmit}>
+            <h2>{content.title}</h2>
+            <TextInput
+              id="username"
+              name="username"
+              label="Username"
+              required
+              size="lg"
+            />
+            <TextInput
+              id="password"
+              name="password"
+              label="Password"
+              required
+              size="lg"
+              type="password"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              color="teal"
+              size="lg"
+              disabled={submitting}
+            >
+              {content.btnText}
+              {submitting && (
+                <Loader
+                  style={{ position: "absolute", right: "1rem" }}
+                  size="xs"
+                  color="teal"
+                />
+              )}
+            </Button>
+            <Link href={content.redirect}>
+              <a className={styles.toggleForm}>{content.toggleText}</a>
+            </Link>
+          </form>
+        </Paper>
+      </motion.div>
     </div>
   );
 };
