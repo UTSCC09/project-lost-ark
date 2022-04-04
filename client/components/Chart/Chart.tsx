@@ -1,3 +1,4 @@
+import { Group, useMantineTheme } from "@mantine/core";
 import * as d3 from "d3";
 import { useEffect, useRef } from "react";
 import styles from "./Chart.module.scss";
@@ -16,10 +17,11 @@ const Chart: React.FC<{ data: ChartData[]; aspectRatio?: string }> = ({
   data,
   aspectRatio = "4 / 1",
 }) => {
+  const theme = useMantineTheme();
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     initializeChart(data);
-  }, [data]);
+  }, [data, theme]);
 
   const initializeChart = (data: ChartData[]) => {
     ref.current!.innerHTML = "";
@@ -167,11 +169,16 @@ const Chart: React.FC<{ data: ChartData[]; aspectRatio?: string }> = ({
             year: "numeric",
           })}`
         )
-        .style("fill", "black")
+        .style(
+          "fill",
+          `${theme.colorScheme === "dark" ? theme.colors.dark[0] : "#000"}`
+        )
         .style("font-size", "0.75rem")
         .style(
           "transform",
-          `translate(-60px, ${-yScale(currentPoint.value) - 5}px)`
+          `translate(-${Math.min(90, xScale(currentPoint.date))}px, ${
+            -yScale(currentPoint.value) - 10
+          }px)`
         );
       // updateLegends(currentPoint);
     };
@@ -232,7 +239,12 @@ const Chart: React.FC<{ data: ChartData[]; aspectRatio?: string }> = ({
     // };
   };
 
-  return <div className={styles.chart} style={{ aspectRatio }} ref={ref} />;
+  return (
+    <Group spacing={0} align="flex-end" direction="column">
+      <div>TODO: Filter by Dates</div>
+      <div className={styles.chart} style={{ aspectRatio }} ref={ref} />
+    </Group>
+  );
 };
 
 export default Chart;

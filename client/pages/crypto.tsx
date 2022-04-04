@@ -1,7 +1,8 @@
-import Crypto, { Coin } from "@/components/Crypto/Crypto";
+import Crypto from "@/components/Crypto/Crypto";
 import { gql, useQuery } from "@apollo/client";
 import { Loader } from "@mantine/core";
 import { NextPage } from "next";
+import { CoinData } from "@/types/types";
 
 const COINS_QUERY = gql`
   query AllCoinsQuery {
@@ -15,7 +16,7 @@ const COINS_QUERY = gql`
 `;
 
 const CryptoPage: NextPage = () => {
-  const query = useQuery<{ coins: Coin[] }>(COINS_QUERY);
+  const query = useQuery<{ coins: CoinData[] }>(COINS_QUERY);
   if (query.loading) {
     return (
       <div style={{ height: "100%", display: "grid", placeItems: "center" }}>

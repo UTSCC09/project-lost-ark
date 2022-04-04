@@ -9,6 +9,7 @@ type AccountQuery = {
     wallet: {
       coin: {
         _id: string;
+        symbol: string;
         name: string;
         price: number;
       };
@@ -33,6 +34,7 @@ const ACCOUNT_QUERY = gql`
       wallet {
         coin {
           _id
+          symbol
           name
           price
         }

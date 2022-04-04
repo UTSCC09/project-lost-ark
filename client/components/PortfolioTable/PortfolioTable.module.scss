@@ -1,0 +1,11 @@
+.tableRow {
+  cursor: pointer;
+  &:hover {
+    background-color: #f1f3f5;
+  }
+  &.dark {
+    &:hover {
+      background-color: #25262b;
+    }
+  }
+}

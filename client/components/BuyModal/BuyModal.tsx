@@ -30,7 +30,7 @@ const BUY_COIN = gql`
   }
 `;
 
-const TradeModal: React.FC = () => {
+const BuyModal: React.FC = () => {
   const accountQuery = useContext(AccountContext);
   const [modalOpen, setModalOpen] = useState(false);
   const notifications = useNotifications();
@@ -129,4 +129,4 @@ const TradeModal: React.FC = () => {
   );
 };
 
-export default TradeModal;
+export default BuyModal;

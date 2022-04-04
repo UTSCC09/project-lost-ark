@@ -63,7 +63,7 @@ const Coin: React.FC<{ coin: CoinData; coinHistory: CoinHistoryData }> = ({
         <Group position="apart">
           <Group direction="column" spacing={0}>
             <h2 className={styles.sectionTitle}>Current Price</h2>
-            <div className={styles.price}>${coin.price}</div>
+            <div className={styles.price}>${coin.price.toFixed(2)}</div>
           </Group>
           <Group direction="column" align="flex-end" spacing={0}>
             <h2 className={styles.sectionTitle}>You Own</h2>
