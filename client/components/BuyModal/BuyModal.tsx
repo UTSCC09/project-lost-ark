@@ -1,24 +1,18 @@
 import { AccountContext } from "@/context/AccountContext";
 import { CoinData } from "@/types/types";
 import { handleError } from "@/utils/utils";
-import { gql, useMutation, useQuery } from "@apollo/client";
-import { Button, Modal, NumberInput, Select } from "@mantine/core";
+import { gql, useMutation } from "@apollo/client";
+import {
+  Button,
+  Modal,
+  NumberInput,
+  Select,
+  TextInput,
+  Title,
+  useMantineTheme,
+} from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
 import { FormEvent, useContext, useMemo, useState } from "react";
-
-const COINS_QUERY = gql`
-  query AllCoinsQuery {
-    coins {
-      _id
-      symbol
-      name
-      price
-    }
-    user {
-      cash
-    }
-  }
-`;
 
 const BUY_COIN = gql`
   mutation BuyCoin($coin: String!, $quantity: Float!) {
@@ -30,41 +24,35 @@ const BUY_COIN = gql`
   }
 `;
 
-const BuyModal: React.FC = () => {
+const BuyModal: React.FC<{ coin: CoinData }> = ({ coin }) => {
+  const theme = useMantineTheme();
+  const [buyCoin] = useMutation(BUY_COIN);
+  const notifications = useNotifications();
   const accountQuery = useContext(AccountContext);
   const [modalOpen, setModalOpen] = useState(false);
-  const notifications = useNotifications();
-  const query = useQuery<{ coins: CoinData[]; user: { cash: number } }>(
-    COINS_QUERY
-  );
-  const { coins = [], user } = query.data ?? {};
-  const [buyCoin] = useMutation(BUY_COIN);
-  const [selectedCoin, setSelectedCoin] = useState<string>("");
-  const [quantity, setQuantity] = useState<number | undefined>(0);
-  const selectedPrice = useMemo(() => {
-    const price: number | undefined = coins.filter(
-      (coin) => coin._id === selectedCoin
-    )[0]?.price;
-    return price;
-  }, [coins, selectedCoin]);
+  const [quantity, setQuantity] = useState<string>("");
 
   const handleClose = () => {
     setModalOpen(false);
-    setSelectedCoin("");
-    setQuantity(undefined);
+    setQuantity("");
   };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!selectedCoin || !quantity || quantity <= 0) return;
+    const quantityNum = Number(quantity);
+    if (quantityNum <= 0) {
+      notifications.showNotification({
+        message: "Quantity must be greater than 0",
+        color: "red",
+      });
+      return;
+    }
 
-    buyCoin({ variables: { coin: selectedCoin, quantity: quantity } })
+    buyCoin({ variables: { coin: coin._id, quantity: quantityNum } })
       .then((data) => {
         accountQuery?.refetch();
-        const coinName = coins.filter((coin) => coin._id === selectedCoin)[0]
-          ?.name;
         notifications.showNotification({
-          message: `Successfully bought ${quantity} ${coinName}`,
+          message: `Successfully bought ${quantity} ${coin.symbol.toUpperCase()}`,
           color: "teal",
         });
         handleClose();
@@ -74,56 +62,53 @@ const BuyModal: React.FC = () => {
 
   return (
     <>
-      <Modal opened={modalOpen} onClose={handleClose} title="Buy">
-        <form className="space-between" onSubmit={handleSubmit}>
-          <Select
-            label="Cryptocurrency"
-            value={{ value: selectedCoin } as any}
-            onChange={(val) => setSelectedCoin(val ?? "")}
-            data={coins.map((coin) => ({
-              label: coin.name,
-              value: coin._id,
-            }))}
-            searchable
-            required
-          />
-          <NumberInput
-            label="Unit Price"
+      <Modal
+        opened={modalOpen}
+        onClose={handleClose}
+        title={
+          <Title order={3}>
+            Buy {coin.name} ({coin.symbol.toUpperCase()})
+          </Title>
+        }
+      >
+        <form
+          className={`
+            modal-form 
+            ${theme.colorScheme === "dark" ? "dark" : "light"}
+          `}
+          onSubmit={handleSubmit}
+        >
+          <TextInput
             disabled
-            value={selectedPrice}
-            precision={2}
-            formatter={(value) => `$ ${value}`}
+            label="Unit Price"
+            value={`$ ${coin.price.toFixed(2)}`}
           />
-          <NumberInput
+          <TextInput
             label="Quantity"
             value={quantity}
-            required
-            onChange={setQuantity}
-            min={0.01}
-            precision={2}
-            step={0.1}
+            onChange={(e) => {
+              if (!isNaN(Number(e.target.value))) {
+                setQuantity(e.target.value);
+              }
+            }}
           />
-          <NumberInput
+          <TextInput
+            disabled
             label="Estimated Total Price"
-            disabled
-            value={quantity! * selectedPrice || 0}
-            precision={2}
-            formatter={(value) => `$ ${value}`}
+            value={`$ ${(Number(quantity) * coin.price).toFixed(2)}`}
           />
-          <NumberInput
-            label="Your Current Cash Balance"
+          <TextInput
             disabled
-            value={user?.cash}
-            precision={2}
-            formatter={(value) => `$ ${value}`}
+            label="Current Cash Balance"
+            value={`$ ${(accountQuery?.account?.user.cash || 0).toFixed(2)}`}
           />
           <Button type="submit" color="teal" fullWidth>
             Purchase
           </Button>
         </form>
       </Modal>
-      <Button color="teal" onClick={() => setModalOpen(true)}>
-        Trade
+      <Button color="teal" variant="light" onClick={() => setModalOpen(true)}>
+        Buy
       </Button>
     </>
   );

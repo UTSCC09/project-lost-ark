@@ -46,9 +46,13 @@ a {
   display: none;
 }
 
-.space-between {
+.modal-form {
   & > * + * {
     margin-top: 1rem;
+  }
+
+  &.dark input:disabled {
+    color: hsl(225, 3%, 76%);
   }
 }
 

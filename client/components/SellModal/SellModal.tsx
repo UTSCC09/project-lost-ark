@@ -69,7 +69,7 @@ const SellModal: React.FC = () => {
         onClose={handleClose}
         title={`Sell ${selectedCoin?.coin.name ?? ""}`}
       >
-        <form onSubmit={handleSubmit} className="space-between">
+        <form onSubmit={handleSubmit} className="modal-form">
           <TextInput
             label="Amount Owned"
             disabled

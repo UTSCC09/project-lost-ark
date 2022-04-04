@@ -8,6 +8,7 @@ import { roundToDecimals } from "@/utils/utils";
 import Chart from "@/components/Chart/Chart";
 import { AccountContext } from "@/context/AccountContext";
 import { CoinData, CoinHistoryData } from "@/types/types";
+import BuyModal from "@/components/BuyModal/BuyModal";
 
 const Coin: React.FC<{ coin: CoinData; coinHistory: CoinHistoryData }> = ({
   coin,
@@ -52,9 +53,10 @@ const Coin: React.FC<{ coin: CoinData; coinHistory: CoinHistoryData }> = ({
           </Group>
           <Group>
             {/* TODO: Handle Buy/Sell */}
-            <Button color="teal" variant="light">
+            {/* <Button color="teal" variant="light">
               Buy
-            </Button>
+            </Button> */}
+            <BuyModal coin={coin} />
             <Button color="teal" variant="light">
               Sell
             </Button>
