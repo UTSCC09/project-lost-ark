@@ -48,6 +48,15 @@ const Credits = () => {
         <Title order={3}>Backend Documentation and References</Title>
         <List withPadding>
           <List.Item>
+            Cryptocurrency Prices API:{" "}
+            <Anchor
+              href="https://www.coingecko.com/en/api/documentation"
+              target="_blank"
+            >
+              Coin Gecko API
+            </Anchor>
+          </List.Item>
+          <List.Item>
             <Anchor
               href="https://www.apollographql.com/docs/tutorial"
               target="_blank"
