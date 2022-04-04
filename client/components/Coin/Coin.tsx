@@ -1,4 +1,3 @@
-import styles from "./Coin.module.scss";
 import { useContext, useMemo } from "react";
 import { ActionIcon, Group, Paper, Title } from "@mantine/core";
 import { motion } from "framer-motion";
@@ -60,12 +59,12 @@ const Coin: React.FC<{
         </Group>
         <Group position="apart">
           <Group direction="column" spacing={0}>
-            <h2 className={styles.sectionTitle}>Current Price</h2>
-            <div className={styles.price}>${coin.price.toFixed(2)}</div>
+            <h2 className="section-title">Current Price</h2>
+            <div className="main-title">${coin.price.toFixed(2)}</div>
           </Group>
           <Group direction="column" align="flex-end" spacing={0}>
-            <h2 className={styles.sectionTitle}>You Own</h2>
-            <div className={styles.price}>
+            <h2 className="section-title">You Own</h2>
+            <div className="main-title">
               {ownedCoins} {coin.symbol.toUpperCase()}
             </div>
           </Group>

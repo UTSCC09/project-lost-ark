@@ -1,7 +1,6 @@
 import * as d3 from "d3";
 import { Button, Group, Text, Tooltip, useMantineTheme } from "@mantine/core";
 import { useEffect, useMemo, useRef } from "react";
-import styles from "./Chart.module.scss";
 import { roundToDecimals } from "@/utils/utils";
 
 type ChartData = {
@@ -222,8 +221,8 @@ const Chart: React.FC<{
   };
 
   return (
-    <Group spacing={0} direction="column">
-      <Group className={styles.filterGroup} mb="1rem" spacing="xs">
+    <Group className="chart-container" spacing={0} direction="column">
+      <Group className="filter-group" mb="1rem" spacing="xs">
         {DAYS.map((data) => (
           <Tooltip key={data.label} label={`1 ${data.duration}`} withArrow>
             <Button
@@ -249,7 +248,7 @@ const Chart: React.FC<{
           {netChange}% in past {duration})
         </Text>
       </Group>
-      <div className={styles.chart} style={{ aspectRatio }} ref={ref} />
+      <div className="chart" style={{ aspectRatio }} ref={ref} />
     </Group>
   );
 };

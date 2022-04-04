@@ -1,4 +1,3 @@
-import styles from "./SignInForm.module.scss";
 import { FormEvent, useContext, useEffect, useMemo, useState } from "react";
 import { Button, Loader, Paper, TextInput } from "@mantine/core";
 import { useNotifications } from "@mantine/notifications";
@@ -66,14 +65,14 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className="signin-form-container">
       <motion.div
         initial={{ opacity: 0, translateY: 20 }}
         animate={{ opacity: 1, translateY: 0 }}
         exit={{ opacity: 0, translateY: 20 }}
       >
-        <Paper shadow="xs" radius="md" className={styles.paper}>
-          <form className={styles.form} onSubmit={handleSubmit}>
+        <Paper shadow="xs" radius="md" className="paper">
+          <form onSubmit={handleSubmit}>
             <h2>{content.title}</h2>
             <TextInput
               id="username"
@@ -107,7 +106,7 @@ const SignInForm: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
               )}
             </Button>
             <Link href={content.redirect}>
-              <a className={styles.toggleForm}>{content.toggleText}</a>
+              <a className="toggle-form">{content.toggleText}</a>
             </Link>
           </form>
         </Paper>

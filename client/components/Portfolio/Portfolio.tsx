@@ -1,6 +1,5 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import Chart from "@/components/Chart/Chart";
-import styles from "./Portfolio.module.scss";
 import { AccountContext } from "@/context/AccountContext";
 import PortfolioTable from "@/components/PortfolioTable/PortfolioTable";
 import { motion } from "framer-motion";
@@ -42,7 +41,10 @@ const Portfolio: React.FC = () => {
     ];
     if (accountHistory.length === 0) {
       const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
-      accountHistory.push({ balance: balance!, timestamp: yesterday.getTime() });
+      accountHistory.push({
+        balance: balance!,
+        timestamp: yesterday.getTime(),
+      });
     }
     accountHistory.push({ balance: balance!, timestamp: Date.now() });
     return accountHistory.map((row) => ({
@@ -69,19 +71,19 @@ const Portfolio: React.FC = () => {
       exit={{ opacity: 0, translateY: 20 }}
       initial={{ opacity: 0, translateY: 20 }}
       animate={{ opacity: 1, translateY: 0 }}
-      className={styles.portfolio}
+      className="portfolio"
     >
       <Paper shadow="xs" radius="sm" p="md">
         <Title order={3} style={{ marginBottom: "0.5rem" }}>
           Your Portfolio
         </Title>
-        <h2 className={styles.sectionTitle}>Total Account Balance</h2>
-        <div className={styles.balance}>${balance?.toFixed(2)}</div>
+        <h2 className="section-title">Total Account Balance</h2>
+        <div className="main-title">${balance?.toFixed(2)}</div>
         <Chart data={accountHistory} days={days} setDays={setDays} />
       </Paper>
       <Paper shadow="xs" radius="sm" p="md" style={{ marginTop: "1rem" }}>
-        <h2 className={styles.sectionTitle}>Assets</h2>
-        <div className={styles.cashBalance}>
+        <h2 className="section-title">Assets</h2>
+        <div className="cash-balance">
           Cash Balance: ${cash?.toFixed(2)} (
           {roundToDecimals((cash! / balance!) * 100, 2) || 0}%)
         </div>

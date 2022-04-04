@@ -1,11 +1,10 @@
-import styles from "./Credits.module.scss";
 import { Title, List, Anchor } from "@mantine/core";
 import { motion } from "framer-motion";
 
 const Credits = () => {
   return (
     <motion.div
-      className={styles.credits}
+      className="credits"
       exit={{ opacity: 0, translateY: 20 }}
       initial={{ opacity: 0, translateY: 20 }}
       animate={{

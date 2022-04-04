@@ -69,13 +69,6 @@ const CoinPage: NextPage = () => {
     query.refetch().then(() => setRefetching(false));
   }, [days]);
 
-  if (loading) {
-    return (
-      <div style={{ height: "100%", display: "grid", placeItems: "center" }}>
-        <Loader variant="bars" color="teal" />
-      </div>
-    );
-  }
   if (query.error) {
     return (
       <div style={{ height: "100%", display: "grid", placeItems: "center" }}>
@@ -83,10 +76,19 @@ const CoinPage: NextPage = () => {
       </div>
     );
   }
+
+  if (loading || !coinData) {
+    return (
+      <div style={{ height: "100%", display: "grid", placeItems: "center" }}>
+        <Loader variant="bars" color="teal" />
+      </div>
+    );
+  }
+
   return (
     <Coin
-      coin={coinData!.coin}
-      coinHistory={coinData!.coinHistory}
+      coin={coinData.coin}
+      coinHistory={coinData.coinHistory}
       days={days}
       setDays={setDays}
     />

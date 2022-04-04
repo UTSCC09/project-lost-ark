@@ -1,4 +1,3 @@
-import styles from "./Crypto.module.scss";
 import { Button, Paper, Table, Title, useMantineTheme } from "@mantine/core";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
@@ -18,13 +17,7 @@ const Crypto: React.FC<{ coins: CoinData[] }> = ({ coins }) => {
         <Title order={3} style={{ marginBottom: "0.5rem" }}>
           Trade Crypto
         </Title>
-        <Table
-          className={`
-            ${styles.cryptoTable} 
-            ${theme.colorScheme === "dark" ? styles.dark : ""}
-          `}
-          verticalSpacing="sm"
-        >
+        <Table verticalSpacing="sm">
           <thead>
             <tr>
               <th>#</th>
@@ -40,6 +33,7 @@ const Crypto: React.FC<{ coins: CoinData[] }> = ({ coins }) => {
               .map((coin, index) => (
                 <tr
                   key={coin._id}
+                  className={`hover-table-row ${theme.colorScheme}`}
                   onClick={() => router.push(`/crypto/${coin._id}`)}
                 >
                   <td>{index + 1}</td>

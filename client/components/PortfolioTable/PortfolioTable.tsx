@@ -1,4 +1,3 @@
-import styles from "./PortfolioTable.module.scss";
 import { AccountContext } from "@/context/AccountContext";
 import { roundToDecimals } from "@/utils/utils";
 import { Table, Button, Anchor, useMantineTheme } from "@mantine/core";
@@ -36,10 +35,7 @@ const PortfolioTable: React.FC = () => {
         {ownedCoins.map((row, index) => (
           <tr
             key={index}
-            className={`
-              ${styles.tableRow} 
-              ${theme.colorScheme === "dark" ? styles.dark : ""}
-            `}
+            className={`hover-table-row ${theme.colorScheme}`}
             onClick={() => router.push(`/crypto/${row.coin._id}`)}
           >
             <td>{index + 1}</td>

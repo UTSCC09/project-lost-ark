@@ -1,3 +1,12 @@
+// Bug with interaction between Next.js and Framer Motion: https://github.com/vercel/next.js/discussions/18724
+// Cannot use CSS modules, must import all styles globally
+@use "../components/Chart/Chart";
+@use "../components/Credits/Credits";
+@use "../components/Footer/Footer";
+@use "../components/Header/Header";
+@use "../components/Portfolio/Portfolio";
+@use "../components/SignInForm/SignInForm";
+
 * {
   box-sizing: border-box;
 }
@@ -29,13 +38,6 @@ a {
   place-items: center;
 }
 
-.credits-section {
-  margin-top: 1rem;
-  & > * + * {
-    margin-top: 0.5rem;
-  }
-}
-
 .modal-form {
   & > * + * {
     margin-top: 1rem;
@@ -44,6 +46,29 @@ a {
   &.dark input:disabled {
     color: hsl(225, 3%, 76%);
   }
+}
+
+.hover-table-row {
+  cursor: pointer;
+  &:hover {
+    background-color: #f1f3f5;
+  }
+  &.dark {
+    &:hover {
+      background-color: #25262b;
+    }
+  }
+}
+
+.section-title {
+  font-size: 1rem;
+  color: #868e96;
+  margin: 0;
+}
+
+.main-title {
+  font-weight: bold;
+  font-size: 2rem;
 }
 
 .mantine-AppShell-root {

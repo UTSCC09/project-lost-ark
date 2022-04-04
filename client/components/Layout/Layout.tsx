@@ -1,5 +1,4 @@
-import styles from "./Layout.module.scss";
-import { AppShell, Box, Navbar as MantineNav, ScrollArea } from "@mantine/core";
+import { AppShell, Navbar as MantineNav } from "@mantine/core";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 
@@ -12,7 +11,7 @@ const Layout: React.FC<LayoutProps> = ({ children, Navbar }) => {
     <AppShell
       header={<Header />}
       navbarOffsetBreakpoint="sm"
-      navbar={Navbar ?? <MantineNav className={styles.emptyNav}>{}</MantineNav>}
+      navbar={Navbar ?? <MantineNav style={{ width: 0 }}>{}</MantineNav>}
       footer={<Footer />}
       sx={(theme) => ({
         backgroundColor:

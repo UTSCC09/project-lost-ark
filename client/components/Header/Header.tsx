@@ -1,4 +1,3 @@
-import styles from "./Header.module.scss";
 import logo from "@/public/logo.svg";
 import {
   Header as MantineHeader,
@@ -38,14 +37,14 @@ const Header: React.FC = () => {
   };
 
   return (
-    <MantineHeader height={60} className={styles.header}>
+    <MantineHeader height={60} className="header">
       <Group sx={{ height: "100%" }} position="apart">
         <Link href={loggedIn ? "/portfolio" : "/"}>
-          <a className={styles.logo}>
+          <a>
             <Image src={logo.src} alt="Coin Ark logo" width={118} height={25} />
           </a>
         </Link>
-        <div className={styles.btnGroup}>
+        <div className="btn-group">
           {ready ? (
             loggedIn ? (
               <>
