@@ -1,26 +1,41 @@
-# CSCC09 Final Project - Beta Version
+# __your_project_name__
 
-## Proposal
+## Project URL
 
-The proposal README can be found [here](https://github.com/UTSCC09/project-lost-ark/blob/main/README-PROPOSAL.md).
+**Task:** Provide the link to your deployed application. Please make sure the link works. 
 
-## Beta Version
+## Project Video URL 
 
-Our final project beta version is deployed at http://c09-xiegary.utsc-labs.utoronto.ca/ using Docker.
-We will migrate our deployment to DigitalOcean and set up HTTPS for the final version.
+**Task:** Provide the link to your youtube video. Please make sure the link works. 
 
-### Features
+## Project Description
 
-We have finished the following features:
+**Task:** Provide a detailed description of your app
 
-- Authentication (User Signup and Signin)
-- Connect to third-party API to track cryptocurrency market data (https://www.coingecko.com/en/api)
-- User wallet balance
-  - Keep track of the amount of coins that the user owns and their money
-  - Summarize the account's total value
-- Add ability for each user to buy and sell coins
+## Development
 
-WIP Features (started but not finished):
+**Task:** Leaving deployment aside, explain how the app is built. Please describe the overall code design and be specific about the programming languages, framework, libraries and third-party api that you have used. 
 
-- Graph of historical user account balance
-  - The current UI is showing dummy data in the graph, it is not connected to the backend
+## Deployment
+
+**Task:** Explain how you have deployed your application. 
+
+## Maintenance
+
+**Task:** Explain how you monitor your deployed app to make sure that everything is working as expected.
+
+## Challenges
+
+**Task:** What is the top 3 most challenging things that you have learned/developed for you app? Please restrict your answer to only three items. 
+
+1.
+2.
+3. 
+
+## Contributions
+
+**Task:** Describe the contribution of each team member to the project. Please provide the full name of each team member (but no student number). 
+
+# One more thing? 
+
+**Task:** Any additional comment you want to share with the course staff? 
