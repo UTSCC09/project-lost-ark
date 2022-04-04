@@ -1,0 +1,14 @@
+.credits {
+  position: absolute;
+  top: var(--mantine-header-height);
+  left: 0;
+  right: 0;
+  padding: 1rem;
+
+  .credits-section {
+    margin-top: 1rem;
+    & > * + * {
+      margin-top: 0.5rem;
+    }
+  }
+}
