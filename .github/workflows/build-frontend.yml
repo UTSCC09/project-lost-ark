@@ -16,7 +16,7 @@ jobs:
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
   push:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     if: github.event_name == 'push'
     defaults:
       run:
@@ -49,7 +49,7 @@ jobs:
   deploy:
     needs: push
     name: Deploy Frontend to Production
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: "Build and Deploy to Production Server"
         uses: appleboy/ssh-action@v0.1.4

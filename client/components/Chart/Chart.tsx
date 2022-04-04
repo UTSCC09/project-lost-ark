@@ -86,7 +86,6 @@ const Chart: React.FC<{
       .attr("perserveAspectRatio", "xMinYMid")
       .call(resize);
 
-    // TODO: Issue, this is a memory leak currently due to not removing event listeners
     d3.select(window).on("resize." + container.attr("id"), resize);
   };
 
@@ -247,7 +246,8 @@ const Chart: React.FC<{
           </Tooltip>
         ))}
         <Text color={netChange >= 0 ? "teal" : "red"}>
-          ({netChange}% in past {duration})
+          ({netChange > 0 && "+"}
+          {netChange}% in past {duration})
         </Text>
       </Group>
       <div className={styles.chart} style={{ aspectRatio }} ref={ref} />
