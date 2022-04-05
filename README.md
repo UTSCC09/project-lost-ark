@@ -8,8 +8,7 @@
 
 ## Project Video URL
 
-**Task:** Provide the link to your youtube video. Please make sure the link works.
-TODO
+**Youtube Link:** https://youtu.be/DO-WA-WI34Y
 
 ## Project Description
 
