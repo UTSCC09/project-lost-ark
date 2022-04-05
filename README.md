@@ -62,4 +62,4 @@ Andy was responsible for the implementation of the backend GraphQL API, as well 
 
 # One more thing?
 
-**Disclaimer:** The Coin Gecko API has a rate limit of 50 calls/minute. The application will bug out if the rate limit is exceeded. This was planned to be solved by implementing caching, but we were unable to finish the implementation due to time constraints.
+**Disclaimer:** The Coin Gecko API has a rate limit of 50 calls/minute. The application will not function properly if the rate limit is exceeded. This was planned to be solved by implementing caching, but we were unable to finish the implementation due to time constraints.
