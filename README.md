@@ -22,7 +22,7 @@ Users will be able to view their historical account balance in the form of a lin
 
 ### Frontend
 
-The frontend is built using [React.js](https://reactjs.org/) and [Next.js](https://nextjs.org/), and written in TypeScript. The overall code structure is designed in the form of Components: each component resides in its own folder, alongside any additional styles using SCSS. Other component-agnostic tools, such as global context and utility files are organized in their own folders.
+The frontend is built using [React.js](https://reactjs.org/) and [Next.js](https://nextjs.org/), and written in TypeScript. The overall code structure is designed in the form of Components: each component resides in its own folder, alongside any additional styles using SCSS. Other component-agnostic tools, such as global context and utility files, are organized in their own folders.
 
 The application uses [Mantine.dev](https://mantine.dev/) as the primary UI component library, alongside [Framer Motion](https://www.framer.com/motion/) for page transitions and [Tabler Icons](https://tablericons.com/) for icons. The data visualization graphs were built using [D3.js](https://d3js.org/).
 
