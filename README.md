@@ -22,7 +22,7 @@ Users will be able to view their historical account balance in the form of a lin
 
 ### Frontend
 
-The frontend is built using [React.js](https://reactjs.org/) and [Next.js](https://nextjs.org/), and written in TypeScript. The overall code structure is designed in the form of Components: each component resides in its own folder, alongside any additional styles using SCSS. Other component-agnostic tools, such as global context and utility files are organized in their own folders.
+The frontend is built using [React.js](https://reactjs.org/) and [Next.js](https://nextjs.org/), and written in TypeScript. The overall code structure is designed in the form of Components: each component resides in its own folder, alongside any additional styles using SCSS. Other component-agnostic tools, such as global context and utility files, are organized in their own folders.
 
 The application uses [Mantine.dev](https://mantine.dev/) as the primary UI component library, alongside [Framer Motion](https://www.framer.com/motion/) for page transitions and [Tabler Icons](https://tablericons.com/) for icons. The data visualization graphs were built using [D3.js](https://d3js.org/).
 
@@ -62,4 +62,4 @@ Andy was responsible for the implementation of the backend GraphQL API, as well 
 
 # One more thing?
 
-**Disclaimer:** The Coin Gecko API has a rate limit of 50 calls/minute. The application will bug out if the rate limit is exceeded. This was planned to be solved by implementing caching, but we were unable to finish the implementation due to time constraints.
+**Disclaimer:** The Coin Gecko API has a rate limit of 50 calls/minute. The application will not function properly if the rate limit is exceeded. This was planned to be solved by implementing caching, but we were unable to finish the implementation due to time constraints.
