@@ -1,4 +1,4 @@
-# Coinark
+# Coin Ark
 
 ## Project URL
 
@@ -12,11 +12,11 @@
 
 ## Project Description
 
-Coinark is a cryptocurrency trading simulator platform that allows users to practice trading with cryptocurrencies without using real money.
+Coin Ark is a cryptocurrency trading simulator platform that allows users to practice trading with cryptocurrencies without using real money.
 
 When users sign up for an account, they will start off with an account balance of $10,000 in (mock) cash. They will be able to purchase and sell cryptocurrencies using up-to-date market data from the [Coin Gecko API](https://www.coingecko.com/en/api).
 
-Users will be able to view their historical account balance in the form of a line graph, as well as current and historical market prices for each cryptocurrrency offered by Coinark. They can filter the graph by year, month, week, or day, and see the price trends in the selected date range.
+Users will be able to view their historical account balance in the form of a line graph, as well as current and historical market prices for each cryptocurrrency offered by Coin Ark. They can filter the graph by year, month, week, or day, and see the price trends in the selected date range.
 
 ## Development
 
